@@ -6,7 +6,7 @@
   <title>BELTAH TECH</title>
   <style>
     body {
-      background-image: url('https://i.imgur.com/XR1Neb9.jpeg') !important;
+      background-image: url('https://i.imgur.com/XR1Neb9.jpeg');
       background-size: cover;
       background-position: center;
       font-family: Arial, sans-serif;
@@ -38,22 +38,7 @@
 
     .beautified-text span {
       color: #33cc33;
-      font-size: 24px;
       font-weight: bold;
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #33cc33;
-    }
-
-    .icons {
-      margin-top: 20px;
-    }
-
-    .icons a {
-      margin-right: 10px;
-    }
-
-    .icons img {
-      width: 24px;
-      height: 24px;
     }
 
     .section {
@@ -65,6 +50,17 @@
 
     .section h2 {
       color: #00698f;
+    }
+
+    .input-box {
+      margin-top: 10px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      margin-bottom: 10px;
     }
 
     .pair-code {
@@ -83,13 +79,46 @@
       font-weight: bold;
       color: #00698f;
     }
+
+    .icons {
+      margin-top: 20px;
+    }
+
+    .icons a {
+      margin-right: 10px;
+    }
+
+    .icons img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .music-control {
+      margin-top: 20px;
+      text-align: center;
+      background: #e3ffe6;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .music-control button {
+      background-color: #33cc33;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .music-control button:hover {
+      background-color: #28a745;
+    }
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>WELCOME TO BELTAH TECH</h1>
-
     <p class="beautified-text">
       Holla, you have <span>successfully</span> connected to 
       <span>BELTAH-BOT.</span> The bot is currently running and 
@@ -105,8 +134,11 @@
 
     <div class="section">
       <h2>🔑 PAIR YOUR DEVICE</h2>
-      <p>Use this code to connect WhatsApp Web with Beltah Bot:</p>
-      <div class="pair-code" id="pair-code">Generating...</div>
+      <p>Enter your WhatsApp number below:</p>
+      <div class="input-box">
+        <input type="text" id="numberInput" placeholder="e.g. 254741819582" />
+      </div>
+      <div class="pair-code" id="pairCode">Waiting for number...</div>
     </div>
 
     <div class="section">
@@ -125,17 +157,20 @@
       </a>
     </div>
 
+    <div class="music-control">
+      <h3>🎵 Background Music</h3>
+      <button onclick="toggleMusic()">Play / Pause Music</button>
+      <audio id="bgMusic" loop>
+        <source src="/media/black.mp3" type="audio/mpeg" />
+        Your browser does not support audio.
+      </audio>
+    </div>
+
     <p>&copy; 2025 <span style="color: green;">BELTAH MD</span></p>
   </div>
 
-  <!-- 🎵 Auto-play music -->
-  <audio id="bg-music" autoplay loop hidden>
-    <source src="/media/black.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
-  <!-- JS: Load settings from set.js -->
   <script>
+    // Load settings from set.js
     fetch('/set.js')
       .then(res => res.text())
       .then(data => {
@@ -146,15 +181,30 @@
           <p><strong>MODE:</strong> ${set.mode || 'PRIVATE'}</p>
           <p><strong>PREFIX:</strong> ${set.prefix || '.'}</p>
         `;
-        // Simulate pair code
-        document.querySelector('#pair-code').textContent = set.session || 'P4!R-C0D3-XXXX';
       })
       .catch(err => {
-        document.querySelector("#status-section").innerHTML += `<p style="color:red;">Failed to load bot settings</p>`;
-        document.querySelector("#pair-code").textContent = "Unavailable";
-        console.error('Error loading settings:', err);
+        document.querySelector("#status-section").innerHTML += `<p style="color:red;">Failed to load settings</p>`;
       });
-  </script>
 
+    // Generate pair code when you press Enter
+    document.getElementById("numberInput").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        const phone = this.value.trim();
+        if (!phone) return alert("Please enter your number");
+        const pairCode = "PAIR-" + Math.floor(Math.random() * 9000 + 1000);
+        document.getElementById("pairCode").textContent = `Code for ${phone}: ${pairCode}`;
+      }
+    });
+
+    // Toggle music play/pause
+    function toggleMusic() {
+      const music = document.getElementById("bgMusic");
+      if (music.paused) {
+        music.play();
+      } else {
+        music.pause();
+      }
+    }
+  </script>
 </body>
 </html>
