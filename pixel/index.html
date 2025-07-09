@@ -1,118 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BELTAH TECH</title>
+  <title>BELTAH TECH - Pairing Console</title>
   <style>
     body {
       background-image: url('https://i.imgur.com/XR1Neb9.jpeg');
       background-size: cover;
       background-position: center;
       font-family: Arial, sans-serif;
+      color: #333;
     }
-
     .container {
       max-width: 800px;
       margin: 40px auto;
       padding: 20px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: #ffffffdd;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
     }
-
     h1 {
       color: #00698f;
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    .beautified-text {
-      color: #00698f;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #33cc33;
-    }
-
-    .beautified-text span {
-      color: #33cc33;
-      font-weight: bold;
-    }
-
-    .section {
-      margin-top: 30px;
-      background: #f7f7f7;
-      padding: 15px;
-      border-radius: 8px;
-    }
-
-    .section h2 {
-      color: #00698f;
-    }
-
-    .input-box {
-      margin-top: 10px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .pair-code {
-      font-size: 18px;
-      background: #222;
-      color: lime;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 5px;
-      font-family: monospace;
-    }
-
-    .repo-link {
-      margin-top: 10px;
-      display: block;
-      font-weight: bold;
-      color: #00698f;
-    }
-
-    .icons {
-      margin-top: 20px;
-    }
-
-    .icons a {
-      margin-right: 10px;
-    }
-
-    .icons img {
-      width: 24px;
-      height: 24px;
-    }
-
-    .music-control {
-      margin-top: 20px;
       text-align: center;
-      background: #e3ffe6;
+    }
+    .beautified-text {
+      text-align: center;
+      font-size: 20px;
+      color: #00698f;
+      margin-bottom: 30px;
+    }
+    .input-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .input-box input {
       padding: 10px;
-      border-radius: 8px;
-    }
-
-    .music-control button {
-      background-color: #33cc33;
-      color: white;
-      border: none;
-      padding: 10px 20px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
       font-size: 16px;
-      cursor: pointer;
-      border-radius: 5px;
     }
-
-    .music-control button:hover {
-      background-color: #28a745;
+    .section {
+      margin-top: 20px;
+    }
+    .section p {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .pair-code, .session-id {
+      background-color: #f1f1f1;
+      padding: 10px;
+      margin-top: 10px;
+      border-left: 5px solid #33cc33;
+      font-family: monospace;
+      font-size: 18px;
+    }
+    .audio-player {
+      margin-top: 30px;
+      text-align: center;
     }
   </style>
 </head>
@@ -121,89 +65,60 @@
     <h1>WELCOME TO BELTAH TECH</h1>
     <p class="beautified-text">
       Holla, you have <span>successfully</span> connected to 
-      <span>BELTAH-BOT.</span> The bot is currently running and 
-      <span>ACTIVE</span>.
+      <span>BELTAH-BOT</span>. The bot is currently running and <span>ACTIVE</span>.
     </p>
-
-    <div class="section" id="status-section">
-      <h2>🤖 BOT STATUS</h2>
-      <p><strong>BOT NAME:</strong> Loading...</p>
-      <p><strong>MODE:</strong> Loading...</p>
-      <p><strong>PREFIX:</strong> Loading...</p>
-    </div>
 
     <div class="section">
       <h2>🔑 PAIR YOUR DEVICE</h2>
-      <p>Enter your WhatsApp number below:</p>
+      <p>Enter your WhatsApp number:</p>
       <div class="input-box">
         <input type="text" id="numberInput" placeholder="e.g. 254741819582" />
       </div>
-      <div class="pair-code" id="pairCode">Waiting for number...</div>
+      <div class="pair-code" id="pairCode">Awaiting phone number input...</div>
+      <div class="session-id" id="sessionId">Session ID will appear here</div>
     </div>
 
-    <div class="section">
-      <h2>📂 BOT REPOSITORY</h2>
-      <a class="repo-link" href="https://github.com/toxicant1/black-super-bot" target="_blank">
-        🔗 View on GitHub
-      </a>
-    </div>
-
-    <div class="icons">
-      <a href="https://github.com/toxicant1/black-super-bot">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="GitHub Icon">
-      </a>
-      <a href="https://wa.me/254115172722">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/whatsapp.svg" alt="WhatsApp Icon">
-      </a>
-    </div>
-
-    <div class="music-control">
-      <h3>🎵 Background Music</h3>
-      <button onclick="toggleMusic()">Play / Pause Music</button><br/><br/>
-      <audio id="bgMusic" loop preload="auto">
+    <div class="audio-player">
+      <h3>🎶 Background Music</h3>
+      <audio controls autoplay loop>
         <source src="media/black.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
       </audio>
     </div>
 
-    <p>&copy; 2025 <span style="color: green;">BELTAH MD</span></p>
+    <p style="text-align:center;">&copy; 2025 <strong style="color: green;">BELTAH MD</strong></p>
   </div>
 
   <script>
-    // Load settings from set.js
-    fetch('/set.js')
-      .then(res => res.text())
-      .then(data => {
-        const set = JSON.parse(data.replace(/module\.exports\s*=\s*/, ''));
-        document.querySelector("#status-section").innerHTML = `
-          <h2>🤖 BOT STATUS</h2>
-          <p><strong>BOT NAME:</strong> ${set.botname || 'Unknown'}</p>
-          <p><strong>MODE:</strong> ${set.mode || 'PRIVATE'}</p>
-          <p><strong>PREFIX:</strong> ${set.prefix || '.'}</p>
-        `;
-      })
-      .catch(err => {
-        document.querySelector("#status-section").innerHTML += `<p style="color:red;">Failed to load settings</p>`;
-      });
+    function generatePairCode(length = 8) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let result = "";
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
 
-    // Generate 6-digit pair code
+    function generateSessionID() {
+      const code = generatePairCode(6);
+      return `BELTAH-SESSION-${code}`;
+    }
+
     document.getElementById("numberInput").addEventListener("keydown", function (e) {
       if (e.key === "Enter") {
         const phone = this.value.trim();
-        if (!phone) return alert("Please enter your number");
-        const pairCode = Math.floor(100000 + Math.random() * 900000); // 6-digit code
-        document.getElementById("pairCode").textContent = `Code for ${phone}: ${pairCode}`;
+        if (!phone) {
+          alert("Please enter your WhatsApp number.");
+          return;
+        }
+
+        const pairCode = generatePairCode();
+        const sessionId = generateSessionID();
+
+        document.getElementById("pairCode").textContent = `Pair Code for ${phone}: ${pairCode}`;
+        document.getElementById("sessionId").textContent = `Session ID: ${sessionId}`;
       }
     });
-
-    // Toggle music
-    function toggleMusic() {
-      const music = document.getElementById("bgMusic");
-      if (music.paused) {
-        music.play();
-      } else {
-        music.pause();
-      }
-    }
   </script>
 </body>
 </html>
