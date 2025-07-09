@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>BELTAH BOT | Pair Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡 | Pair Code</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -131,6 +132,28 @@
       filter: drop-shadow(0 0 5px rgba(0, 230, 118, 0.5)); /* Glow for audio player */
     }
 
+    .status-section { /* New style for the status section */
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px dashed var(--border-color);
+        color: var(--text-color);
+    }
+    .status-section h2 {
+        font-family: 'Orbitron', sans-serif;
+        color: var(--secondary-color);
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .status-section p {
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    .status-section p strong { /* For the labels like BOT NAME */
+        color: var(--primary-color);
+        margin-right: 5px;
+    }
+
+
     footer { /* Added a footer for the copyright */
         margin-top: 30px;
         font-size: 14px;
@@ -159,6 +182,12 @@
         .icons img {
             width: 28px;
             height: 28px;
+        }
+        .status-section h2 {
+            font-size: 20px;
+        }
+        .status-section p {
+            font-size: 14px;
         }
     }
 
@@ -189,8 +218,8 @@
 </head>
 <body>
   <div class="container">
-    <h1>WELCOME TO BELTAH TECH</h1>
-    <p class="tagline">You've successfully connected to <span>BELTAH-BOT</span> 🔗</p>
+    <h1>WELCOME TO 𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡</h1>
+    <p class="tagline">You've successfully connected to <span>𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡</span> 🔗</p>
 
     <div id="pairStatus">⏳ Waiting for Pair Code...</div>
     <div class="code-box" id="pairCode">Loading...</div>
@@ -205,11 +234,11 @@
     </audio>
 
     <div class="icons">
-      <a href="https://github.com/toxicant1/black-super-bot"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="GitHub"></a>
+      <a href="https://github.com/Toxicant1/black-super-bot"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="GitHub"></a>
       <a href="https://wa.me/254115172722"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/whatsapp.svg" alt="WhatsApp"></a>
     </div>
 
-    <footer>&copy; 2025 BELTAH MD</footer>
+    <footer>&copy; 2025 𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡</footer>
   </div>
 
   <script>
@@ -221,11 +250,18 @@
         const data = await res.json();
         currentCode = data.code || "Unavailable";
         document.getElementById("pairCode").textContent = currentCode;
-        document.getElementById("pairStatus").textContent = "🔐 Enter this code in WhatsApp → Linked Devices";
+        if (currentCode === "CONNECTED") {
+             document.getElementById("pairStatus").textContent = "✅ Bot is now Linked & Active!";
+        } else if (currentCode === "WAITING") {
+             document.getElementById("pairStatus").textContent = "🕐 Waiting for pair code generation...";
+        } else {
+             document.getElementById("pairStatus").textContent = "🔐 Enter this code in WhatsApp → Linked Devices";
+        }
+
       } catch (e) {
         document.getElementById("pairCode").textContent = "⚠️ Failed to load code";
         document.getElementById("pairStatus").textContent = "❌ Connection Error";
-        console.error("Error fetching pair code:", e); // Added error logging
+        console.error("Error fetching pair code:", e);
       }
     }
 
@@ -236,30 +272,58 @@
         document.getElementById("pairStatus").textContent = data.connected
           ? "✅ Bot is now Linked & Active!"
           : "🕐 Still waiting for pairing...";
+        if (data.connected) {
+             document.getElementById("pairCode").textContent = "✅ LINKED";
+        }
       } catch (e) {
         document.getElementById("pairStatus").textContent = "❌ Status Check Error";
-        console.error("Error checking status:", e); // Added error logging
+        console.error("Error checking status:", e);
       }
     }
 
     function copyCode() {
-      if (currentCode && currentCode !== "Unavailable" && currentCode !== "⚠️ Failed to load code") {
+      if (currentCode && currentCode !== "Unavailable" && currentCode !== "⚠️ Failed to load code" && currentCode !== "CONNECTED" && currentCode !== "WAITING") {
           navigator.clipboard.writeText(currentCode)
               .then(() => alert("✅ Pair code copied!"))
-              .catch(err => console.error('Failed to copy text: ', err)); // More robust copy
+              .catch(err => console.error('Failed to copy text: ', err));
       } else {
-          alert("Nothing to copy or code is unavailable.");
+          alert("Nothing to copy or code is unavailable/bot is already linked.");
       }
     }
 
     function refreshCode() {
-      document.getElementById("pairStatus").textContent = "⏳ Waiting for Pair Code..."; // Reset status
-      document.getElementById("pairCode").textContent = "Loading..."; // Reset code
+      document.getElementById("pairStatus").textContent = "⏳ Waiting for Pair Code...";
+      document.getElementById("pairCode").textContent = "Loading...";
       fetchPairCode();
     }
 
     // Initial fetch when page loads
     fetchPairCode();
+
+    // --- Dynamic Settings Fetch ---
+    document.addEventListener('DOMContentLoaded', () => { // Ensure DOM is loaded
+        fetch('/set.js') // This fetches the dynamic settings from app.js
+            .then(response => response.text())
+            .then(data => {
+                console.log('Received settings data:', data);
+                // Remove 'module.exports =' and parse the remaining JSON string
+                const set = JSON.parse(data.replace(/module\.exports\s*=\s*/, ''));
+                console.log('Parsed settings:', set);
+
+                const container = document.querySelector('.container');
+
+                const statusSection = document.createElement('div');
+                statusSection.className = 'status-section'; // Apply CSS class for styling
+                statusSection.innerHTML = `
+                    <h2>BOT STATUS</h2>
+                    <p><strong>BOT NAME:</strong> ${set.botname}</p>
+                    <p><strong>MODE:</strong> ${set.mode}</p>
+                    <p><strong>PREFIX:</strong> ${set.prefix}</p>
+                `;
+                container.appendChild(statusSection);
+            })
+            .catch(error => console.error('Error fetching settings:', error));
+    });
   </script>
 </body>
 </html>
