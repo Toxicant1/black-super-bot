@@ -1,172 +1,167 @@
-// app.js
-
-const express = require('express');
-const path = require('path');
-const {
-    default: makeWASocket,
-    useMultiFileAuthState,
-    makeInMemoryStore,
-    Browsers,
-    delay
-} = require('@whiskeysockets/baileys');
-const pino = require('pino'); // For logging
-const fs = require('fs');
-
-// --- Configuration ---
-// These values will be read from Render's environment variables.
-// Defaults are provided for local development if not set.
-const PORT = process.env.PORT || 3000;
-const SESSION_DIR = process.env.SESSION_DIR || 'session'; // Directory to store session files
-const DEV_PHONE_NUMBER = process.env.DEV_PHONE_NUMBER || '254115172722'; // Your specified dev number
-const BOT_NAME = process.env.BOT_NAME || '𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡'; // Your specified bot name (Unicode bold)
-const PREFIX = process.env.PREFIX || '.'; // Default prefix from app.json
-const MODE = process.env.MODE || 'PUBLIC'; // Bot mode from app.json
-
-// Ensure session directory exists for Baileys
-if (!fs.existsSync(SESSION_DIR)) {
-    fs.mkdirSync(SESSION_DIR, { recursive: true });
-}
-
-// --- Baileys WhatsApp Client Setup ---
-const logger = pino({ level: 'silent' }); // Set to 'info' for more verbose logging during development
-const store = makeInMemoryStore({ logger }); // In-memory store for messages
-
-let sock; // WhatsApp socket instance
-let currentPairCode = null; // To store the 8-character pair code
-let botIsConnected = false; // Bot connection status
-
-async function connectToWhatsApp() {
-    console.log(`[${BOT_NAME}] Starting WhatsApp connection...`);
-
-    const { state, saveCreds } = await useMultiFileAuthState(SESSION_DIR);
-
-    sock = makeWASocket({
-        logger,
-        printQRInTerminal: false, // Don't print QR in terminal, we use pair code on the web
-        browser: Browsers.macOS('Desktop'), // Simulate a desktop browser for stable connection
-        auth: {
-            creds: state.creds,
-            keys: state.keys
-        },
-        generateHighQualityLinkPreview: true,
-        // shouldIgnoreJid: (jid) => jid.endsWith('@g.us') // Uncomment to ignore group messages by default
-    });
-
-    store.bind(sock.ev); // Bind Baileys store to socket events for message/contact handling
-
-    // --- Baileys Event Handling ---
-    sock.ev.on('connection.update', async (update) => {
-        const { connection, lastDisconnect, code } = update;
-
-        if (connection === 'close') {
-            const shouldReconnect = lastDisconnect?.error?.output?.statusCode !== 401; // 401 means logged out
-            console.log(`[${BOT_NAME}] Connection closed. Reason: ${lastDisconnect?.error?.message || 'Unknown'}. Reconnecting: ${shouldReconnect}`);
-            botIsConnected = false;
-            currentPairCode = null; // Clear pair code on disconnect
-
-            if (lastDisconnect?.error?.output?.statusCode === 401) {
-                console.log(`[${BOT_NAME}] Logged out. Deleting session and restarting.`);
-                try {
-                    fs.rmSync(SESSION_DIR, { recursive: true, force: true }); // Delete session folder
-                    console.log(`[${BOT_NAME}] Session folder deleted.`);
-                } catch (error) {
-                    console.error(`[${BOT_NAME}] Error deleting session folder:`, error);
-                }
-                await delay(2000); // Give a moment before reconnecting
-                connectToWhatsApp(); // Reconnect fresh
-            } else if (shouldReconnect) {
-                await delay(3000); // Short delay before attempting reconnect
-                connectToWhatsApp(); // Reconnect
-            }
-        } else if (connection === 'open') {
-            console.log(`[${BOT_NAME}] Connection opened! Bot is ready.`);
-            botIsConnected = true;
-            currentPairCode = null; // Clear pair code once connected
-            // Send a welcome message to the DEV number once connected
-            if (DEV_PHONE_NUMBER && DEV_PHONE_NUMBER !== '') {
-                try {
-                    await sock.sendMessage(DEV_PHONE_NUMBER + "@s.whatsapp.net", { text: `👋 ${BOT_NAME} is now online and connected!` });
-                    console.log(`[${BOT_NAME}] Sent welcome message to dev number.`);
-                } catch (e) {
-                    console.error(`[${BOT_NAME}] Failed to send welcome message to dev number:`, e);
-                }
-            }
-        } else if (code) { // This is the 8-character pair code for phone number linking
-            currentPairCode = code;
-            console.log(`[${BOT_NAME}] Pair Code received: ${currentPairCode}`);
-            botIsConnected = false; // Not yet connected, waiting for pair
-        }
-    });
-
-    sock.ev.on('creds.update', saveCreds); // Save credentials whenever they update
-
-    // --- Message Handling (Basic Example) ---
-    sock.ev.on('messages.upsert', async (m) => {
-        const msg = m.messages[0];
-        if (!msg.message) return; // Ignore empty messages
-        if (msg.key.fromMe) return; // Ignore messages from myself
-
-        const senderJid = msg.key.remoteJid;
-        const text = msg.message.extendedTextMessage?.text || msg.message.conversation || msg.message.imageMessage?.caption || msg.message.videoMessage?.caption || '';
-
-        console.log(`[${BOT_NAME}] Received message from ${senderJid}: "${text}"`);
-
-        // Simple command examples
-        if (text.startsWith(PREFIX + 'echo ')) {
-            const replyText = text.substring((PREFIX + 'echo ').length).trim();
-            await sock.sendMessage(senderJid, { text: `Echo: ${replyText}` }, { quoted: msg });
-        } else if (text.toLowerCase() === PREFIX + 'ping') {
-             await sock.sendMessage(senderJid, { text: 'Pong!' }, { quoted: msg });
-        }
-        // Add more complex bot logic here (e.g., sticker commands, group management)
-    });
-}
-
-// Start WhatsApp connection when the server starts
-connectToWhatsApp();
-
-// --- Express Web Server ---
-const app = express();
-
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Route to serve the main HTML file for the pair page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// API endpoint to get the 8-character pair code
-app.get('/getPairCode', (req, res) => {
-    if (botIsConnected) {
-        res.status(200).json({ code: 'CONNECTED', message: 'Bot is already linked.' });
-    } else if (currentPairCode) {
-        res.json({ code: currentPairCode });
-    } else {
-        res.status(202).json({ code: 'WAITING', message: 'Pair code not yet generated. Please wait and refresh.' });
+{
+  "name": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡",
+  "description": "A powerful WhatsApp bot with a sleek interface.",
+  "keywords": [
+    "bot",
+    "whatsapp",
+    "baileys",
+    "whatsapp-bot",
+    "md-bot",
+    "pair-code"
+  ],
+  "website": "https://github.com/Toxicant1/black-super-bot#readme",
+  "repository": "https://github.com/Toxicant1/black-super-bot.git",
+  "logo": "https://files.catbox.moe/s5nuh3.jpg",
+  "success_url": "/",
+  "env": {
+    "PREFIX": {
+      "description": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡 Bot Prefix. Ex: . , / , # , & etc. Put any symbol or leave it blank",
+      "value": ".",
+      "required": false
+    },
+    "DEV_PHONE_NUMBER": {
+      "description": "Put any phone numbers you want to be bot owner without + or spaces \",\" Ex: 254115172722,27849544670",
+      "value": "254115172722",
+      "required": true
+    },
+    "ANTIDELETE": {
+      "description": "Input TRUE if you want bot to foward back deleted messages. The messages will be fowarded to your Pm, Message yourself.",
+      "value": "TRUE",
+      "required": false
+    },
+    "AUTOREJECT_CALL": {
+      "description": "Put TRUE if you want bot to decline all incoming calls",
+      "value": "FALSE",
+      "required": false
+    },
+    "ANTIFOREIGN": {
+      "description": "Input TRUE if you want bot to automatically remove foreigners who are not from your country code joining a group",
+      "value": "FALSE",
+      "required": false
+    },
+    "HEROKU_API": {
+      "description": "Put a Heroku api key here, will be required to update vars in your Dm",
+      "required": false
+    },
+    "BAD_WORD": {
+      "description": "List words separated witj commas that will be considered as bad and will trigger bot to kick. Example: fuck, pussy, hoe",
+      "value": "fuck,pussy,slut,bitch,cock,stupid",
+      "required": false
+    },
+    "BAD_WORD_KICK": {
+      "description": "Put here TRUE if you want the bot to automatically kick group members using words that you have listed as bad",
+      "value": "TRUE",
+      "required": false
+    },
+    "ANTITAG": {
+      "description": "Put TRUE if you want bot kick out unnecessary tags from a group, Not sure if its working eh!",
+      "value": "FALSE",
+      "required": false
+    },
+    "AUTOREAD": {
+      "description": "Put here TRUE if you want bot to automatically bluetick messages in private chats",
+      "value": "FALSE",
+      "required": true
+    },
+    "AUTOVIEW": {
+      "description": "Input TRUE if you want bot to automatically read status update",
+      "value": "TRUE",
+      "required": true
+    },
+    "WA_PRESENCE": {
+      "description": "Input either recording, typing, online, or leave it blank. This enables bot to simulate typing or recording or online status even if you're not online.",
+      "value": "recording",
+      "required": true
+    },
+    "WELCOMEGOODBYE": {
+      "description": "Input TRUE if you want bot to welcome new members joining group or wave goodbye to members leaving a group.",
+      "value": "FALSE",
+      "required": false
+    },
+    "ANTILINK": {
+      "description": "Input TRUE if you want bot to kick link senders",
+      "value": "FALSE",
+      "required": true
+    },
+    "ANTILINK_ALL": {
+      "description": "Input TRUE if you want bot to kick users sending any links.",
+      "value": "FALSE",
+      "required": true
+    },
+    "ANTIBOT": {
+      "description": "Input TRUE if you want bot to kick other bots from group",
+      "value": "FALSE",
+      "required": false
+    },
+    "COUNTRY_CODE": {
+      "description": "Input you country code here without + eg 254, it Will be used to Eliminate foreigners from the group once prompted.",
+      "value": "254",
+      "required": true
+    },
+    "SESSION": {
+      "description": "Paste your Session id here, as it is required for authentication.",
+      "required": false
+    },
+    "MODE": {
+      "description": "Input PRIVATE if you don't want other people to use your bot",
+      "value": "PUBLIC",
+      "required": true
+    },
+    "AUTOBIO": {
+      "description": "Input TRUE if you want bot to autoupdate its about with current time and date.",
+      "value": "FALSE",
+      "required": false
+    },
+    "APP_NAME": {
+      "description": "Input your app name that you put above, Must be in small letters.",
+      "value": "black-beltah",
+      "required": true
+    },
+    "STICKER_AUTHOR": {
+      "description": "Input sticker data for author",
+      "value": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡",
+      "required": false
+    },
+    "STICKER_PACKNAME": {
+      "description": "Input sticker data for packname",
+      "value": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡",
+      "required": false
+    },
+    "GPT_INBOX": {
+      "description": "Input TRUE if you want bot to autoreply inbox messages using openai API. For now not stable may cause spam!",
+      "value": "FALSE",
+      "required": false
+    },
+    "MENU_TYPE": {
+      "description": "Input either VIDEO, LINK or IMAGE. This will allow bot to display different dynamic menu types",
+      "value": "IMAGE",
+      "required": false
+    },
+    "AUTOLIKE_STATUS": {
+      "description": "input TRUE if you want bot to autolike status updates. This will only work if autostatus view is TRUE",
+      "value": "TRUE",
+      "required": false
+    },
+    "BOT_NAME": {
+      "description": "The displayed name of your bot, used in various messages.",
+      "value": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡",
+      "required": true
+    },
+    "SESSION_DIR": {
+      "description": "Directory for Baileys session files. Default is 'session'.",
+      "value": "session",
+      "required": false
     }
-});
-
-// API endpoint to check the bot's connection status
-app.get('/status', (req, res) => {
-    res.json({ connected: botIsConnected });
-});
-
-// Dynamic /set.js route to provide bot settings to the frontend
-app.get('/set.js', (req, res) => {
-    const settings = {
-        botname: BOT_NAME,
-        mode: MODE,
-        prefix: PREFIX
-    };
-    // Send as a JavaScript file that exports a JSON object
-    res.type('application/javascript');
-    res.send(`module.exports = ${JSON.stringify(settings)};`);
-});
-
-// Start the Express server and listen for incoming requests
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-    console.log(`Access the pair page at http://localhost:${PORT}`);
-    console.log(`[${BOT_NAME}] Bot initialized. Waiting for connection...`);
-});
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-activestorage-preview"
+    }
+  ]
+}
