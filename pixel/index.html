@@ -1,329 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡 | Pair Code</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+  <title>BLACK BELTAH</title>
   <style>
-    :root {
-        --primary-color: #00e676; /* Bright green for accents, similar to Black Merchant */
-        --secondary-color: #00bcd4; /* Cyan/blue for links/buttons */
-        --dark-bg: #1a1a2e; /* Deep dark background */
-        --card-bg: #2a2a4a; /* Slightly lighter dark for card */
-        --text-color: #e0e0e0; /* Light grey for general text */
-        --border-color: #3f3f6f; /* Darker border for elements */
-    }
-
     body {
-      background-image: url('https://i.imgur.com/7bQ4h40.jpeg'); /* Placeholder: Dark tech background */
+      background-image: url('https://i.imgur.com/XR1Neb9.jpeg');
       background-size: cover;
       background-position: center;
-      background-attachment: fixed; /* Keeps background fixed when scrolling */
-      font-family: 'Roboto Mono', monospace; /* Techy, monospaced font */
-      color: var(--text-color);
+      font-family: Arial, sans-serif;
+      color: #fff;
       text-align: center;
-      padding: 20px;
       margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      padding: 0;
     }
-
     .container {
-      max-width: 600px; /* Slightly adjusted max-width */
-      width: 90%; /* Responsive width */
-      margin: auto;
-      background: var(--card-bg); /* Dark card background */
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 40px;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 230, 118, 0.2); /* More prominent shadow with glow */
-      padding: 30px;
-      border: 1px solid var(--border-color); /* Subtle border */
-      backdrop-filter: blur(5px); /* Slightly blurred background behind container */
-      -webkit-backdrop-filter: blur(5px); /* For Safari */
+      margin: 50px auto;
+      width: 90%;
+      max-width: 700px;
     }
-
     h1 {
-      font-family: 'Orbitron', sans-serif; /* Distinct font for headings */
-      font-size: 36px;
-      color: var(--primary-color); /* Bright green */
-      margin-bottom: 15px;
-      text-shadow: 0 0 8px rgba(0, 230, 118, 0.8); /* Green glow effect */
+      font-size: 38px;
+      color: #00ffcc;
     }
-
-    .tagline { /* Renamed beautified-text for clarity */
+    p, label {
       font-size: 18px;
-      color: var(--text-color);
-      margin-bottom: 25px;
-      line-height: 1.5;
+      margin: 12px 0;
     }
-
-    .tagline span {
-      color: var(--primary-color); /* Green for emphasis */
-      font-weight: bold;
-      text-shadow: 0 0 5px rgba(0, 230, 118, 0.5);
-    }
-
-    #pairStatus {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 15px;
-      color: var(--secondary-color); /* Cyan/blue for status */
-    }
-
-    .code-box {
-      background: var(--dark-bg); /* Even darker background for the code box */
-      border: 2px dashed var(--primary-color); /* Green dashed border */
-      font-family: 'Roboto Mono', monospace;
-      font-size: 28px; /* Larger font for code */
-      font-weight: bold;
-      padding: 20px;
-      margin-bottom: 25px;
-      letter-spacing: 3px; /* More spacing for readability */
-      color: var(--primary-color); /* Green code */
-      border-radius: 8px;
-      box-shadow: inset 0 0 10px rgba(0, 230, 118, 0.3); /* Inner glow */
-    }
-
-    button {
-      padding: 12px 25px;
-      margin: 8px;
+    input {
+      padding: 10px;
+      width: 80%;
+      margin-bottom: 20px;
+      border-radius: 5px;
       border: none;
-      background: var(--secondary-color); /* Cyan/blue buttons */
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #00ffcc;
+      color: #000;
       font-weight: bold;
-      transition: background 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 4px 10px rgba(0, 188, 212, 0.3); /* Button shadow with glow */
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
     }
-
-    button:hover {
-      background: #0097a7; /* Darker cyan on hover */
-      transform: translateY(-2px); /* Slight lift effect */
-    }
-
-    .icons {
-      margin-top: 30px;
-    }
-
-    .icons a {
-      margin: 0 15px;
-      display: inline-block; /* For better spacing control */
-      transition: transform 0.2s ease;
-    }
-
-    .icons a:hover {
-        transform: scale(1.1);
-    }
-
-    .icons img {
-      width: 32px; /* Slightly larger icons */
-      height: 32px;
-      filter: drop-shadow(0 0 5px var(--secondary-color)); /* Glow for icons */
-    }
-
     audio {
-      margin-top: 25px;
-      width: 80%; /* Adjusted width for better fit */
-      filter: drop-shadow(0 0 5px rgba(0, 230, 118, 0.5)); /* Glow for audio player */
+      margin-top: 20px;
+      width: 100%;
     }
-
-    .status-section { /* New style for the status section */
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 1px dashed var(--border-color);
-        color: var(--text-color);
-    }
-    .status-section h2 {
-        font-family: 'Orbitron', sans-serif;
-        color: var(--secondary-color);
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-    .status-section p {
-        font-size: 16px;
-        margin-bottom: 5px;
-    }
-    .status-section p strong { /* For the labels like BOT NAME */
-        color: var(--primary-color);
-        margin-right: 5px;
-    }
-
-
-    footer { /* Added a footer for the copyright */
-        margin-top: 30px;
-        font-size: 14px;
-        color: rgba(224, 224, 224, 0.7);
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-        .container {
-            padding: 20px;
-        }
-        h1 {
-            font-size: 30px;
-        }
-        .tagline {
-            font-size: 16px;
-        }
-        .code-box {
-            font-size: 24px;
-            padding: 15px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 14px;
-        }
-        .icons img {
-            width: 28px;
-            height: 28px;
-        }
-        .status-section h2 {
-            font-size: 20px;
-        }
-        .status-section p {
-            font-size: 14px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        h1 {
-            font-size: 26px;
-        }
-        .tagline {
-            font-size: 14px;
-        }
-        .code-box {
-            font-size: 20px;
-            padding: 10px;
-        }
-        button {
-            width: calc(100% - 16px); /* Full width buttons on small screens */
-            margin: 5px 8px;
-        }
-        .icons a {
-            margin: 0 10px;
-        }
-        .icons img {
-            width: 24px;
-            height: 24px;
-        }
+    iframe {
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>WELCOME TO 𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡</h1>
-    <p class="tagline">You've successfully connected to <span>𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡</span> 🔗</p>
+    <h1>BLACK BELTAH BOT 🔥</h1>
+    <p>You have <strong>successfully connected</strong> to the bot. Status: <span style="color: lime;">ACTIVE ✅</span></p>
 
-    <div id="pairStatus">⏳ Waiting for Pair Code...</div>
-    <div class="code-box" id="pairCode">Loading...</div>
+    <label>Enter WhatsApp Number:</label><br>
+    <input type="text" id="waNumber" placeholder="e.g. 254115172722"><br>
 
-    <button onclick="copyCode()">📋 Copy Code</button>
-    <button onclick="refreshCode()">🔄 Refresh</button>
-    <button onclick="checkStatus()">🔍 Check Status</button>
-
-    <audio controls autoplay loop>
-      <source src="/Media/black.mp3" type="audio/mpeg">
-      Your browser does not support the audio tag.
-    </audio>
-
-    <div class="icons">
-      <a href="https://github.com/Toxicant1/black-super-bot"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="GitHub"></a>
-      <a href="https://wa.me/254115172722"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/whatsapp.svg" alt="WhatsApp"></a>
+    <div id="qr-section">
+      <p>Use the generated QR to pair with WhatsApp:</p>
+      <img id="qrCode" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=Linking" alt="QR Code"><br>
+      <button onclick="refreshQR()">🔁 Refresh</button>
+      <button onclick="copyQR()">📋 Copy</button>
     </div>
 
-    <footer>&copy; 2025 𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡</footer>
+    <audio controls autoplay loop>
+      <source src="/Media/black.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
+
+    <p><a href="https://github.com/Toxicant1/black-super-bot" target="_blank">📁 View Bot Repository</a></p>
+    <p>&copy; 2025 BLACK BELTAH</p>
   </div>
 
   <script>
-    let currentCode = "";
-
-    async function fetchPairCode() {
-      try {
-        const res = await fetch('/getPairCode');
-        const data = await res.json();
-        currentCode = data.code || "Unavailable";
-        document.getElementById("pairCode").textContent = currentCode;
-        if (currentCode === "CONNECTED") {
-             document.getElementById("pairStatus").textContent = "✅ Bot is now Linked & Active!";
-        } else if (currentCode === "WAITING") {
-             document.getElementById("pairStatus").textContent = "🕐 Waiting for pair code generation...";
-        } else {
-             document.getElementById("pairStatus").textContent = "🔐 Enter this code in WhatsApp → Linked Devices";
-        }
-
-      } catch (e) {
-        document.getElementById("pairCode").textContent = "⚠️ Failed to load code";
-        document.getElementById("pairStatus").textContent = "❌ Connection Error";
-        console.error("Error fetching pair code:", e);
-      }
+    function refreshQR() {
+      const qrImg = document.getElementById("qrCode");
+      const rand = Math.floor(Math.random() * 99999);
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=WhatsAppBlackBeltahBot${rand}`;
     }
 
-    async function checkStatus() {
-      try {
-        const res = await fetch('/status');
-        const data = await res.json();
-        document.getElementById("pairStatus").textContent = data.connected
-          ? "✅ Bot is now Linked & Active!"
-          : "🕐 Still waiting for pairing...";
-        if (data.connected) {
-             document.getElementById("pairCode").textContent = "✅ LINKED";
-        }
-      } catch (e) {
-        document.getElementById("pairStatus").textContent = "❌ Status Check Error";
-        console.error("Error checking status:", e);
-      }
+    function copyQR() {
+      const qrSrc = document.getElementById("qrCode").src;
+      navigator.clipboard.writeText(qrSrc).then(() => {
+        alert("QR Code URL copied!");
+      });
     }
-
-    function copyCode() {
-      if (currentCode && currentCode !== "Unavailable" && currentCode !== "⚠️ Failed to load code" && currentCode !== "CONNECTED" && currentCode !== "WAITING") {
-          navigator.clipboard.writeText(currentCode)
-              .then(() => alert("✅ Pair code copied!"))
-              .catch(err => console.error('Failed to copy text: ', err));
-      } else {
-          alert("Nothing to copy or code is unavailable/bot is already linked.");
-      }
-    }
-
-    function refreshCode() {
-      document.getElementById("pairStatus").textContent = "⏳ Waiting for Pair Code...";
-      document.getElementById("pairCode").textContent = "Loading...";
-      fetchPairCode();
-    }
-
-    // Initial fetch when page loads
-    fetchPairCode();
-
-    // --- Dynamic Settings Fetch ---
-    document.addEventListener('DOMContentLoaded', () => { // Ensure DOM is loaded
-        fetch('/set.js') // This fetches the dynamic settings from app.js
-            .then(response => response.text())
-            .then(data => {
-                console.log('Received settings data:', data);
-                // Remove 'module.exports =' and parse the remaining JSON string
-                const set = JSON.parse(data.replace(/module\.exports\s*=\s*/, ''));
-                console.log('Parsed settings:', set);
-
-                const container = document.querySelector('.container');
-
-                const statusSection = document.createElement('div');
-                statusSection.className = 'status-section'; // Apply CSS class for styling
-                statusSection.innerHTML = `
-                    <h2>BOT STATUS</h2>
-                    <p><strong>BOT NAME:</strong> ${set.botname}</p>
-                    <p><strong>MODE:</strong> ${set.mode}</p>
-                    <p><strong>PREFIX:</strong> ${set.prefix}</p>
-                `;
-                container.appendChild(statusSection);
-            })
-            .catch(error => console.error('Error fetching settings:', error));
-    });
   </script>
 </body>
 </html>
