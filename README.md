@@ -19,9 +19,9 @@
   <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
 </p>
 
-<!-- Profile Picture -->
+<!-- Profile Picture (larger and clearer) -->
 <p align="center">
-  <img src="/blackmachant.jpg" width="120" height="120" style="border-radius:50%;">
+  <img src="/blackmachant.jpg" width="250" style="border-radius:20px; box-shadow: 0 0 20px #000000;">
 </p>
 
 <p align="center">
