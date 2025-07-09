@@ -14,12 +14,12 @@ const herokuapi = process.env.HEROKU_API;
 const gptdm = process.env.GPT_INBOX || 'FALSE';
 const mode = process.env.MODE || 'PRIVATE';
 const anticall = process.env.AUTOREJECT_CALL || 'TRUE';
-const botname = process.env.BOTNAME || '𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓 𝐁𝐎𝐓';
+const botname = process.env.BOTNAME || '𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 𝐁𝐎𝐓';
 const antibot = process.env.ANTIBOT || 'FALSE';
-const author = process.env.STICKER_AUTHOR ||'𝗕𝗢𝗧';
-const packname = process.env.STICKER_PACKNAME || '𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓 𝐁𝐎𝐓';
+const author = process.env.STICKER_AUTHOR || '𝗕𝗢𝗧';
+const packname = process.env.STICKER_PACKNAME || '𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 𝐁𝐎𝐓';
 const antitag = process.env.ANTITAG || 'TRUE';
-const dev = process.env.DEV || '254114283550';
+const dev = process.env.DEV || '254115172722';
 const menulink = process.env.MENU_LINK || 'https://files.catbox.moe/jxxwms.jpeg';
 const menu = process.env.MENU_TYPE || 'IMAGE';
 const DevRaven = dev.split(",");
@@ -38,4 +38,39 @@ const antiforeign = process.env.ANTIFOREIGN || 'TRUE';
 const port = process.env.PORT || 10000;
 const antilinkall = process.env.ANTILINK_ALL || 'TRUE';
 
-module.exports = { session, sessionName, autobio, author, packname, dev, DevRaven, badwordkick, bad, mode, group, NotOwner, botname, botAdmin, antiforeign, menu, autoread, antilink, admin, mycode, antilinkall, anticall, antitag, antidel, wapresence, welcomegoodbye, antibot, herokuapi, prefix, port, gptdm, appname, autolike, autoviewstatus };  
+module.exports = {
+  session,
+  sessionName,
+  autobio,
+  author,
+  packname,
+  dev,
+  DevRaven,
+  badwordkick,
+  bad,
+  mode,
+  group,
+  NotOwner,
+  botname,
+  botAdmin,
+  antiforeign,
+  menu,
+  autoread,
+  antilink,
+  admin,
+  mycode,
+  antilinkall,
+  anticall,
+  antitag,
+  antidel,
+  wapresence,
+  welcomegoodbye,
+  antibot,
+  herokuapi,
+  prefix,
+  port,
+  gptdm,
+  appname,
+  autolike,
+  autoviewstatus
+};
