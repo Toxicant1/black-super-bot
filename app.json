@@ -1,34 +1,27 @@
-
 {
-  "name": "𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓 𝐁𝐎𝐓",
-  "description": "I don't know what I'm doing",
+  "name": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡",
+  "description": "A powerful WhatsApp bot with a sleek interface.",
   "keywords": [
     "bot",
     "whatsapp",
-    "raven",
-    "whatsapp-stickers",
-    "anime",
-    "whatsapp-bot",
-    "whatsapp-sticker-bot",
-    "whatsapp-botto",
     "baileys",
-    "baileys-md",
-    "md-bot"
+    "whatsapp-bot",
+    "md-bot",
+    "pair-code"
   ],
-  "website": "https://github.com/Blackie254/black-super-bot#readme",
-  "repository": "https://github.com/Blackie254/black-super-bot.git",
+  "website": "https://github.com/Toxicant1/black-super-bot#readme",
+  "repository": "https://github.com/Toxicant1/black-super-bot.git",
   "logo": "https://files.catbox.moe/s5nuh3.jpg",
   "success_url": "/",
   "env": {
     "PREFIX": {
-      "description": "𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓 𝐁𝐎𝐓 Ex: . , / , # , & etc. Put any symbol or leave it blank",
+      "description": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡 Bot Prefix. Ex: . , / , # , & etc. Put any symbol or leave it blank",
       "value": ".",
       "required": false
-
     },
-    "DEV": {
-      "description": "Put any phone numbers you want to be bot owner without + or spaces \",\" Ex: 254114283550,27849544670  ",
-      "value": "254114283550",
+    "DEV_PHONE_NUMBER": {
+      "description": "Put any phone numbers you want to be bot owner without + or spaces \",\" Ex: 254115172722,27849544670",
+      "value": "254115172722",
       "required": true
     },
     "ANTIDELETE": {
@@ -36,8 +29,6 @@
       "value": "TRUE",
       "required": false
     },
-    
-    
     "AUTOREJECT_CALL": {
       "description": "Put TRUE if you want bot to decline all incoming calls",
       "value": "FALSE",
@@ -50,7 +41,7 @@
     },
     "HEROKU_API": {
       "description": "Put a Heroku api key here, will be required to update vars in your Dm",
-      "required": true
+      "required": false
     },
     "BAD_WORD": {
       "description": "List words separated witj commas that will be considered as bad and will trigger bot to kick. Example: fuck, pussy, hoe",
@@ -67,92 +58,98 @@
       "value": "FALSE",
       "required": false
     },
-      "AUTOREAD": {
+    "AUTOREAD": {
       "description": "Put here TRUE if you want bot to automatically bluetick messages in private chats",
       "value": "FALSE",
       "required": true
-},
- "AUTOVIEW": {
+    },
+    "AUTOVIEW": {
       "description": "Input TRUE if you want bot to automatically read status update",
       "value": "TRUE",
       "required": true
-},
- "WA_PRESENCE": {
+    },
+    "WA_PRESENCE": {
       "description": "Input either recording, typing, online, or leave it blank. This enables bot to simulate typing or recording or online status even if you're not online.",
       "value": "recording",
       "required": true
-},
- "WELCOMEGOODBYE": {
+    },
+    "WELCOMEGOODBYE": {
       "description": "Input TRUE if you want bot to welcome new members joining group or wave goodbye to members leaving a group.",
       "value": "FALSE",
       "required": false
-},
-   
- "ANTILINK": {
+    },
+    "ANTILINK": {
       "description": "Input TRUE if you want bot to kick link senders",
       "value": "FALSE",
       "required": true
-},
- "ANTILINK_ALL": {
+    },
+    "ANTILINK_ALL": {
       "description": "Input TRUE if you want bot to kick users sending any links.",
       "value": "FALSE",
       "required": true
-},
- "ANTIBOT": {
-      "description": "Input TRUE if you want bot to kick other bots from group",  
+    },
+    "ANTIBOT": {
+      "description": "Input TRUE if you want bot to kick other bots from group",
       "value": "FALSE",
       "required": false
-},
- "CODE": {
+    },
+    "COUNTRY_CODE": {
       "description": "Input you country code here without + eg 254, it Will be used to Eliminate foreigners from the group once prompted.",
       "value": "254",
       "required": true
-},
- "SESSION": {
-      "description": "Paste your Session id here, as it is required for authenticationn.",
-      "required": true
-},
- "MODE": {
+    },
+    "SESSION": {
+      "description": "Paste your Session id here, as it is required for authentication.",
+      "required": false
+    },
+    "MODE": {
       "description": "Input PRIVATE if you don't want other people to use your bot",
       "value": "PUBLIC",
       "required": true
     },
-    
- "AUTOBIO": {
+    "AUTOBIO": {
       "description": "Input TRUE if you want bot to autoupdate its about with current time and date.",
       "value": "FALSE",
       "required": false
-},
- "APP_NAME": {
+    },
+    "APP_NAME": {
       "description": "Input your app name that you put above, Must be in small letters.",
+      "value": "black-beltah",
       "required": true
-},
- "STICKER_AUTHOR": {
+    },
+    "STICKER_AUTHOR": {
       "description": "Input sticker data for author",
-       "value": "𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓",
+      "value": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡",
       "required": false
-},
- "STICKER_PACKNAME": {
+    },
+    "STICKER_PACKNAME": {
       "description": "Input sticker data for packname",
-      "value": "𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓",
+      "value": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡",
       "required": false
-},
- "GPT_INBOX": {
+    },
+    "GPT_INBOX": {
       "description": "Input TRUE if you want bot to autoreply inbox messages using openai API. For now not stable may cause spam!",
       "value": "FALSE",
       "required": false
-},
- "MENU_TYPE": {
+    },
+    "MENU_TYPE": {
       "description": "Input either VIDEO, LINK or IMAGE. This will allow bot to display different dynamic menu types",
       "value": "IMAGE",
       "required": false
-
-    
-    
     },
     "AUTOLIKE_STATUS": {
       "description": "input TRUE if you want bot to autolike status updates. This will only work if autostatus view is TRUE",
       "value": "TRUE",
+      "required": false
+    },
+    "BOT_NAME": {
+      "description": "The displayed name of your bot, used in various messages.",
+      "value": "𝐁𝐥𝐚𝐜𝐤 𝐁𝐞𝐥𝐭𝐚𝐡",
+      "required": true
+    },
+    "SESSION_DIR": {
+      "description": "Directory for Baileys session files. Default is 'session'.",
+      "value": "session",
       "required": false
     }
   },
@@ -167,4 +164,4 @@
       "url": "https://github.com/heroku/heroku-buildpack-activestorage-preview"
     }
   ]
-    }
+}
