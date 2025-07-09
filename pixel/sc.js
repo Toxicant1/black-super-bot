@@ -1,24 +1,22 @@
-{
-  "botname": "BELTAH-BOT",
-  "mode": "PRIVATE",
-  "prefix": ".",
-  "status": "ACTIVE",
-  "developer": "Ishaq Ibrahim",
-  "owner": "254115172722",
-  "github": "https://github.com/toxicant1/black-super-bot",
-  "whatsapp": "https://wa.me/254115172722",
+fetch('/set.js')
+  .then(response => response.text())
+  .then(data => {
+    console.log('Received settings data:', data);
+    const set = JSON.parse(data.replace(/module.exports = /, ''));
+    console.log('Parsed settings:', set);
 
-  "autobio": "true",
-  "autolike": "true",
-  "autoviewstatus": "true",
-  "welcomegoodbye": "false",
-  "antibot": "false",
-  "anticall": "true",
-  "antitag": "true",
-  "badwordkick": "false",
-  "autoread": "false",
-  "antidel": "true",
-  "antilink": "true",
-  "antiforeign": "true",
-  "antilinkall": "true"
-}
+
+
+    const container = document.querySelector('.container');
+
+
+    const statusSection = document.createElement('div');
+    statusSection.innerHTML = `
+      <h2>BOT STATUS</h2>
+      <p>BOT NAME: ${set.botname}</p>
+      <p>MODE: ${set.mode}</p>
+      <p>PREFIX: ${set.prefix}</p>
+    `;
+    container.appendChild(statusSection);
+  })
+  .catch(error => console.error('Error fetching settings:', error));
