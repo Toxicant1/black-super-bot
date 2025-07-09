@@ -1,124 +1,141 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>BELTAH TECH - Pairing Console</title>
+  <meta charset="UTF-8">
+  <title>BELTAH BOT | Pair Code</title>
   <style>
     body {
       background-image: url('https://i.imgur.com/XR1Neb9.jpeg');
       background-size: cover;
-      background-position: center;
       font-family: Arial, sans-serif;
-      color: #333;
+      color: #00698f;
+      text-align: center;
+      padding: 40px;
     }
+
     .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #ffffffdd;
+      max-width: 700px;
+      margin: auto;
+      background: white;
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      padding: 30px;
     }
+
     h1 {
-      color: #00698f;
-      text-align: center;
+      font-size: 32px;
+      margin-bottom: 10px;
     }
+
     .beautified-text {
-      text-align: center;
+      color: #33cc33;
+      font-weight: bold;
       font-size: 20px;
-      color: #00698f;
-      margin-bottom: 30px;
-    }
-    .input-box {
-      text-align: center;
       margin-bottom: 20px;
     }
-    .input-box input {
-      padding: 10px;
-      width: 80%;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-    .section {
-      margin-top: 20px;
-    }
-    .section p {
+
+    .code-box {
+      background: #f4f4f4;
+      border: 2px dashed #00698f;
+      font-size: 24px;
       font-weight: bold;
-      font-size: 18px;
+      padding: 15px;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
     }
-    .pair-code, .session-id {
-      background-color: #f1f1f1;
-      padding: 10px;
-      margin-top: 10px;
-      border-left: 5px solid #33cc33;
-      font-family: monospace;
-      font-size: 18px;
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      background: #00698f;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
     }
-    .audio-player {
+
+    button:hover {
+      background: #004f6e;
+    }
+
+    .icons {
       margin-top: 30px;
-      text-align: center;
+    }
+
+    .icons a {
+      margin: 0 10px;
+    }
+
+    .icons img {
+      width: 24px;
+      height: 24px;
+    }
+
+    audio {
+      margin-top: 20px;
+      width: 100%;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>WELCOME TO BELTAH TECH</h1>
-    <p class="beautified-text">
-      Holla, you have <span>successfully</span> connected to 
-      <span>BELTAH-BOT</span>. The bot is currently running and <span>ACTIVE</span>.
-    </p>
+    <p class="beautified-text">You've successfully connected to <span>BELTAH-BOT</span> 🔗</p>
 
-    <div class="section">
-      <h2>🔑 PAIR YOUR DEVICE</h2>
-      <p>Enter your WhatsApp number:</p>
-      <div class="input-box">
-        <input type="text" id="numberInput" placeholder="e.g. 254741819582" />
-      </div>
-      <div class="pair-code" id="pairCode">Awaiting phone number input...</div>
-      <div class="session-id" id="sessionId">Session ID will appear here</div>
+    <div id="pairStatus">⏳ Waiting for Pair Code...</div>
+    <div class="code-box" id="pairCode">Loading...</div>
+
+    <button onclick="copyCode()">📋 Copy Code</button>
+    <button onclick="refreshCode()">🔄 Refresh</button>
+    <button onclick="checkStatus()">🔍 Check Status</button>
+
+    <audio controls autoplay loop>
+      <source src="/Media/black.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+
+    <div class="icons">
+      <a href="https://github.com/toxicant1/black-super-bot"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="GitHub"></a>
+      <a href="https://wa.me/254115172722"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/whatsapp.svg" alt="WhatsApp"></a>
     </div>
 
-    <div class="audio-player">
-      <h3>🎶 Background Music</h3>
-      <audio controls autoplay loop>
-        <source src="media/black.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-      </audio>
-    </div>
-
-    <p style="text-align:center;">&copy; 2025 <strong style="color: green;">BELTAH MD</strong></p>
+    <p style="margin-top: 20px;">&copy; 2025 BELTAH MD</p>
   </div>
 
   <script>
-    function generatePairCode(length = 8) {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let result = "";
-      for (let i = 0; i < length; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    let currentCode = "";
+
+    async function fetchPairCode() {
+      try {
+        const res = await fetch('/getPairCode');
+        const data = await res.json();
+        currentCode = data.code || "Unavailable";
+        document.getElementById("pairCode").textContent = currentCode;
+        document.getElementById("pairStatus").textContent = "🔐 Enter this code in WhatsApp → Linked Devices";
+      } catch (e) {
+        document.getElementById("pairCode").textContent = "⚠️ Failed to load code";
+        document.getElementById("pairStatus").textContent = "❌ Connection Error";
       }
-      return result;
     }
 
-    function generateSessionID() {
-      const code = generatePairCode(6);
-      return `BELTAH-SESSION-${code}`;
+    async function checkStatus() {
+      const res = await fetch('/status');
+      const data = await res.json();
+      document.getElementById("pairStatus").textContent = data.connected 
+        ? "✅ Bot is now Linked & Active!" 
+        : "🕐 Still waiting for pairing...";
     }
 
-    document.getElementById("numberInput").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        const phone = this.value.trim();
-        if (!phone) {
-          alert("Please enter your WhatsApp number.");
-          return;
-        }
+    function copyCode() {
+      navigator.clipboard.writeText(currentCode);
+      alert("✅ Pair code copied!");
+    }
 
-        const pairCode = generatePairCode();
-        const sessionId = generateSessionID();
+    function refreshCode() {
+      fetchPairCode();
+    }
 
-        document.getElementById("pairCode").textContent = `Pair Code for ${phone}: ${pairCode}`;
-        document.getElementById("sessionId").textContent = `Session ID: ${sessionId}`;
-      }
-    });
+    fetchPairCode();
   </script>
 </body>
 </html>
