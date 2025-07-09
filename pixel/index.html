@@ -159,10 +159,9 @@
 
     <div class="music-control">
       <h3>🎵 Background Music</h3>
-      <button onclick="toggleMusic()">Play / Pause Music</button>
-      <audio id="bgMusic" loop>
-        <source src="/media/black.mp3" type="audio/mpeg" />
-        Your browser does not support audio.
+      <button onclick="toggleMusic()">Play / Pause Music</button><br/><br/>
+      <audio id="bgMusic" loop preload="auto">
+        <source src="media/black.mp3" type="audio/mpeg">
       </audio>
     </div>
 
@@ -186,17 +185,17 @@
         document.querySelector("#status-section").innerHTML += `<p style="color:red;">Failed to load settings</p>`;
       });
 
-    // Generate pair code when you press Enter
+    // Generate 6-digit pair code
     document.getElementById("numberInput").addEventListener("keydown", function (e) {
       if (e.key === "Enter") {
         const phone = this.value.trim();
         if (!phone) return alert("Please enter your number");
-        const pairCode = "PAIR-" + Math.floor(Math.random() * 9000 + 1000);
+        const pairCode = Math.floor(100000 + Math.random() * 900000); // 6-digit code
         document.getElementById("pairCode").textContent = `Code for ${phone}: ${pairCode}`;
       }
     });
 
-    // Toggle music play/pause
+    // Toggle music
     function toggleMusic() {
       const music = document.getElementById("bgMusic");
       if (music.paused) {
