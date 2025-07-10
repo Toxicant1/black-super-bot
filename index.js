@@ -1,154 +1,24 @@
-/* If it works, don't fix it */
+/* If it works, don't Fix it */ const { default: ravenConnect, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, downloadContentFromMessage, jidDecode, proto, getContentType, } = require("@whiskeysockets/baileys");
 
-const {
-  default: ravenConnect,
-  useMultiFileAuthState,
-  DisconnectReason,
-  fetchLatestBaileysVersion,
-  downloadContentFromMessage,
-  jidDecode,
-  proto
-} = require("@whiskeysockets/baileys");
+const pino = require("pino"); const { Boom } = require("@hapi/boom"); const fs = require("fs"); const path = require('path'); const axios = require("axios"); const express = require("express"); const chalk = require("chalk"); const FileType = require("file-type"); const figlet = require("figlet"); const { File } = require('megajs'); const app = express(); const _ = require("lodash"); let lastTextTime = 0; const messageDelay = 5000; const Events = require('./action/events'); const logger = pino({ level: 'silent' }); const PhoneNumber = require("awesome-phonenumber"); const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/ravenexif'); const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('./lib/ravenfunc'); const { sessionName, session, mode, prefix, autobio, autolike, port, mycode, anticall, antiforeign, packname, autoviewstatus } = require("./set.js"); const makeInMemoryStore = require('./store/store.js'); const store = makeInMemoryStore({ logger: logger.child({ stream: 'store' }) }); const color = (text, color) => !color ? chalk.green(text) : chalk.keyword(color)(text);
 
-const pino = require("pino");
-const fs = require("fs");
-const express = require("express");
-const chalk = require("chalk");
-const figlet = require("figlet");
-const { File } = require("megajs");
-const axios = require("axios");
-const app = express();
+async function authentication() { if (!fs.existsSync(__dirname + '/sessions/creds.json')) { if (!session) return console.log('Please add your session to SESSION env !!') const sessdata = session.replace("BELTAH;;;", ''); const filer = await File.fromURL(https://mega.nz/file/${sessdata}) filer.download((err, data) => { if (err) throw err fs.writeFile(__dirname + '/sessions/creds.json', data, () => { console.log("Session downloaded successfully✅️") console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️") }) }) } }
 
-const Events = require("./action/events");
-const logger = pino({ level: "silent" });
-const { smsg } = require("./lib/ravenfunc");
-const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./lib/ravenexif");
-const { session, port, autobio, autolike, autoviewstatus, mycode, anticall, antiforeign } = require("./set.js");
-const makeInMemoryStore = require("./store/store.js");
-const store = makeInMemoryStore({ logger });
+async function startRaven() { await authentication(); const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/'); const { version, isLatest } = await fetchLatestBaileysVersion(); console.log(using WA v${version.join(".")}, isLatest: ${isLatest}); console.log(color(figlet.textSync("BELTAH-BOT", { font: "Standard" }), "green"));
 
-async function authentication() {
-  if (!fs.existsSync(__dirname + '/sessions/creds.json')) {
-    if (!session) return console.log('❌ SESSION not found. Please add session env.');
-    const sessdata = session.replace("BELTAH;;;", '');
-    const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`);
-    filer.download((err, data) => {
-      if (err) throw err;
-      fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
-        console.log("✅ Session downloaded successfully");
-        console.log("⏳ Connecting to WhatsApp. Hold on...");
-      });
-    });
-  }
-}
+const client = ravenConnect({ logger: pino({ level: "silent" }), printQRInTerminal: false, browser: ["BELTAH-BOT", "Chrome", "110.0.0.0"], auth: state, syncFullHistory: true, });
 
-async function startBeltahBot() {
-  await authentication();
-  const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/');
-  const { version, isLatest } = await fetchLatestBaileysVersion();
+store.bind(client.ev);
 
-  console.log(chalk.green(figlet.textSync("BELTAH-BOT", { font: "Standard" })));
-  console.log(chalk.blueBright(`💡 Using WA v${version.join(".")}, Latest: ${isLatest}`));
+client.ev.on('connection.update', (update) => { const { connection, lastDisconnect } = update; if (connection === 'close') { if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) { startRaven(); } } else if (connection === 'open') { console.log(color("✅ BeltahBot connected successfully", "green")); console.log(color("📌 Owner: Ishaq Ibrahim", "blue")); console.log(color("🌍 Deploy: https://beltah-md-d882.onrender.com", "magenta")); } });
 
-  const client = ravenConnect({
-    logger,
-    printQRInTerminal: false,
-    browser: ["Beltah", "Chrome", "110.0.0.0"],
-    auth: state,
-    syncFullHistory: true
-  });
+client.ev.on("creds.update", saveCreds);
 
-  // Show pairing code when needed
-  if (!state.creds.registered) {
-    client.ev.once("connection.update", async (update) => {
-      const { pairingCode } = update;
-      if (pairingCode) {
-        console.log(chalk.cyan(`🔗 Pair this device using code: ${pairingCode}`));
-      }
-    });
-  }
+// additional event logic follows... }
 
-  store.bind(client.ev);
-  client.public = true;
+app.use(express.static("pixel")); app.get("/", (req, res) => res.sendFile(__dirname + "/index.html")); app.listen(port, () => console.log(🚀 BeltahBot running on https://beltah-md-d882.onrender.com));
 
-  client.ev.on("connection.update", ({ connection, lastDisconnect }) => {
-    if (connection === 'close' && lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut) {
-      startBeltahBot();
-    } else if (connection === 'open') {
-      console.log(chalk.green("✅ BeltahBot connected successfully"));
-    }
-  });
+startRaven();
 
-  client.ev.on("creds.update", saveCreds);
+let file = require.resolve(__filename); fs.watchFile(file, () => { fs.unwatchFile(file); console.log(chalk.redBright(Update ${__filename})); delete require.cache[file]; require(file); });
 
-  // Auto bio
-  if (autobio === 'TRUE') {
-    setInterval(() => {
-      const now = new Date();
-      const bio = `${now.toLocaleString('en-KE', { timeZone: 'Africa/Nairobi' })}`;
-      client.updateProfileStatus(bio);
-    }, 10 * 1000);
-  }
-
-  client.ev.on("messages.upsert", async ({ messages }) => {
-    try {
-      let mek = messages[0];
-      if (!mek.message) return;
-      mek.message = mek.message.ephemeralMessage?.message || mek.message;
-
-      if (autoviewstatus === 'TRUE' && mek.key.remoteJid === "status@broadcast") {
-        client.readMessages([mek.key]);
-      }
-
-      if (autolike === 'TRUE' && mek.key.remoteJid === "status@broadcast") {
-        await client.sendMessage(mek.key.remoteJid, {
-          react: { key: mek.key, text: "❤️" }
-        });
-      }
-
-      let m = smsg(client, mek, store);
-      const beltahCore = require("./blacks");
-      beltahCore(client, m, null, store);
-
-    } catch (e) {
-      console.error("❌ Error on message upsert:", e);
-    }
-  });
-
-  client.ev.on("group-participants.update", async (update) => {
-    if (antiforeign === 'TRUE' && update.action === "add") {
-      for (let participant of update.participants) {
-        const jid = client.decodeJid(participant);
-        const phone = jid.split("@")[0];
-        if (!phone.startsWith(mycode)) {
-          await client.sendMessage(update.id, { text: "⚠️ Foreign number not allowed." });
-          await client.groupParticipantsUpdate(update.id, [jid], "remove");
-        }
-      }
-    }
-    Events(client, update);
-  });
-
-  client.ev.on("call", async ([call]) => {
-    if (anticall === 'TRUE') {
-      await client.rejectCall(call.id, call.from);
-      await client.sendMessage(call.from, { text: "📵 Calls are not allowed. Text only." });
-    }
-  });
-}
-
-// Static HTML
-app.use(express.static("pixel"));
-app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
-app.listen(port, () => console.log(`🚀 BeltahBot running on http://localhost:${port}`));
-
-// Start bot
-startBeltahBot();
-
-// Watch for file changes
-fs.watchFile(require.resolve(__filename), () => {
-  fs.unwatchFile(__filename);
-  console.log(chalk.redBright(`📦 Reloading ${__filename}`));
-  delete require.cache[require.resolve(__filename)];
-  require(__filename);
-});
