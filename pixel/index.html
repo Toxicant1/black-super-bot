@@ -1,132 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>BLACKBELTAH TECH</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BeltahBot • Live on WhatsApp</title>
   <style>
     body {
       background-image: url('https://i.imgur.com/XR1Neb9.jpeg');
       background-size: cover;
       background-position: center;
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
     .container {
       max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin: 60px auto;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      text-align: center;
     }
 
     h1 {
-      color: #00698f;
+      color: #007f5f;
       font-size: 36px;
       margin-bottom: 10px;
+      text-shadow: 0 0 10px #fff;
     }
 
-    .beautified-text {
-      color: #00698f;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #33cc33;
-    }
-
-    .beautified-text span {
-      color: #33cc33;
-      font-weight: bold;
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #33cc33;
-    }
-
-    .input-group {
-      margin: 20px 0;
-    }
-
-    input[type="text"] {
-      padding: 10px;
+    p {
+      color: #222;
       font-size: 18px;
-      width: 80%;
-      margin-right: 10px;
+      line-height: 1.6;
     }
 
-    button {
-      padding: 10px 15px;
-      font-size: 16px;
-      cursor: pointer;
-      background-color: #00698f;
-      color: white;
-      border: none;
-      border-radius: 5px;
+    .highlight {
+      font-weight: bold;
+      color: #33cc33;
+      text-shadow: 0 0 10px #fff;
     }
 
-    .icons {
+    .social-icons {
       margin-top: 20px;
     }
 
-    .icons a {
-      margin-right: 10px;
+    .social-icons a {
+      margin: 0 10px;
+      display: inline-block;
     }
 
-    .icons img {
-      width: 24px;
-      height: 24px;
+    .social-icons img {
+      width: 32px;
+      height: 32px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .footer-note {
+      color: #007f5f;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <h1>WELCOME TO BLACKBELTAH TECH</h1>
-    <p class="beautified-text">
-      Holla, you have <span>successfully</span> connected to 
-      <span>BLACKBELTAH-BOT</span>. The bot is currently running and 
-      <span>ACTIVE</span>.
+    <h1>Welcome to BeltahBot</h1>
+    <p>
+      Holla 👋🏾, you’ve <span class="highlight">successfully</span> launched <span class="highlight">BeltahBot</span>.<br/>
+      The bot is currently running and <span class="highlight">ACTIVE</span> on WhatsApp.
     </p>
 
-    <!-- 📲 Pair Code Section -->
-    <div class="input-group">
-      <input type="text" id="pairCode" placeholder="Enter WhatsApp number or generate code">
-      <button onclick="generateCode()">Generate Pair Code</button>
-      <button onclick="copyCode()">Copy Code</button>
-    </div>
-
-    <!-- 🔗 Icons -->
-    <div class="icons">
-      <a href="https://github.com/Toxicant1/black-super-bot">
+    <div class="social-icons">
+      <a href="https://github.com/Toxicant1/BeltahBot-MD" target="_blank">
         <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="GitHub">
       </a>
-      <a href="https://wa.me/254115172722">
+      <a href="https://wa.me/254741819582" target="_blank">
         <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/whatsapp.svg" alt="WhatsApp">
       </a>
     </div>
 
-    <p>&copy; 2025 <span style="color: green;">BLACKBELTAH MD</span></p>
+    <footer>
+      <p>&copy; 2025 <span class="footer-note">Beltah MD</span><br/>
+      Made in 🇰🇪 by <strong>Ishaq Ibrahim</strong></p>
+    </footer>
   </div>
-
-  <!-- 🎵 Background Music -->
-  <audio autoplay loop>
-    <source src="Media/black.mp3" type="audio/mpeg">
-    Your browser does not support the audio tag.
-  </audio>
-
-  <!-- 📜 Script Logic -->
-  <script>
-    function generateCode() {
-      const code = Math.random().toString(36).substring(2, 10).toUpperCase();
-      document.getElementById('pairCode').value = code;
-    }
-
-    function copyCode() {
-      const codeInput = document.getElementById('pairCode');
-      codeInput.select();
-      codeInput.setSelectionRange(0, 99999); // For mobile
-      navigator.clipboard.writeText(codeInput.value);
-      alert('Pair code copied: ' + codeInput.value);
-    }
-  </script>
-
 </body>
 </html>
