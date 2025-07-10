@@ -1,97 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>BLACK BELTAH</title>
+  <meta charset="UTF-8">
+  <title>BLACKBELTAH TECH</title>
   <style>
     body {
       background-image: url('https://i.imgur.com/XR1Neb9.jpeg');
       background-size: cover;
       background-position: center;
-      font-family: Arial, sans-serif;
-      color: #fff;
-      text-align: center;
-      margin: 0;
-      padding: 0;
+      font-family: sans-serif;
     }
+
     .container {
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 40px;
-      border-radius: 12px;
-      margin: 50px auto;
-      width: 90%;
-      max-width: 700px;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     h1 {
-      font-size: 38px;
-      color: #00ffcc;
+      color: #00698f;
+      font-size: 36px;
+      margin-bottom: 10px;
     }
-    p, label {
-      font-size: 18px;
-      margin: 12px 0;
-    }
-    input {
-      padding: 10px;
-      width: 80%;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      border: none;
-    }
-    button {
-      padding: 10px 20px;
-      border: none;
-      background-color: #00ffcc;
-      color: #000;
+
+    .beautified-text {
+      color: #00698f;
+      font-size: 24px;
       font-weight: bold;
-      border-radius: 5px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #33cc33;
+    }
+
+    .beautified-text span {
+      color: #33cc33;
+      font-weight: bold;
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #33cc33;
+    }
+
+    .input-group {
+      margin: 20px 0;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 18px;
+      width: 80%;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
       cursor: pointer;
-      margin: 5px;
+      background-color: #00698f;
+      color: white;
+      border: none;
+      border-radius: 5px;
     }
-    audio {
+
+    .icons {
       margin-top: 20px;
-      width: 100%;
     }
-    iframe {
-      margin-top: 20px;
+
+    .icons a {
+      margin-right: 10px;
+    }
+
+    .icons img {
+      width: 24px;
+      height: 24px;
     }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <h1>BLACK BELTAH BOT 🔥</h1>
-    <p>You have <strong>successfully connected</strong> to the bot. Status: <span style="color: lime;">ACTIVE ✅</span></p>
+    <h1>WELCOME TO BLACKBELTAH TECH</h1>
+    <p class="beautified-text">
+      Holla, you have <span>successfully</span> connected to 
+      <span>BLACKBELTAH-BOT</span>. The bot is currently running and 
+      <span>ACTIVE</span>.
+    </p>
 
-    <label>Enter WhatsApp Number:</label><br>
-    <input type="text" id="waNumber" placeholder="e.g. 254115172722"><br>
-
-    <div id="qr-section">
-      <p>Use the generated QR to pair with WhatsApp:</p>
-      <img id="qrCode" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=Linking" alt="QR Code"><br>
-      <button onclick="refreshQR()">🔁 Refresh</button>
-      <button onclick="copyQR()">📋 Copy</button>
+    <!-- 📲 Pair Code Section -->
+    <div class="input-group">
+      <input type="text" id="pairCode" placeholder="Enter WhatsApp number or generate code">
+      <button onclick="generateCode()">Generate Pair Code</button>
+      <button onclick="copyCode()">Copy Code</button>
     </div>
 
-    <audio controls autoplay loop>
-      <source src="/Media/black.mp3" type="audio/mp3">
-      Your browser does not support the audio element.
-    </audio>
+    <!-- 🔗 Icons -->
+    <div class="icons">
+      <a href="https://github.com/Toxicant1/black-super-bot">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="GitHub">
+      </a>
+      <a href="https://wa.me/254115172722">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/whatsapp.svg" alt="WhatsApp">
+      </a>
+    </div>
 
-    <p><a href="https://github.com/Toxicant1/black-super-bot" target="_blank">📁 View Bot Repository</a></p>
-    <p>&copy; 2025 BLACK BELTAH</p>
+    <p>&copy; 2025 <span style="color: green;">BLACKBELTAH MD</span></p>
   </div>
 
+  <!-- 🎵 Background Music -->
+  <audio autoplay loop>
+    <source src="Media/black.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+
+  <!-- 📜 Script Logic -->
   <script>
-    function refreshQR() {
-      const qrImg = document.getElementById("qrCode");
-      const rand = Math.floor(Math.random() * 99999);
-      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=WhatsAppBlackBeltahBot${rand}`;
+    function generateCode() {
+      const code = Math.random().toString(36).substring(2, 10).toUpperCase();
+      document.getElementById('pairCode').value = code;
     }
 
-    function copyQR() {
-      const qrSrc = document.getElementById("qrCode").src;
-      navigator.clipboard.writeText(qrSrc).then(() => {
-        alert("QR Code URL copied!");
-      });
+    function copyCode() {
+      const codeInput = document.getElementById('pairCode');
+      codeInput.select();
+      codeInput.setSelectionRange(0, 99999); // For mobile
+      navigator.clipboard.writeText(codeInput.value);
+      alert('Pair code copied: ' + codeInput.value);
     }
   </script>
+
 </body>
 </html>
