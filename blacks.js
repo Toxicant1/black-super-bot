@@ -453,7 +453,7 @@ if (antilinkall === 'TRUE' && body.includes('https://') && !Owner && isBotAdmin 
   //========================================================================================================================//
 
     if (cmd && !m.isGroup) {
-      console.log(chalk.black(chalk.bgWhite("[ 𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓 𝐁𝐎𝐓 ]")), color(argsLog, "turquoise"), chalk.magenta("From"), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace("@s.whatsapp.net", "")} ]`));
+      console.log(chalk.black(chalk.bgWhite("[ 𝑩𝑳𝑨𝑪𝑲 𝑩𝑬𝑳𝑻𝑨𝑯 𝑩𝑶𝑻 ]")), color(argsLog, "turquoise"), chalk.magenta("From"), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace("@s.whatsapp.net", "")} ]`));
     } else if (cmd && m.isGroup) {
       console.log(
         chalk.black(chalk.bgWhite("[ LOGS ]")),
@@ -706,7 +706,7 @@ client.sendMessage(m.chat, {
                         contextInfo: {
                             externalAdReply: {
                                 showAdAttribution: true,
-                                title: `𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓 𝐌𝐃`,
+                                title: ` 𝑩𝑳𝑨𝑪𝑲 𝑩𝑬𝑳𝑻𝑨𝑯 𝑩𝑶𝑻`,
                                 body: `${runtime(process.uptime())}`,
                                 thumbnail: fs.readFileSync('./Media/blackmachant.jpg'),
                                 sourceUrl: 'https://wa.me/254114283550?text=Hello👋+black+Nihostie+Bot+Mkuu+😔',
@@ -751,42 +751,32 @@ break;
 		      
 //========================================================================================================================//	      
 	case "play2": {
- const yts = require("yt-search");
+    const { youtubedl } = require('@bochilteam/scraper');
+
+    if (!text) return reply("⛔ Please provide the name of the song!");
 
     try {
-        if (!text) return m.reply("What song do you want to download?");
+        const search = await youtubedl(text);
+        const audio = search.audio;
 
-        const { videos } = await yts(text);
-        if (!videos || videos.length === 0) {
-            return m.reply("No songs found!");
-        }
+        if (!audio || !audio.url) return reply("🚫 No audio found for that song!");
 
-        const urlYt = videos[0].url;
-
-        try {
-            let data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${urlYt}`);
-
-            const { title, format, url: audioUrl } = data.result;
-
-            await client.sendMessage(
-                m.chat,
-                {
-                    document: { url: audioUrl },
-                    mimetype: "audio/mpeg",
-		    caption: "𝐁𝐋𝐀𝐂𝐊-𝐌𝐃 𝐁𝐎𝐓",
-                    fileName: `${title}.mp3`,
-                },
-                { quoted: m }
-            );
-        } catch (error) {
-            console.error("API request failed:", error.message);
-            m.reply("Download failed: Unable to retrieve audio.");
-        }
-    } catch (error) {
-        m.reply("Download failed\n" + error.message);
+        await client.sendMessage(
+            m.chat,
+            {
+                document: { url: audio.url },
+                mimetype: "audio/mpeg",
+                fileName: `🎵 ${search.title}.mp3`,
+                caption: `*𝐁𝐄𝐋𝐓𝐀𝐇-𝐌𝐃 𝐁𝐎𝐓 🎧*\n\n✅ Title: *${search.title}*\n🔗 Source: YouTube\n🧠 Powered by *@bochilteam/scraper*`
+            },
+            { quoted: m }
+        );
+    } catch (err) {
+        console.error(err);
+        reply("❌ Error fetching the song. Please try again later.");
     }
-};
-        break;
+}
+break;
 //========================================================================================================================//
 	case "bible":
 		      {
