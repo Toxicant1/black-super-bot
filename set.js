@@ -1,10 +1,10 @@
-/* if you're using pannel carefully edit this part
+/* if you're using panel carefully edit this part
 
 There's no need to configure this if you're deploying via Heroku — just set them in the environment variables.*/
 
 const sessionName = 'session';
 const session = 'BLACK MD;;;Iy9QUaBL#lmV9mjP9A-XagG7VStTz29ZpGMD9hWqDpTsEPx-nqc4';
-const session = process.env.SESSION || '';
+
 const autobio = process.env.AUTOBIO || 'FALSE';
 const autolike = process.env.AUTOLIKE_STATUS || 'TRUE';
 const autoviewstatus = process.env.AUTOVIEW_STATUS || 'TRUE';
