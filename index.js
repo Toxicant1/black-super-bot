@@ -72,18 +72,25 @@ async function startRaven() {
 
   store.bind(client.ev);
 
-  client.ev.on('connection.update', (update) => {
-    const { connection, lastDisconnect } = update;
-    if (connection === 'close') {
-      if (lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut) {
-        startRaven();
-      }
-    } else if (connection === 'open') {
-      console.log(color("Congrats, BELTAH BOT is now connected to this server ✅", "green"));
-      const Texxt = `✅ Connected to 【BELTAH BOT】\n👥 Mode »» ${mode}\n👤 Prefix »» ${prefix}`;
-      client.sendMessage(client.user.id, { text: Texxt });
+  client.ev.on('connection.update', async (update) => {
+  const { connection, lastDisconnect } = update;
+
+  if (connection === 'close') {
+    if (lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut) {
+      startRaven();
     }
-  });
+  } else if (connection === 'open') {
+    console.log(color("Congrats, BELTAH BOT is now connected to this server ✅", "green"));
+
+    const Texxt = `✅ Connected to 【𝐁𝐋𝐀𝐂𝐊 𝐁𝐄𝐋𝐓𝐀𝐇 𝐁𝐎𝐓】\n👥 Mode »» ${mode}\n👤 Prefix »» ${prefix}`;
+
+    if (client.user?.id) {
+      await client.sendMessage(client.user.id, { text: Texxt });
+    } else {
+      console.log("⚠️ No client.user.id found. Skipping startup message.");
+    }
+  }
+});
 
   client.ev.on("creds.update", saveCreds);
 
