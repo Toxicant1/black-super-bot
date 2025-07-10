@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>BeltahBot • Live on WhatsApp</title>
+  <title>BeltahBot • Pairing Code</title>
   <style>
     body {
       background-image: url('https://i.imgur.com/XR1Neb9.jpeg');
@@ -27,34 +27,32 @@
     h1 {
       color: #007f5f;
       font-size: 36px;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       text-shadow: 0 0 10px #fff;
     }
 
-    p {
-      color: #222;
-      font-size: 18px;
-      line-height: 1.6;
-    }
-
-    .highlight {
+    .code-box {
+      font-size: 32px;
       font-weight: bold;
-      color: #33cc33;
-      text-shadow: 0 0 10px #fff;
+      color: #222;
+      margin: 20px 0;
+      background: #e0ffe0;
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px dashed #007f5f;
+      text-shadow: 0 0 4px #fff;
     }
 
-    .social-icons {
-      margin-top: 20px;
+    .status {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 10px;
     }
 
-    .social-icons a {
-      margin: 0 10px;
-      display: inline-block;
-    }
-
-    .social-icons img {
-      width: 32px;
-      height: 32px;
+    .error {
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
     }
 
     footer {
@@ -71,25 +69,37 @@
 </head>
 <body>
   <div class="container">
-    <h1>Welcome to BeltahBot</h1>
-    <p>
-      Holla 👋🏾, you’ve <span class="highlight">successfully</span> launched <span class="highlight">BeltahBot</span>.<br/>
-      The bot is currently running and <span class="highlight">ACTIVE</span> on WhatsApp.
-    </p>
-
-    <div class="social-icons">
-      <a href="https://github.com/Toxicant1/BeltahBot-MD" target="_blank">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="GitHub">
-      </a>
-      <a href="https://wa.me/254741819582" target="_blank">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/whatsapp.svg" alt="WhatsApp">
-      </a>
-    </div>
+    <h1>BeltahBot Pairing Code</h1>
+    <p class="status">⏳ Please wait while we fetch your WhatsApp code...</p>
+    <div id="pair-code" class="code-box">Generating...</div>
+    <p id="error-msg" class="error"></p>
 
     <footer>
       <p>&copy; 2025 <span class="footer-note">Beltah MD</span><br/>
       Made in 🇰🇪 by <strong>Ishaq Ibrahim</strong></p>
     </footer>
   </div>
+
+  <script>
+    async function getPairingCode() {
+      try {
+        const res = await fetch('/generate');
+        if (!res.ok) throw new Error('Server error while fetching code');
+
+        const data = await res.json();
+        if (data && data.code) {
+          document.getElementById('pair-code').innerText = 'CODE: ' + data.code;
+          document.querySelector('.status').innerText = '🔗 Use this code to link your WhatsApp.';
+        } else {
+          throw new Error('Code not found in response');
+        }
+      } catch (err) {
+        document.getElementById('pair-code').innerText = '—';
+        document.getElementById('error-msg').innerText = '❌ Failed to fetch code: ' + err.message;
+      }
+    }
+
+    window.onload = getPairingCode;
+  </script>
 </body>
 </html>
