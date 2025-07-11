@@ -1,112 +1,177 @@
-# 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇-𝐌𝐃 𝐁𝐎𝐓
-<!-- Glowing Footer -->
-<p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p>
+// BeltahBot-MD: Unified Script with ARIA Menu
+case "menu":
+await client.sendMessage(m.chat, {
+  audio: fs.readFileSync('./Media/ponk.mp3'),
+  mimetype: "audio/mp4",
+  ptt: true
+}, { quoted: m });
 
-<div align="center">
-  <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=1BAFBAFF&center=true&width=910&height=100&lines=HI+THIS+IS+BLACKBELTAH-MD;A+MULTI+DEVICE+WHATSAPP+BOT;SCRIPTED+BY+TOXICANT1;STAR+AND+FORK+OUR+REPO" alt="Typing SVG" />
-  </a>
-</div>
+let cap = `
+╔═════════════════════════════╗
+♤ 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝐀𝐑𝐈𝐀 𝐌𝐄𝐍𝐔 ♤
+◇ Stylish WhatsApp AI Chatbot ◇
+♡ Powered by Ishaq Ibrahim ♡
+╚═════════════════════════════╝
 
-<!-- Glowing Footer -->
-<p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p>
+╔═══════♧ 𝗕𝗢𝗧 𝗜𝗡𝗙𝗢 ♧═══════╗
+👤 Name: ${m.pushName}
+🧠 Mode: ${mode}
+⏳ Uptime: ${runtime(process.uptime())}
+🤖 Bot: 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇-MD
+╚════════════════════════════╝
 
-<!-- Profile Picture -->
-<p align="center">
-  <img src="/blackmachant.jpg" width="400" style="border-radius:30px; box-shadow: 0 0 40px #00ffe0;">
-</p>
+╔═══════♤ 𝗠𝗘𝗗𝗜𝗔 ♤════════╗
+🎵 play2 - YouTube Music DL
+📃 lyrics2 - Song Lyrics
+🧷 vv - ViewOnce retriever
+🎭 sticker - Image to Sticker
+╚════════════════════════════╝
 
-<p align="center">
-  <a href="#"><img src="http://readme-typing-svg.herokuapp.com?color=d1fa02&center=true&vCenter=true&multiline=false&lines=𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇-𝐌𝐃+BOT" alt=""></a>
-</p>
+╔═══════◇ 𝗔𝗜 & 𝗚𝗔𝗠𝗘𝗦 ◇═════╗
+👨‍💻 chat - AI Hinglish Chat
+📥 downloader - TikTok/IG/FB
+🧠 trivia - Fun Questions
+🎯 guess - Guess Game
+╚════════════════════════════╝
 
-<p align="center">
-  <a href="#"><img title="Creator" src="https://img.shields.io/badge/Creator-Toxicant1-blue.svg?style=for-the-badge&logo=github"></a>
-</p>
+╔═══════♧ 𝗚𝗥𝗢𝗨𝗣 𝗖𝗧𝗥𝗟 ♧═══════╗
+👑 admin - Admin Control
+🏷 tagall - Mention All
+🛑 antilink - Block links
+👋 welcome - Enable Welcome
+╚════════════════════════════╝
 
-<p align="center">
-  <a href="https://github.com/Toxicant1?tab=followers"><img title="Followers" src="https://img.shields.io/github/followers/Toxicant1?label=Followers&style=social"></a>
-  <a href="https://github.com/Toxicant1/black-super-bot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/Toxicant1/black-super-bot?&style=social"></a>
-  <a href="https://github.com/Toxicant1/black-super-bot/network/members"><img title="Fork" src="https://img.shields.io/github/forks/Toxicant1/black-super-bot?style=social"></a>
-  <a href="https://github.com/Toxicant1/black-super-bot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/Toxicant1/black-super-bot?label=Watching&style=social"></a>
-</p>
+╔═══════♤ 𝗨𝗧𝗜𝗟𝗦 ♤══════════╗
+📖 bible - Bible Verse
+📘 quran - Quran Verse
+🔎 ytsearch - YouTube Search
+💬 say - Text to Speech
+╚════════════════════════════╝
 
-<!-- Glowing Footer -->
-<p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p>
+╔═══════◇ 𝗢𝗪𝗡𝗘𝗥 & 𝗦𝗬𝗦 ◇═══════╗
+🔒 lock - Admin Only Mode
+💾 save - Save Chat
+🗑️ clearall - Wipe Data
+🤖 status-mode - Toggle Bio
+╚════════════════════════════╝
 
-## ```CONTACT ME```
+💡 _Use commands with "." e.g., .play2 Alan Walker_
+`;
 
-<p align="center">
-  <a href="https://api.whatsapp.com/send?phone=254115172722&text=Hello+Ishaq+I+found+your+BlackBeltahBot"><img src="https://img.shields.io/badge/Contact-Ishaq%20Ibrahim-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
-</p>
+client.sendMessage(m.chat, {
+  image: fs.readFileSync('./Media/blackmachant.jpg'),
+  caption: cap,
+}, { quoted: m });
+break;
 
-> **Built with NodeJS + Baileys**  
-> This bot supports group tools, media tools, and ChatGPT-based AI.
+// ========== AI CHAT ==========
+case "chat":
+  if (!text) return reply("Type something to chat with AI.");
+  const axios = require("axios");
+  let res = await axios.get(`https://api.akuari.my.id/ai/gbard?chat=${encodeURIComponent(text)}`);
+  client.sendMessage(m.chat, { text: res.data.respon }, { quoted: m });
+break;
 
-<!-- Glowing Footer -->
-<p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p>
+// ========== PLAY MUSIC ==========
+case "play2": {
+  const yts = require("yt-search");
+  if (!text) return reply("Provide song name.");
+  let { videos } = await yts(text);
+  if (!videos.length) return reply("No video found.");
+  const url = videos[0].url;
+  const fetch = require("node-fetch");
+  const data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${url}`);
+  const { title, url: audioUrl } = data.result;
+  await client.sendMessage(m.chat, {
+    document: { url: audioUrl },
+    mimetype: "audio/mpeg",
+    fileName: `${title}.mp3`,
+    caption: `🎵 *${title}*\nPowered by BeltahBot`,
+  }, { quoted: m });
+}
+break;
 
-## DISCLAIMER
-- Customizing this bot is allowed, but you're fully responsible for what breaks or errors.
+// ========== LYRICS ==========
+case "lyrics2": {
+  if (!text) return reply("Type song title.");
+  const Client = require("genius-lyrics");
+  const Genius = new Client.Client();
+  const searches = await Genius.songs.search(text);
+  const lyrics = await searches[0].lyrics();
+  client.sendMessage(m.chat, { text: lyrics }, { quoted: m });
+}
+break;
 
-<!-- Glowing Footer -->
-<p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p>
+// ========== VV ViewOnce ==========
+case "vv": case "retrieve": {
+  if (!m.quoted) return m.reply("Quote a viewonce message.");
+  const quoted = m.msg?.contextInfo?.quotedMessage;
+  if (quoted?.imageMessage) {
+    const img = await client.downloadAndSaveMediaMessage(quoted.imageMessage);
+    client.sendMessage(m.chat, { image: { url: img }, caption: "📸 ViewOnce Image" }, { quoted: m });
+  }
+  if (quoted?.videoMessage) {
+    const vid = await client.downloadAndSaveMediaMessage(quoted.videoMessage);
+    client.sendMessage(m.chat, { video: { url: vid }, caption: "🎥 ViewOnce Video" }, { quoted: m });
+  }
+}
+break;
 
-## FEATURES
-- ✅ Group Admin Tools  
-- ✅ AI Chat (OpenAI)  
-- ✅ Sticker, Media, Fun  
-- ✅ Highly Customizable UI  
-- ✅ Auto Pairing via Render
+// ========== BIBLE ==========
+case "bible":
+  reply("📖 John 3:16 — For God so loved the world...");
+break;
 
-<!-- Glowing Footer -->
-<p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p>
+// ========== QURAN ==========
+case "quran":
+  reply("📘 Surah Al-Fatiha — بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ...");
+break;
 
-# SET-UP
+// ========== AUTOBIO ==========
+if (autobio === 'TRUE') {
+  setInterval(() => {
+    const date = new Date();
+    const statuses = [
+      "𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 says hi 👋",
+      "Chat with AI 🤖",
+      "Music is life 🎵",
+      "Learning never stops 📚",
+      "Shujaa never sleeps 😎"
+    ];
+    const rand = statuses[Math.floor(Math.random() * statuses.length)];
+    client.updateProfileStatus(`${rand} | ${date.toLocaleTimeString('en-KE')}`);
+  }, 60000 * 5); // Every 5 minutes
+}
 
-### `🌱 Fork this repo`
-<p align="center">
-  <a href="https://github.com/Toxicant1/black-super-bot/fork"><img src="https://img.shields.io/badge/Fork%20Create-purple?style=for-the-badge&logo=github" alt="FORK BLACKBELTAH-MD" width="160"></a>
-</p>
+// ========== AUTO STATUS ROTATION ==========
+if (autoviewstatus === 'TRUE') {
+  client.ev.on("messages.upsert", async (chatUpdate) => {
+    const mek = chatUpdate.messages[0];
+    if (mek.key?.remoteJid === "status@broadcast") {
+      client.readMessages([mek.key]);
+    }
+  });
+}
 
-### `🔗 Pair on Render`
-<p align="center">
-  <a href="https://beltah-md-d882.onrender.com"><img height="37" title="Pair BLACKBELTAH-MD" src="https://img.shields.io/badge/Session-green?style=for-the-badge&logo=render"></a>
-</p>
+// ========== AUTO STATUS LIKE ==========
+if (autolike === 'TRUE') {
+  const emojis = ["✌️", "😹", "👻", "💖", "🌹", "🌍", "♨️", "🔥", "🎭", "📎", "🥰", "😊", "🙊", "👀", "💀", "🕵‍♂️", "😱", "🐀"];
+  client.ev.on("messages.upsert", async (chatUpdate) => {
+    const mek = chatUpdate.messages[0];
+    if (mek.key?.remoteJid === "status@broadcast") {
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      await client.sendMessage(mek.key.remoteJid, {
+        react: { key: mek.key, text: emoji }
+      });
+    }
+  });
+}
 
----
-
-## 🚀 DEPLOY ON HEROKU (optional)
-
-[![Tap to deploy on Heroku](https://www.herokucdn.com/deploy/button.svg)](https://blacks-progressive-platform.vercel.app/)
-
----
-
-## 🙏 CREDITS    
-<p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p> 
-<h3 align="center">Based on the work of Nick Hunter & Blackie Tech.</h3>
-
----
-
-## License
-[MIT License](https://github.com/Toxicant1/black-super-bot/blob/main/LICENSE)  
-© 2025 **Ishaq Ibrahim** | All rights reserved.
-
-<!-- Glowing Footer -->
-<p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p>
+// ========== TYPING & RECORDING PRESENCE ==========
+let statusIndex = 0;
+const statusTypes = ['typing', 'recording'];
+setInterval(() => {
+  const statusType = statusTypes[statusIndex % statusTypes.length];
+  client.sendPresenceUpdate(statusType, client.user.id);
+  statusIndex++;
+}, 5 * 60 * 1000); // 5 mins
