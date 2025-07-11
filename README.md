@@ -8,7 +8,11 @@
 <!-- Typing Banner -->
 <div align="center">
   <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=FF26D0FF&center=true&vCenter=true&width=950&height=80&lines=𝙃𝙄+𝙏𝙃𝙄𝙎+𝙄𝙎+𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇-𝙈𝘿;𝘼+𝙈𝙐𝙇𝙏𝙄+𝘿𝙀𝙑𝙄𝘾𝙀+𝙒𝙃𝘼𝙏𝙎𝘼𝙋𝙋+𝘽𝙊𝙏;𝘽𝙐𝙄𝙇𝙏+𝘽𝙔+𝙄𝙎𝙃𝘼𝙌+𝙄𝘽𝙍𝘼𝙃𝙄𝙈;𝙎𝙏𝘼𝙍+𝘼𝙉𝘿+𝙁𝙊𝙍𝙆+𝙏𝙃𝙀+𝙍𝙀𝙋𝙊" alt="Typing SVG" />
+    <img <p align="center">
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=F700FF&center=true&vCenter=true&width=1000&height=90&lines=HI+THIS+IS+BLACKBELTAH;A+MULTI+DEVICE+WHATSAPP+BOT;SCRIPTED+BY+ISHAQ+IBRAHIM;STAR+AND+FORK+THE+REPO" alt="Typing SVG" />
+  </a>
+</p>
   </a>
 </div>
 
