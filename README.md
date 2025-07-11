@@ -1,112 +1,117 @@
-<!-- ✨ Glowing Top Banner --><p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" width="100%" height="40">
-</p><h1 align="center">💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝗠𝗗 𝗕𝗢𝗧 💥</h1><!-- 🌟 Typing Intro Section --><p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=30&pause=1000&color=FF26D0FF&center=true&vCenter=true&width=1000&height=50&lines=Hi+this+is+BLACKBELTAH+Bot!;A+Multi-Device+WhatsApp+AI+Bot;Built+by+Ishaq+Ibrahim;Powered+by+ChatGPT+as+Main+Brain;Star+and+Fork+the+Repo+Below+%E2%9C%A8" alt="Typing SVG" />
-</p><!-- 🖼️ Main Display Image --><p align="center">
-  <img src="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" width="720" height="720" />
-</p><!-- 🧠 Short Info --><p align="center">
-A highly customized AI WhatsApp bot powered by ChatGPT.<br>
-BeltahBot responds smartly, chats fluently in Kiswahili, Hinglish, and Gen Z tone.<br>
-No cringe, no bloat — just sharp, fun, stylish automation 😎
-</p><hr>🔥 Features
+𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇-𝐌𝐃
 
-🧠 ChatGPT Memory Integration
-🎵 YouTube MP3 & Video Downloader
-📷 ViewOnce Media Grabber
-🎨 Image Menu & Styled Captions
-💬 Smart Auto Reply
-🛠️ Admin Only Commands
-👀 Status Liker & Viewer
-✍️ Auto Bio + Presence (Recording / Typing)
-🔎 Quran / Bible / Lyrics
-📌 Owner & Dev Commands
+<!-- Glowing Header -->
+<p align="center"><img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%"></p>
 
+<div align="center">
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&pause=1000&color=FF26D0FF&center=true&vCenter=true&width=950&height=80&lines=Hi+this+is+BELTAH+MD+Bot;A+Multi-Device+WhatsApp+Bot+AI;Built+by+Ishaq+Ibrahim+(Toxicant);Main+Brain:+ChatGPT;Star+and+Fork+the+Repo" alt="Typing SVG" />
+  </a>
+</div>
 
----
+<!-- Glowing Header -->
+<p align="center"><img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%"></p>
 
-🚀 Deployment
+<div align="center">
+  <img src="https://github.com/Toxicant1/black-super-bot/blob/main/blackmachant.jpg?raw=true" alt="BeltahBot Image" width="300px" style="border-radius: 20px; border: 4px double #FF26D0;">
+</div>
 
-> ⚠️ Deploy via your preferred platform: Render, Railway, Bleach, or Replit
-
-
-
-1. Fork this Repo
-
-
-
-2. Deploy to Render
-
-
-
-3. Connect WhatsApp
-
-Scan QR or paste session string
-✅ You’re live with BeltahBot!
-
-
----
-
-⚙️ Environment Variables
-
-SESSION=BLACK MD;;;your_mega_session_string
-OWNER=254741819582
-BOTNAME=𝐁𝐋𝐀𝐂𝐊𝐁𝐎𝐏𝐀𝐋𝐏𝐄
-AUTOBIO=TRUE
-AUTOVIEW_STATUS=TRUE
-AUTOLIKE_STATUS=TRUE
-MODE=PRIVATE
-PREFIX=.
-PORT=10000
-
-> You can manage these via .env file or panel UI (Render/Railway)
-
-
-
-
----
-
-🎭 Menu Design
-
-Uses an image-based custom menu
-
-Font: 𝐁𝐋𝐀𝐂𝐊𝐁𝐎𝐏𝐀𝐋𝐏𝐄
-
-Sections: Bot Info, Group Tools, Media, Admin, Fun & AI
-
-Image Path: /Media/blackmachant.jpg
-
-
-
----
-
-📲 Contact Me
-
-<a href="https://api.whatsapp.com/send?phone=254741819582&text=Hello+BeltahBot"><img src="https://img.shields.io/badge/Contact-Owner-green?style=for-the-badge&logo=whatsapp" /></a>
-
-
----
-
-🎓 Credits
-
-Created by Ishaq Ibrahim
-
-Base inspired by Blackie Tech
-
-Enhanced with OpenAI ChatGPT, Baileys API
-
-
-
----
-
-🔒 License
-
-This project is licensed under the MIT License
-
-Read Full License
-
-
----
-
+<!-- Info badges -->
 <p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
+  <a href="https://api.whatsapp.com/send?phone=254115172722&text=Hello+Beltah+Bot+Dev"><img src="https://img.shields.io/badge/WhatsApp-254115172722-25D366?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
+  <a href="https://instagram.com/toxic_a.n.t"><img src="https://img.shields.io/badge/Instagram-@toxic_a.n.t-E4405F?style=for-the-badge&logo=instagram&logoColor=white"/></a>
 </p>
+
+<!-- Divider -->
+<p align="center"><img src="https://i.imgur.com/dBaSKWF.gif" height="30" width="100%"></p>
+
+## 🧠 𝗔𝗕𝗢𝗨𝗧 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇
+
+`𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇-𝐌𝐃` is a multi-device WhatsApp AI bot powered by **ChatGPT**, stylishly built by **Ishaq Ibrahim (Toxicant)**.
+
+This bot is equipped with:
+- 🌍 ChatGPT-style replies
+- 🎧 Song & video downloads
+- 💬 Status interaction (viewing + liking)
+- 🎮 Games and Bible/Quran fetchers
+- 💥 Group tools + Admin commands
+- 📦 Full auto online, recording & typing loop
+
+---
+
+## 🚀 𝗙𝗘𝗔𝗧𝗨𝗥𝗘𝗦
+
+- ✅ WhatsApp Multi-Device support via Baileys
+- ✅ Stylish menu with image-based caption
+- ✅ Download tools: YouTube, Audio, Video
+- ✅ Commands: `.play2`, `.lyrics2`, `.vv`, `.bible`, `.quran`
+- ✅ Group management (antilink, tagall, welcome, admin)
+- ✅ Auto-status (Recording, Typing, Online loop)
+- ✅ Like + view status with emojis ✌️😹👻💖🌹🌍♨️🔥🎭📎🥰😊🙊👀💀🕵‍♂️😱🐀
+- ✅ Fast, emoji-rich AI replies using OpenAI
+
+---
+
+## 📸 𝗜𝗠𝗔𝗚𝗘 𝗠𝗘𝗡𝗨 𝗦𝗧𝗬𝗟𝗘
+
+> Bot replies with a big stylish image menu (5cm × 5cm)  
+> Uses this image:
+
+![Menu Preview](https://github.com/Toxicant1/black-super-bot/blob/main/blackmachant.jpg?raw=true)
+
+---
+
+## 🧩 𝗣𝗔𝗜𝗥𝗜𝗡𝗚 & 𝗗𝗘𝗣𝗟𝗢𝗬
+
+```bash
+1. Fork the repo
+2. Deploy to Render/Heroku or Railway
+3. Add your session, ENV vars, and deploy
+
+Pair code can be generated at:
+
+👉 Render Pair Code Page
+
+
+---
+
+🛠 𝗦𝗘𝗧𝗨𝗣
+
+Session: Add your BLACK MD;;;sessionID in set.js
+
+Recommended Hosting: Render, Bleach, or Railway
+
+Uses:
+
+@whiskeysockets/baileys
+
+@bochilteam/scraper
+
+OpenAI (ChatGPT) for AI replies
+
+
+
+
+---
+
+🙏 𝗖𝗥𝗘𝗗𝗜𝗧𝗦
+
+👑 Ishaq Ibrahim (Main Dev - Toxicant1)
+
+⚡ Base: Nick Hunter / BlackMerchant
+
+🤖 AI: OpenAI - ChatGPT
+
+🧠 UI Logic & Menu Style: Customized for BeltahBot
+
+
+
+---
+
+🛡 𝗟𝗜𝗖𝗘𝗡𝗦𝗘
+
+MIT License
+© 2025 BeltahBot by Toxicant1
+
+<!-- Footer --><p align="center"><img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%"></p>
+```
