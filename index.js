@@ -12,7 +12,6 @@ const pino = require("pino");
 const { Boom } = require("@hapi/boom"); // For handling Baileys disconnect reasons
 const fs = require("fs");
 const path = require('path'); // Node.js path module for handling file paths
-// Removed axios and FileType as they are not directly used in this main file
 const express = require("express");
 const chalk = require("chalk");
 const figlet = require("figlet"); // For displaying the bot's name
@@ -219,13 +218,17 @@ async function startRaven() {
 
 
 // --- EXPRESS WEB SERVER ROUTES ---
+// Middleware to parse JSON request bodies
+app.use(express.json()); // <--- ADDED THIS LINE
+
 // Serve static files from the 'pixel' directory (e.g., your index.html, CSS, images)
 app.use(express.static("pixel"));
 
 // Route for the main web page (index.html)
-app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
+app.get("/", (req, res) => res.sendFile(__dirname + "/pixel/index.html")); // <--- Ensure path is correct, assuming index.html is in 'pixel'
 
 // Endpoint to access creds.json (might be used for manual session management/QR display)
+// Consider if exposing creds.json directly is desired or secure.
 app.get("/pairing", (req, res) => {
   const pairingFilePath = path.join(__dirname, "/sessions/creds.json");
   if (fs.existsSync(pairingFilePath)) {
@@ -235,44 +238,46 @@ app.get("/pairing", (req, res) => {
   }
 });
 
-// --- MODIFICATION START: New endpoint for /generate (placeholder for now) ---
-// This endpoint is what your frontend's JavaScript (fetch('/generate')) calls.
-app.get('/generate', async (req, res) => {
-    console.log("Received request for /generate endpoint from frontend.");
+// --- MODIFICATION START: Updated endpoint for /generate to handle POST with phone number ---
+app.post('/generate', async (req, res) => { // Changed to POST
+    const { number } = req.body; // Extract number from JSON request body
+
+    console.log(`Received request for /generate endpoint for number: ${number}`);
+
+    // Basic validation for the number received from frontend
+    if (!number || typeof number !== 'string' || !number.startsWith('+') || number.length < 10) {
+        return res.status(400).json({ message: "Invalid phone number provided. Must start with '+' and include country code." });
+    }
+
     // Ensure the Baileys client is initialized and connected before trying to generate a code.
-    if (client && client.user) {
-        // --- IMPORTANT: Placeholder for actual Baileys Linking Code Logic ---
-        // To truly generate a WhatsApp linking code that triggers a message on the user's phone,
-        // you would typically need to:
-        // 1. Capture the user's phone number from the frontend (e.g., if you add an input field
-        //    to your HTML and send it as `fetch('/generate?number=...')` or via POST).
-        //    Example: const phoneNumber = req.query.number;
-        // 2. Use Baileys functions to request a linking code for that specific number. This is
-        //    part of the Baileys authentication flow and often involves listening to events.
-        //    A simple `client.getPairingCode()` doesn't exist. You might need to initiate a new
-        //    pairing process or use `client.requestPairingCode()` if available in your Baileys version.
-        // 3. The generated code (a string) would then be sent back in the JSON response.
-        // For now, this sends a basic placeholder response to confirm the endpoint is working.
-        const pairingCode = "PLACEHOLDER_CODE_12345"; // Replace with real code logic later
-        res.json({ code: pairingCode, message: "Code generation endpoint hit successfully!" });
-    } else {
-        // If the bot client isn't ready or connected, send a service unavailable status.
-        res.status(503).json({ code: "NOT_READY", message: "Bot client not ready or connected. Please wait for connection or check server logs." });
+    if (!client || !client.user) {
+        return res.status(503).json({ code: "NOT_READY", message: "Bot client not ready or connected. Please wait for connection or check server logs." });
+    }
+
+    try {
+        // --- ACTUAL Baileys Linking Code Logic ---
+        // This attempts to request a pairing code. Baileys will send a message
+        // to the provided number with the code.
+        const pairingCode = await client.requestPairingCode(number); // Use Baileys function
+
+        if (pairingCode) {
+            console.log(`Generated pairing code for ${number}: ${pairingCode}`);
+            res.json({ code: pairingCode, message: "Pairing code generated and sent to your WhatsApp!" });
+        } else {
+            // This case might happen if requestPairingCode returns null/undefined
+            console.error(`Failed to generate pairing code for ${number}: Baileys returned no code.`);
+            res.status(500).json({ message: "Failed to generate pairing code. Please try again." });
+        }
+    } catch (error) {
+        console.error(`Error generating pairing code for ${number}:`, error);
+        res.status(500).json({ message: `An error occurred while generating code: ${error.message}` });
     }
 });
 // --- MODIFICATION END ---
 
-// --- MODIFICATION START: New endpoint to serve set.js data to the frontend ---
-// This endpoint allows your frontend's JavaScript (fetch('/set.js')) to get settings.
-app.get('/set.js', (req, res) => {
-  console.log("Received request for /set.js endpoint from frontend.");
-  const settings = require('./set.js'); // Load set.js as a Node module
-  // Serve it back in a JavaScript format that your frontend expects (module.exports = { ... }).
-  // Sending it as plain JSON and adjusting your frontend's JSON.parse would be a cleaner approach,
-  // but this matches your existing frontend logic.
-  res.type('application/javascript').send(`module.exports = ${JSON.stringify(settings)};`);
-});
-// --- MODIFICATION END ---
+// --- REMOVED THIS ENDPOINT FOR SECURITY REASONS ---
+// app.get('/set.js', (req, res) => { /* ... security risk ... */ });
+// --- END REMOVAL ---
 
 // Start the Express server, listening on the specified port from set.js
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
