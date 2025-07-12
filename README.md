@@ -1,163 +1,124 @@
-!-- 🌟 Glowing Header -->
-<p align="center">
+
+<!-- ✨ Glowing Header --><p align="center">
   <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
-</p>
-
-<h1 align="center">💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝐌𝐃 𝐁𝐎𝐓 💥</h1>
-
-<!-- 🖋️ Typing SVG -->
-<div align="center">
-<a href="https://git.io/typing-svg">
-  <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=1BAFBAFF&center=true&width=910&height=100&lines=HI+THIS+IS+BLACKBELTAH-MD;A+MULTI+DEVICE+WHATSAPP+BOT;BUILT+BY+ISHAQ+IBRAHIM;MAIN+BRAIN:+CHATGPT+🧠;STAR+AND+FORK+THE+REPO" alt="Typing SVG" />
-</a>
-</div>
-
-<!-- 🌟 Glowing Footer -->
-<p align="center">
+</p><h1 align="center">💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 – 𝐌𝐃 𝐁𝐎𝐓 💥</h1><!-- Animated Typing Intro --><p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=1BAFBAFF&center=true&width=910&height=100&lines=HI+THIS+IS+BLACKBELTAH‑MD;A+MULTI‑DEVICE+WHATSAPP+BOT;SCRIPTED+BY+ISHAQ+IBRAHIM;STAR+AND+FORK+OUR+REPO" alt="Typing SVG" />
+</p><!-- Glowing Divider --><p align="center">
   <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
+</p><!-- Main Big Logo/Image --><p align="center">
+  <img src="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" width="400" height="400" style="border-radius:20px; border: 6px double #FF26D0;">
+</p><!-- Divider --><p align="center">
+  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
+</p><!-- Contact and Badges --><p align="center">
+  <a href="https://api.whatsapp.com/send?phone=254115172722&text=Hello+BlackBeltah"><img src="https://img.shields.io/badge/Contact+-+254115172722-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" /></a>
+  <a href="https://github.com/Toxicant1"><img src="https://img.shields.io/github/followers/Toxicant1?label=Follow&style=social" /></a>
+  <a href="https://github.com/Toxicant1/blackbeltah-md/stargazers/"><img src="https://img.shields.io/github/stars/Toxicant1/blackbeltah-md?style=social" /></a>
+  <a href="https://instagram.com/toxic._.a.n.t"><img src="https://img.shields.io/badge/Instagram-@toxic._.a.n.t-ff69b4?style=for-the-badge&logo=instagram" /></a>
 </p>
+---
 
-<!-- 🖼️ Enlarged Bot Image -->
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" width="350" height="350" style="border-radius:20px; border: 4px double #FF26D0;">
-</p>
+🌟 FEATURES
 
-<!-- 📲 Contact Badges -->
-<p align="center">
-  <a href="https://api.whatsapp.com/send?phone=254115172722&text=Hello+BlackBeltah">
-    <img src="https://img.shields.io/badge/Contact+-+254115172722-25D366?style=for-the-badge&logo=whatsapp&logoColor=white" />
-  </a>
-  <a href="https://github.com/Toxicant1">
-    <img src="https://img.shields.io/github/followers/Toxicant1?label=Follow&style=social" />
-  </a>
-  <a href="https://github.com/Toxicant1/blackbeltah-md/stargazers/">
-    <img src="https://img.shields.io/github/stars/Toxicant1/blackbeltah-md?style=social" />
-  </a>
-  <a href="https://instagram.com/toxic._.a.n.t">
-    <img src="https://img.shields.io/badge/Instagram-@toxic._.a.n.t-ff69b4?style=for-the-badge&logo=instagram" />
-  </a>
-</p>
+Stylish WhatsApp AI Bot powered by ChatGPT
+
+Auto Bio & Status (typing / recording rotation every 5 mins)
+
+.play2, .lyrics2, YouTube MP3 downloader
+
+.vv (ViewOnce retriever), .sticker converter
+
+Group tools: .tagall, .antilink, .welcome, .admin
+
+Verse fetchers: Bible & Quran
+
+AI Chat Modes: Romantic, Savage, Hinglish, Kiswahili, IGIMO +
+
+Auto view & like status reactions (Emoji rotator)
+
+Smart memory-based AI flow
+
+Owner / Dev only commands & toggles
+
+
 
 ---
 
-## ⭐ FEATURES
+🚀 DEPLOYMENT GUIDE
 
-> 🤖 Stylish WhatsApp AI Bot powered by ChatGPT
+1. Fork this repository
 
-- 🎨 Auto Bio + Status (Typing & Recording Rotation)
-- 🎧 `.play2`, `.lyrics2`, YouTube Search
-- 🧷 ViewOnce Remover (`.vv`), Sticker Maker (`.sticker`)
-- 🛠 Group tools: `.admin`, `.tagall`, `.antilink`, `.welcome`
-- 💬 AI Chat Modes: Romantic, Savage, Hinglish, Kiswahili, IGIMO, Gen Z
-- 📖 Bible & Quran Search
-- 👀 Auto View & Status Like (Emojis Rotate 🔥💖🌹👻😹)
-- 💾 Dev & Owner Features
-- 🧠 Memory Stack: Chiminae → CrewDrew → ChatGPT
+2. Deploy on Render / Railway / Replit
+Scan QR or paste session string when prompted
+
+3. Your bot is live!
+
 
 ---
 
-## 🔧 SETUP
+⚙️ Environment Variables
 
-### 1. 🍴 Fork this repo
+Set via Render/Panel or .env:
 
-<a href="https://github.com/Toxicant1/blackbeltah-md/fork">
-  <img src="https://img.shields.io/badge/Fork--Now-purple?style=for-the-badge&logo=github" />
-</a>
+SESSION=BLACK MD;;;your_session_string
 
-### 2. 🔗 Pair WhatsApp
-
-Visit: `https://your-onrender-link.com`  
-Scan QR or use Mega session string
-
-### 3. ✅ Go Live
-
-Deploy on Render, Railway, Bleach, or Replit
-
----
-
-## 🚀 DEPLOY OPTIONS
-
-| Platform | Status |
-|----------|--------|
-| 🌀 Render | ✅ Supported |
-| 🌐 Railway | ✅ Supported |
-| 💠 Bleach | ✅ Supported |
-| 🪄 Replit | ✅ NodeJS support ready |
-
----
-
-## 🧪 ENV VARIABLES
-
-```env
-SESSION=BLACK MD;;;your_mega_string_here
 OWNER=254115172722
+
 BOTNAME=𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇
+
 AUTOBIO=TRUE
+
 AUTOVIEW_STATUS=TRUE
+
 AUTOLIKE_STATUS=TRUE
+
 MODE=PRIVATE
+
 PREFIX=.
+
 PORT=10000
 
-> ✅ Set via .env or your deployment panel (Render, Railway etc.)
 
+
+---
+
+📌 Menu Design (ARIA)
+
+Command: .menu
+
+Font used in menu: 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 (layout: bold block sections, double borders, hearts/clovers styling)
+
+Uses custom header image at runtime (blackmachant.jpg)
 
 
 
 ---
 
-🎨 MENU DESIGN (ARIA UI)
+💬 Contact & Credits
 
-🔘 Command: .menu
+WhatsApp: +254 115 17 2722
 
-🖼 Image Menu: /Media/blackmachant.jpg
+Instagram: @toxic._.a.n.t
 
-🧾 Sections:
+Developer: Ishaq Ibrahim
 
-🛠 Bot Info
+Inspired by: Black Merchant MD & Knight‑MD
 
-🎧 Media & Lyrics
+AI Stack: Chiminae → CrewDrew → ChatGPT
 
-📖 Bible / Quran
-
-👥 Group Admin Tools
-
-💬 AI Chat Modes
-
-
-
-
----
-
-👑 CREDITS
-
-✨ Created by: Ishaq Ibrahim
-💬 IG: @toxic._.a.n.t
-📞 WhatsApp: +254115172722
-🧠 AI Stack: Chiminae → CrewDrew → ChatGPT (OpenAI)
-📦 Base: Black Merchant + KnightMD
 
 
 ---
 
 📜 LICENSE
 
-MIT License © 2025 Ishaq Ibrahim
-Please fork responsibly and give proper credits!
+MIT License
+© 2025 Ishaq Ibrahim – use responsibly and credit accordingly
+
 
 
 ---
 
-<!-- 🌟 Final Glowing Footer --><p align="center">
+<p align="center">
   <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
 </p>
-```
----
 
-Let me know if you want to add:
-
-A 📦 CONTRIBUTORS.md
-
-A 🛡️ SECURITY.md
-
-A LICENSE file or auto-generator badge section
