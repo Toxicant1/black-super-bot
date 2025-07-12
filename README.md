@@ -116,15 +116,34 @@
 
 ---
 
-## 🔐 ENVIRONMENT VARIABLES
+### 🔄 With this updated, polished content:
 
-```env
-SESSION=BLACK MD;;;your_mega_session_here
-OWNER=254115172722
-BOTNAME=𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇
-AUTOBIO=TRUE
-AUTOVIEW_STATUS=TRUE
-AUTOLIKE_STATUS=TRUE
-MODE=PRIVATE
-PREFIX=.
-PORT=10000
+```html
+---
+
+## 🛡️ SECURITY & SAFETY
+
+🔒 This bot is built with user privacy and command access control in mind.
+
+- Only the **owner number** can execute sensitive or developer commands.
+- Admin tools (kick, promote, tagall) only work inside groups.
+- Anti-link, anti-call, and auto-delete features are fully optional.
+- Source code is public — audit it, fork it, improve it!
+
+⚠️ Tip: Never share your session string publicly — keep it private like a password.
+
+---
+
+## 📜 LICENSE
+
+This project is released under the **MIT License**.
+
+> © 2025 — **𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇** by *Ishaq Ibrahim*  
+> Feel free to fork, remix, and deploy — but give credit if shared.
+
+---
+
+<!-- 💖 End Banner -->
+<p align="center">
+  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
+</p>
