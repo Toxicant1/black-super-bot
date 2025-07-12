@@ -9,7 +9,9 @@
 <!-- 📝 Typing Animation -->
 <div align="center">
   <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&pause=1000&color=FF26D0FF&center=true&width=950&height=80&lines=Hi,+this+is+BlackBeltah-MD;A+multi-device+WhatsApp+AI+bot;Built+by+Ishaq+Ibrahim;Main+Brain:+ChatGPT+%F0%9F%96%A5;Star+and+fork+our+repo+%F0%9F%8C%9F" alt="Typing SVG" />
+   <div align="center">
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=FF26D0FF&center=true&width=950&height=80&lines=HI+THIS+IS+BLACKBELTAH-MD;A+MULTI-DEVICE+WHATSAPP+BOT;BUILT+BY+ISHAQ+IBRAHIM;MAIN+BRAIN:+CHATGPT+🧠;STAR+AND+FORK+THE+REPO+✨" alt="Typing SVG" />
   </a>
 </div>
 
