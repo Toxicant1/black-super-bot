@@ -1,17 +1,52 @@
-// BeltahBot-MD: Unified Script with ARIA Menu
-case "menu":
-await client.sendMessage(m.chat, {
-  audio: fs.readFileSync('./Media/ponk.mp3'),
-  mimetype: "audio/mp4",
-  ptt: true
-}, { quoted: m });
+// blacks.js - CORRECTED VERSION
+const fs = require('fs');
+const axios = require('axios');
+const yts = require('yt-search');
+const fetch = require('node-fetch');
+const Client = require('genius-lyrics');
+const Genius = new Client.Client();
 
-let cap = `
+module.exports = async (client, m, chatUpdate, store) => {
+    try {
+        const { prefix, mode } = require("./set.js"); // Ensure set.js is in the same directory
+
+        let body = (typeof m.text === 'string' ? m.text : '');
+        const isCmd = body.startsWith(prefix);
+        const command = isCmd ? body.slice(prefix.length).trim().split(' ')[0].toLowerCase() : '';
+        const args = body.trim().split(/ +/).slice(1);
+        const text = args.join(" ");
+
+        const reply = (tek) => {
+            client.sendMessage(m.chat, { text: tek }, { quoted: m });
+        };
+
+        function runtime(seconds) {
+            seconds = Number(seconds);
+            var d = Math.floor(seconds / (3600 * 24));
+            var h = Math.floor(seconds % (3600 * 24) / 3600);
+            var m = Math.floor(seconds % 3600 / 60);
+            var s = Math.floor(seconds % 60);
+            var dDisplay = d > 0 ? d + (d == 1 ? " day, " : " days, ") : "";
+            var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
+            var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
+            var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
+            return dDisplay + hDisplay + mDisplay + sDisplay;
+        }
+
+        switch (command) {
+            case "menu":
+                await client.sendMessage(m.chat, {
+                    audio: fs.readFileSync('./Media/ponk.mp3'),
+                    mimetype: "audio/mp4",
+                    ptt: true
+                }, { quoted: m });
+
+                let cap = `
 ╔═════════════════════════════╗
 ♤ 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝐀𝐑𝐈𝐀 𝐌𝐄𝐍𝐔 ♤
 ◇ Stylish WhatsApp AI Chatbot ◇
 ♡ Powered by Ishaq Ibrahim ♡
-╚═════════════════════════════╝
+╚════════════════════════════╝
 
 ╔═══════♧ 𝗕𝗢𝗧 𝗜𝗡𝗙𝗢 ♧═══════╗
 👤 Name: ${m.pushName}
@@ -44,7 +79,7 @@ let cap = `
 ╔═══════♤ 𝗨𝗧𝗜𝗟𝗦 ♤══════════╗
 📖 bible - Bible Verse
 📘 quran - Quran Verse
-🔎 ytsearch - YouTube Search
+🔎 ytsearch - Youtube
 💬 say - Text to Speech
 ╚════════════════════════════╝
 
@@ -58,120 +93,74 @@ let cap = `
 💡 _Use commands with "." e.g., .play2 Alan Walker_
 `;
 
-client.sendMessage(m.chat, {
-  image: fs.readFileSync('./Media/blackmachant.jpg'),
-  caption: cap,
-}, { quoted: m });
-break;
+                client.sendMessage(m.chat, {
+                    image: fs.readFileSync('./Media/blackmachant.jpg'),
+                    caption: cap,
+                }, { quoted: m });
+                break;
 
-// ========== AI CHAT ==========
-case "chat":
-  if (!text) return reply("Type something to chat with AI.");
-  const axios = require("axios");
-  let res = await axios.get(`https://api.akuari.my.id/ai/gbard?chat=${encodeURIComponent(text)}`);
-  client.sendMessage(m.chat, { text: res.data.respon }, { quoted: m });
-break;
+            case "chat":
+                if (!text) return reply("Type something to chat with AI.");
+                let res = await axios.get(`https://api.akuari.my.id/ai/gbard?chat=${encodeURIComponent(text)}`);
+                client.sendMessage(m.chat, { text: res.data.respon }, { quoted: m });
+                break;
 
-// ========== PLAY MUSIC ==========
-case "play2": {
-  const yts = require("yt-search");
-  if (!text) return reply("Provide song name.");
-  let { videos } = await yts(text);
-  if (!videos.length) return reply("No video found.");
-  const url = videos[0].url;
-  const fetch = require("node-fetch");
-  const data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${url}`);
-  const { title, url: audioUrl } = data.result;
-  await client.sendMessage(m.chat, {
-    document: { url: audioUrl },
-    mimetype: "audio/mpeg",
-    fileName: `${title}.mp3`,
-    caption: `🎵 *${title}*\nPowered by BeltahBot`,
-  }, { quoted: m });
-}
-break;
+            case "play2": {
+                if (!text) return reply("Provide song name.");
+                let { videos } = await yts(text);
+                if (!videos.length) return reply("No video found.");
+                const url = videos[0].url;
+                const data = await fetchJson(`https://api.dreaded.site/api/ytdl/audio?url=${url}`);
+                const { title, url: audioUrl } = data.result;
+                await client.sendMessage(m.chat, {
+                    document: { url: audioUrl },
+                    mimetype: "audio/mpeg",
+                    fileName: `${title}.mp3`,
+                    caption: `🎵 *${title}*\nPowered by BeltahBot`,
+                }, { quoted: m });
+                break;
+            }
 
-// ========== LYRICS ==========
-case "lyrics2": {
-  if (!text) return reply("Type song title.");
-  const Client = require("genius-lyrics");
-  const Genius = new Client.Client();
-  const searches = await Genius.songs.search(text);
-  const lyrics = await searches[0].lyrics();
-  client.sendMessage(m.chat, { text: lyrics }, { quoted: m });
-}
-break;
+            case "lyrics2": {
+                if (!text) return reply("Type song title.");
+                const searches = await Genius.songs.search(text);
+                if (!searches.length) return reply("No lyrics found.");
+                const lyrics = await searches[0].lyrics();
+                client.sendMessage(m.chat, { text: lyrics }, { quoted: m });
+                break;
+            }
 
-// ========== VV ViewOnce ==========
-case "vv": case "retrieve": {
-  if (!m.quoted) return m.reply("Quote a viewonce message.");
-  const quoted = m.msg?.contextInfo?.quotedMessage;
-  if (quoted?.imageMessage) {
-    const img = await client.downloadAndSaveMediaMessage(quoted.imageMessage);
-    client.sendMessage(m.chat, { image: { url: img }, caption: "📸 ViewOnce Image" }, { quoted: m });
-  }
-  if (quoted?.videoMessage) {
-    const vid = await client.downloadAndSaveMediaMessage(quoted.videoMessage);
-    client.sendMessage(m.chat, { video: { url: vid }, caption: "🎥 ViewOnce Video" }, { quoted: m });
-  }
-}
-break;
+            case "vv":
+            case "retrieve": {
+                if (!m.quoted) return reply("Quote a viewonce message.");
+                const quoted = m.msg?.contextInfo?.quotedMessage;
+                if (quoted?.imageMessage) {
+                    const img = await client.downloadAndSaveMediaMessage(quoted.imageMessage);
+                    client.sendMessage(m.chat, { image: { url: img }, caption: "📸 ViewOnce Image" }, { quoted: m });
+                } else if (quoted?.videoMessage) {
+                    const vid = await client.downloadAndSaveMediaMessage(quoted.videoMessage);
+                    client.sendMessage(m.chat, { video: { url: vid }, caption: "🎥 ViewOnce Video" }, { quoted: m });
+                } else {
+                    reply("The quoted message is not a view-once image or video.");
+                }
+                break;
+            }
 
-// ========== BIBLE ==========
-case "bible":
-  reply("📖 John 3:16 — For God so loved the world...");
-break;
+            case "bible":
+                reply("📖 John 3:16 — For God so loved the world...");
+                break;
 
-// ========== QURAN ==========
-case "quran":
-  reply("📘 Surah Al-Fatiha — بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ...");
-break;
+            case "quran":
+                reply("📘 Surah Al-Fatiha — بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ...");
+                break;
+            
+            // Add other commands here
+            default:
+                // No action for unknown commands or non-command messages
+                break;
+        }
 
-// ========== AUTOBIO ==========
-if (autobio === 'TRUE') {
-  setInterval(() => {
-    const date = new Date();
-    const statuses = [
-      "𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 says hi 👋",
-      "Chat with AI 🤖",
-      "Music is life 🎵",
-      "Learning never stops 📚",
-      "Shujaa never sleeps 😎"
-    ];
-    const rand = statuses[Math.floor(Math.random() * statuses.length)];
-    client.updateProfileStatus(`${rand} | ${date.toLocaleTimeString('en-KE')}`);
-  }, 60000 * 5); // Every 5 minutes
-}
-
-// ========== AUTO STATUS ROTATION ==========
-if (autoviewstatus === 'TRUE') {
-  client.ev.on("messages.upsert", async (chatUpdate) => {
-    const mek = chatUpdate.messages[0];
-    if (mek.key?.remoteJid === "status@broadcast") {
-      client.readMessages([mek.key]);
+    } catch (err) {
+        console.error("Error in blacks.js message handler:", err);
     }
-  });
-}
-
-// ========== AUTO STATUS LIKE ==========
-if (autolike === 'TRUE') {
-  const emojis = ["✌️", "😹", "👻", "💖", "🌹", "🌍", "♨️", "🔥", "🎭", "📎", "🥰", "😊", "🙊", "👀", "💀", "🕵‍♂️", "😱", "🐀"];
-  client.ev.on("messages.upsert", async (chatUpdate) => {
-    const mek = chatUpdate.messages[0];
-    if (mek.key?.remoteJid === "status@broadcast") {
-      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
-      await client.sendMessage(mek.key.remoteJid, {
-        react: { key: mek.key, text: emoji }
-      });
-    }
-  });
-}
-
-// ========== TYPING & RECORDING PRESENCE ==========
-let statusIndex = 0;
-const statusTypes = ['typing', 'recording'];
-setInterval(() => {
-  const statusType = statusTypes[statusIndex % statusTypes.length];
-  client.sendPresenceUpdate(statusType, client.user.id);
-  statusIndex++;
-}, 5 * 60 * 1000); // 5 mins
+};
