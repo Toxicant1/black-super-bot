@@ -1,296 +1,399 @@
-/* If it works, don't Fix it */
+/* If it works, don't  Fix it */
 const {
   default: ravenConnect,
   useMultiFileAuthState,
   DisconnectReason,
   fetchLatestBaileysVersion,
+  downloadContentFromMessage,
   jidDecode,
-  // Removed unused imports like downloadContentFromMessage, proto, getContentType to clean up
+  proto,
+  getContentType,
 } = require("@whiskeysockets/baileys");
 
 const pino = require("pino");
-const { Boom } = require("@hapi/boom"); // For handling Baileys disconnect reasons
+const { Boom } = require("@hapi/boom");
 const fs = require("fs");
-const path = require('path'); // Node.js path module for handling file paths
+const path = require('path');
+const axios = require("axios");
 const express = require("express");
 const chalk = require("chalk");
-const figlet = require("figlet"); // For displaying the bot's name
-const { File } = require('megajs'); // For downloading session from Mega.nz
+const FileType = require("file-type");
+const figlet = require("figlet");
+const { File } = require('megajs');
 const app = express();
-const logger = pino({ level: 'silent' }); // Pino logger for Baileys
-
-// Correctly aliasing 'await' from ravenfunc if it conflicts with a variable name.
-// Assuming 'await' from ravenfunc is meant to be a helper function, not the JS keyword.
-const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await: _await, sleep } = require('./lib/ravenfunc');
-// Import configuration settings from set.js
+const _ = require("lodash");
+let lastTextTime = 0;
+const messageDelay = 5000;
+const Events = require('./action/events');
+const logger = pino({ level: 'silent' });
+//const authentication = require('./action/auth');
+const PhoneNumber = require("awesome-phonenumber");
+const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/ravenexif');
+const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('./lib/ravenfunc');
 const { sessionName, session, mode, prefix, autobio, autolike, port, mycode, anticall, antiforeign, packname, autoviewstatus } = require("./set.js");
-// In-memory store for WhatsApp data (messages, contacts)
-const makeInMemoryStore = require('./store/store.js');
+const makeInMemoryStore = require('./store/store.js'); 
 const store = makeInMemoryStore({ logger: logger.child({ stream: 'store' }) });
-// Utility for colored console output
-const color = (text, color) => (!color ? chalk.green(text) : chalk.keyword(color)(text));
+//const store = makeInMemoryStore({ logger: pino().child({ level: "silent", stream: "store" }) });
+const color = (text, color) => {
+  return !color ? chalk.green(text) : chalk.keyword(color)(text);
+};
 
-// --- MODIFICATION START: Global 'client' variable ---
-// Declare 'client' here so it can be accessed by both startRaven() and Express routes.
-let client;
-// --- MODIFICATION END ---
-
-// --- MODIFICATION START: Authentication function with robust error handling and directory creation ---
-// This function attempts to download the session file if it doesn't exist, and ensures the directory exists.
 async function authentication() {
-  const sessionsDir = path.join(__dirname, 'sessions'); // Define the sessions directory path
-  const credsPath = path.join(sessionsDir, 'creds.json'); // Define the full creds.json path
-
-  // Check if the credentials file already exists
-  if (!fs.existsSync(credsPath)) {
-    // If session variable is not set or is empty/malformed, log an error and fail authentication
-    if (!session || typeof session !== 'string' || session.trim() === '') {
-      console.error('ERROR: "session" variable in set.js or SESSION env is empty or malformed. Cannot download session file.');
-      // If the bot cannot function without a pre-existing session, you might want to uncomment to exit:
-      // process.exit(1);
-      return false; // Indicate authentication failure
-    }
-
-    const sessdata = session.replace("BLACK MD;;;", ''); // Extract the Mega.nz file ID
-    try {
-      const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`);
-
-      // Use a Promise to correctly await the download and handle potential errors during download.
-      const data = await new Promise((resolve, reject) => {
-        filer.download((err, data) => {
-          if (err) return reject(err); // If download fails, reject the promise
-          resolve(data);
-        });
-      });
-
-      // --- CRITICAL FIX: Ensure 'sessions' directory exists before writing the file ---
-      if (!fs.existsSync(sessionsDir)) {
-          console.log(`Creating missing sessions directory: ${sessionsDir}`);
-          fs.mkdirSync(sessionsDir, { recursive: true }); // Create directory and any necessary parent directories
-      }
-      // --- END CRITICAL FIX ---
-
-      fs.writeFileSync(credsPath, data); // Write the downloaded session data synchronously
-      console.log("Session downloaded successfully✅️");
-      console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️");
-      return true; // Indicate successful authentication
-    } catch (megaError) {
-      // Catch any errors that occur during the Mega.nz download process
-      console.error("CRITICAL ERROR: Failed to download session from Mega.nz:", megaError.message);
-      console.error("Please ensure the 'session' variable in set.js holds a valid and accessible Mega.nz file ID.");
-      // If session download is truly essential for bot operation, consider uncommenting to exit:
-      // process.exit(1);
-      return false; // Indicate authentication failure
-    }
-  }
-  return true; // creds.json already exists, so authentication is considered successful
+  if (!fs.existsSync(__dirname + '/sessions/creds.json')) {
+    if(!session) return console.log('Please add your session to SESSION env !!')
+const sessdata = session.replace("BLACK MD;;;", '');
+const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`)
+filer.download((err, data) => {
+if(err) throw err
+fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
+console.log("Session downloaded successfully✅️")
+console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️")
+})})}
 }
-// --- MODIFICATION END ---
 
-// Main function to start the Baileys bot connection
 async function startRaven() {
-  // Ensure authentication is successful (session file exists or downloaded) before proceeding.
-  const authSuccess = await authentication();
-  if (!authSuccess) {
-      console.error("Authentication failed. Cannot establish bot connection to WhatsApp.");
-      // If the bot cannot run without successful authentication, you might uncomment to exit:
-      // process.exit(1);
-      return; // Stop startRaven execution if authentication fails
-  }
-
-  // Use MultiFileAuthState to manage session credentials (stored in the 'sessions' directory)
+       await authentication();  
   const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/');
-  // Fetch the latest compatible Baileys WhatsApp version
   const { version, isLatest } = await fetchLatestBaileysVersion();
-  console.log(`Using WA v${version.join(".")}, isLatest: ${isLatest}`);
-  // Display a fancy bot name in the console
-  console.log(color(figlet.textSync("BELTAH BOT", { font: "Standard" }), "green"));
+  console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
+  console.log(
+    color(
+      figlet.textSync("BLACK-MD", {
+        font: "Standard",
+        horizontalLayout: "default",
+        vertivalLayout: "default",
+        whitespaceBreak: false,
+      }),
+      "green"
+    )
+  );
 
-  // Initialize Baileys client connection
-  client = ravenConnect({ // Assign to the global 'client' variable
-    logger: pino({ level: "silent" }), // Use pino for silent logging (less console clutter)
-    printQRInTerminal: false, // Prevents QR code from printing in console; we'll use the web interface
-    browser: ["BELTAH AI", "Safari", "5.1.7"], // Custom browser identity for WhatsApp
-    auth: state, // Authentication state loaded from creds.json
-    syncFullHistory: true, // Sync full chat history (can be resource-intensive for large chats)
+  const client = ravenConnect({
+    logger: pino({ level: "silent" }),
+    printQRInTerminal: false,
+    browser: ["BLACK BELTAH - AI", "Safari", "5.1.7"],
+    auth: state,
+    syncFullHistory: true,
   });
 
-  store.bind(client.ev); // Bind the in-memory store to client events for message/contact management
+store.bind(client.ev);
 
-  // Event listener for connection updates (e.g., 'open', 'close', 'connecting')
-  client.ev.on('connection.update', async (update) => {
-    const { connection, lastDisconnect } = update;
-
-    if (connection === 'close') {
-      // Determine the reason for disconnect using Boom
-      let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
-      // Handle different disconnect reasons for robust restarts
-      if (reason === DisconnectReason.badSession || reason === DisconnectReason.restartRequired || reason === DisconnectReason.timedOut) {
-        console.log(`Connection closed due to ${reason}. Trying to restart...`);
-        startRaven(); // Attempt to restart the bot connection
-      } else if (reason === DisconnectReason.loggedOut) {
-        // If logged out, delete the session file and restart to get a new session
-        console.log("Logged out. Deleting session file and restarting to obtain a new session.");
-        if (fs.existsSync(__dirname + '/sessions/creds.json')) {
-          fs.unlinkSync(__dirname + '/sessions/creds.json'); // Delete old session file
-        }
-        startRaven(); // Restart the bot to trigger a new pairing process
-      } else {
-        console.log(`Connection closed unexpectedly due to ${reason}. Trying to restart.`);
-        startRaven(); // Attempt to restart for other reasons
-      }
-    } else if (connection === 'open') {
-      console.log(color("Congrats, BELTAH BOT is now connected to this server ✅", "green"));
-
-      const welcomeMessage = `✅ Connected to 【𝐁𝐋𝐀𝐂𝐊 𝐁𝐄𝐋𝐓𝐀𝐇 𝐁𝐎𝐓】\n👥 Mode »» ${mode}\n👤 Prefix »» ${prefix}`;
-
-      // Send a welcome message to the bot's own WhatsApp ID if available
-      if (client.user?.id) {
-        await client.sendMessage(client.user.id, { text: welcomeMessage });
-      } else {
-        console.log("⚠️ No client.user.id found. Skipping startup welcome message.");
-      }
+client.ev.on('connection.update', (update) => {
+    const { connection, lastDisconnect } = update
+  if (connection === 'close') {
+  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+startRaven()
+  }
+  } else if (connection === 'open') {
+      console.log(color("Congrats, BLACK MD has successfully connected to this server", "green"));
+      console.log(color("Follow me on github as Toxicant1", "red"));
+      console.log(color("Text the bot number with menu to check my command list"));
+      client.groupAcceptInvite('Fz3MiSzP8E3C1Q4Yf5thlw');
+      const Texxt = `✅ 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 » »【BLACK BELTAH 】\n`+`👥 𝗠𝗼𝗱𝗲 »» ${mode}\n`+`👤 𝗣𝗿𝗲𝗳𝗶𝘅 »» ${prefix}`
+      client.sendMessage(client.user.id, { text: Texxt });
     }
   });
 
-  // Event listener to save credentials when they are updated (e.g., new keys generated)
-  client.ev.on("creds.update", saveCreds);
+    client.ev.on("creds.update", saveCreds);
 
-  // Autobio feature: automatically updates bot's profile status/bio
   if (autobio === 'TRUE') {
     setInterval(() => {
       const date = new Date();
-      // Set bio to current date/time and weekday in Africa/Nairobi timezone
-      client.updateProfileStatus(`${date.toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })} It's a ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi'})}.`);
-    }, 10000); // Updates every 10 seconds
+      client.updateProfileStatus(
+        `${date.toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })} It's a ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi'})}.`
+      );
+    }, 10 * 1000);
   }
 
-  // Message Upsert Event: This is the main handler for incoming messages/updates
+
   client.ev.on("messages.upsert", async (chatUpdate) => {
     try {
-      let mek = chatUpdate.messages[0]; // Get the first message in the update
-      if (!mek.message) return; // Ignore messages without actual content
-      // Handle ephemeral messages (messages with disappearing settings)
+      let mek = chatUpdate.messages[0];
+      if (!mek.message) return;
       mek.message = Object.keys(mek.message)[0] === "ephemeralMessage" ? mek.message.ephemeralMessage.message : mek.message;
 
-      // Autoview status feature: automatically views WhatsApp statuses
-      if (autoviewstatus === 'TRUE' && mek.key?.remoteJid === "status@broadcast") {
-        client.readMessages([mek.key]); // Mark status as read
+      if (autoviewstatus === 'TRUE' && mek.key && mek.key.remoteJid === "status@broadcast") {
+        client.readMessages([mek.key]);
       }
 
-      // Autolike status feature: automatically reacts to WhatsApp statuses
-      if (autolike === 'TRUE' && mek.key?.remoteJid === "status@broadcast") {
-        const nickk = await client.decodeJid(client.user.id);
-        if (!mek.status) { // Only react if it's not a status update about a reaction itself
-          await client.sendMessage(mek.key.remoteJid, {
-            react: { key: mek.key, text: '👻' } // React with a ghost emoji
-          }, { statusJidList: [mek.key.participant, nickk] });
-        }
-      }
+      if (autolike === 'TRUE' && mek.key && mek.key.remoteJid === "status@broadcast") {
+    const nickk = await client.decodeJid(client.user.id);
+    console.log('Decoded JID:', nickk);
+    if (!mek.status) {
+        console.log('Sending reaction to:', mek.key.remoteJid);
+        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '👻','💀','👀','🙌','😹' } }, { statusJidList: [mek.key.participant, nickk] });
+        console.log('Reaction sent');
+    }
+}
 
-      // Public/Private mode check: if bot is not public and message is not from self, ignore
-      // (This logic needs to be fully defined by your 'client.public' variable and 'mode' from set.js)
-      if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
-      // Serialize message for easier handling by bot logic
+if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       let m = smsg(client, mek, store);
-      // Require and run the main bot logic from 'blacks.js'
-      const raven = require("./blacks"); // Ensure blacks.js exists and exports a function
+      const raven = require("./blacks");
       raven(client, m, chatUpdate, store);
     } catch (err) {
-      console.error("Error in messages.upsert event:", err); // Log any errors during message processing
+      console.log(err);
     }
   });
 
-  // Utility function to decode JID (Jabber ID)
+  // Handle error
+  const unhandledRejections = new Map();
+  process.on("unhandledRejection", (reason, promise) => {
+    unhandledRejections.set(promise, reason);
+    console.log("Unhandled Rejection at:", promise, "reason:", reason);
+  });
+  process.on("rejectionHandled", (promise) => {
+    unhandledRejections.delete(promise);
+  });
+  process.on("Something went wrong", function (err) {
+    console.log("Caught exception: ", err);
+  });
+
+  // Setting
   client.decodeJid = (jid) => {
     if (!jid) return jid;
-    if (/:\d+@/gi.test(jid)) { // Checks if JID has a device suffix (e.g., 1234567890:1@s.whatsapp.net)
+    if (/:\d+@/gi.test(jid)) {
       let decode = jidDecode(jid) || {};
       return (decode.user && decode.server && decode.user + "@" + decode.server) || jid;
     } else return jid;
   };
 
-  client.public = true; // Set bot to public mode by default (can be controlled by 'mode' in set.js)
-  client.serializeM = (m) => smsg(client, m, store); // Method to serialize messages for consistent handling
+  client.ev.on("contacts.update", (update) => {
+    for (let contact of update) {
+      let id = client.decodeJid(contact.id);
+      if (store && store.contacts) store.contacts[id] = { id, name: contact.notify };
+    }
+  });
 
-  // Other client methods or event listeners can be added here if needed
+  client.ev.on("group-participants.update", async (update) => {
+        if (antiforeign === 'TRUE' && update.action === "add") {
+            for (let participant of update.participants) {
+                const jid = client.decodeJid(participant);
+                const phoneNumber = jid.split("@")[0];
+                    // Extract phone number
+                if (!phoneNumber.startsWith(mycode)) {
+                        await client.sendMessage(update.id, {
+                    text: "Your Country code is not allowed to join this group !",
+                    mentions: [jid]
+                });
+                    await client.groupParticipantsUpdate(update.id, [jid], "remove");
+                    console.log(`Removed ${jid} from group ${update.id} because they are not from ${mycode}`);
+                }
+            }
+        }
+        Events(client, update); // Call existing event handler
+    });
+
+ client.ev.on('call', async (callData) => {
+    if (anticall === 'TRUE') {
+      const callId = callData[0].id;
+      const callerId = callData[0].from;
+
+      await client.rejectCall(callId, callerId);
+            const currentTime = Date.now();
+      if (currentTime - lastTextTime >= messageDelay) {
+        await client.sendMessage(callerId, {
+          text: "Anticall is active, Only texts are allowed"
+        });
+        lastTextTime = currentTime;
+      } else {
+        console.log('Message skipped to prevent overflow');
+      }
+    }
+    });
+
+
+  client.getName = (jid, withoutContact = false) => {
+    let id = client.decodeJid(jid);
+    withoutContact = client.withoutContact || withoutContact;
+    let v;
+    if (id.endsWith("@g.us"))
+      return new Promise(async (resolve) => {
+        v = store.contacts[id] || {};
+        if (!(v.name || v.subject)) v = client.groupMetadata(id) || {};
+        resolve(v.name || v.subject || PhoneNumber("+" + id.replace("@s.whatsapp.net", "")).getNumber("international"));
+      });
+    else
+      v =
+        id === "0@s.whatsapp.net"
+          ? {
+              id,
+              name: "WhatsApp",
+            }
+          : id === client.decodeJid(client.user.id)
+          ? client.user
+          : store.contacts[id] || {};
+    return (withoutContact ? "" : v.name) || v.subject || v.verifiedName || PhoneNumber("+" + jid.replace("@s.whatsapp.net", "")).getNumber("international");
+  };
+
+  client.setStatus = (status) => {
+    client.query({
+      tag: "iq",
+      attrs: {
+        to: "@s.whatsapp.net",
+        type: "set",
+        xmlns: "status",
+      },
+      content: [
+        {
+          tag: "status",
+          attrs: {},
+          content: Buffer.from(status, "utf-8"),
+        },
+      ],
+    });
+    return status;
+  };
+
+  client.public = true;
+  client.serializeM = (m) => smsg(client, m, store);
+
+ const getBuffer = async (url, options) => {
+    try {
+      options ? options : {};
+      const res = await axios({
+        method: "get",
+        url,
+        headers: {
+          DNT: 1,
+          "Upgrade-Insecure-Request": 1,
+        },
+        ...options,
+        responseType: "arraybuffer",
+      });
+      return res.data;
+    } catch (err) {
+      return err;
+    }
+  };
+
+  client.sendImage = async (jid, path, caption = "", quoted = "", options) => {
+    let buffer = Buffer.isBuffer(path)
+      ? path
+      : /^data:.*?\/.*?;base64,/i.test(path)
+      ? Buffer.from(path.split`,`[1], "base64")
+      : /^https?:\/\//.test(path)
+      ? await getBuffer(path)
+      : fs.existsSync(path)
+      ? fs.readFileSync(path)
+      : Buffer.alloc(0);
+    return await client.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted });
+  };
+
+  client.sendFile = async (jid, PATH, fileName, quoted = {}, options = {}) => {
+    let types = await client.getFile(PATH, true);
+    let { filename, size, ext, mime, data } = types;
+    let type = '', mimetype = mime, pathFile = filename;
+    if (options.asDocument) type = 'document';
+    if (options.asSticker || /webp/.test(mime)) {
+      let { writeExif } = require('./lib/ravenexif.js');
+      let media = { mimetype: mime, data };
+      pathFile = await writeExif(media, { packname: packname, author: packname, categories: options.categories ? options.categories : [] });
+      await fs.promises.unlink(filename);
+      type = 'sticker';
+      mimetype = 'image/webp';
+    } else if (/image/.test(mime)) type = 'image';
+    else if (/video/.test(mime)) type = 'video';
+    else if (/audio/.test(mime)) type = 'audio';
+    else type = 'document';
+    await client.sendMessage(jid, { [type]: { url: pathFile }, mimetype, fileName, ...options }, { quoted, ...options });
+    return fs.promises.unlink(pathFile);
+  };
+
+  client.parseMention = async (text) => {
+    return [...text.matchAll(/@([0-9]{5,16}|0)/g)].map(v => v[1] + '@s.whatsapp.net');
+  };
+
+  client.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+    let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await getBuffer(path) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0);
+    let buffer;
+    if (options && (options.packname || options.author)) {
+      buffer = await writeExifImg(buff, options);
+    } else {
+      buffer = await imageToWebp(buff);
+    }
+    await client.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted });
+    return buffer;
+  };
+
+  client.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
+    let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await getBuffer(path) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0);
+    let buffer;
+    if (options && (options.packname || options.author)) {
+      buffer = await writeExifVid(buff, options);
+    } else {
+      buffer = await videoToWebp(buff);
+    }
+    await client.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted });
+    return buffer;
+  };
+
+  client.downloadMediaMessage = async (message) => {
+    let mime = (message.msg || message).mimetype || '';
+    let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0];
+    const stream = await downloadContentFromMessage(message, messageType);
+    let buffer = Buffer.from([]);
+    for await (const chunk of stream) {
+      buffer = Buffer.concat([buffer, chunk]);
+    }
+    return buffer;
+  };
+
+  client.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
+    let quoted = message.msg ? message.msg : message;
+    let mime = (message.msg || message).mimetype || '';
+    let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0];
+    const stream = await downloadContentFromMessage(quoted, messageType);
+    let buffer = Buffer.from([]);
+    for await (const chunk of stream) {
+      buffer = Buffer.concat([buffer, chunk]);
+    }
+    let type = await FileType.fromBuffer(buffer);
+    trueFileName = attachExtension ? (filename + '.' + type.ext) : filename;
+    await fs.writeFileSync(trueFileName, buffer);
+    return trueFileName;
+  };
+
+  client.sendText = (jid, text, quoted = "", options) => client.sendMessage(jid, { text: text, ...options }, { quoted });
+
+  client.cMod = (jid, copy, text = "", sender = client.user.id, options = {}) => {
+    let mtype = Object.keys(copy.message)[0];
+    let isEphemeral = mtype === "ephemeralMessage";
+    if (isEphemeral) {
+      mtype = Object.keys(copy.message.ephemeralMessage.message)[0];
+    }
+    let msg = isEphemeral ? copy.message.ephemeralMessage.message : copy.message;
+    let content = msg[mtype];
+    if (typeof content === "string") msg[mtype] = text || content;
+    else if (content.caption) content.caption = text || content.caption;
+    else if (content.text) content.text = text || content.text;
+    if (typeof content !== "string")
+      msg[mtype] = {
+        ...content,
+        ...options,
+      };
+    if (copy.key.participant) sender = copy.key.participant = sender || copy.key.participant;
+    else if (copy.key.participant) sender = copy.key.participant = sender || copy.key.participant;
+    if (copy.key.remoteJid.includes("@s.whatsapp.net")) sender = sender || copy.key.remoteJid;
+    else if (copy.key.remoteJid.includes("@broadcast")) sender = sender || copy.key.remoteJid;
+    copy.key.remoteJid = jid;
+    copy.key.fromMe = sender === client.user.id;
+
+    return proto.WebMessageInfo.fromObject(copy);
+  };
+
+  return client;
 }
 
-
-// --- EXPRESS WEB SERVER ROUTES ---
-// Middleware to parse JSON request bodies
-app.use(express.json()); // <--- ADDED THIS LINE
-
-// Serve static files from the 'pixel' directory (e.g., your index.html, CSS, images)
 app.use(express.static("pixel"));
+app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
+app.listen(port, () => console.log(`Server listening on port http://localhost:${port}`));
 
-// Route for the main web page (index.html)
-app.get("/", (req, res) => res.sendFile(__dirname + "/pixel/index.html")); // <--- Ensure path is correct, assuming index.html is in 'pixel'
-
-// Endpoint to access creds.json (might be used for manual session management/QR display)
-// Consider if exposing creds.json directly is desired or secure.
-app.get("/pairing", (req, res) => {
-  const pairingFilePath = path.join(__dirname, "/sessions/creds.json");
-  if (fs.existsSync(pairingFilePath)) {
-    res.sendFile(pairingFilePath); // If session file exists, send it
-  } else {
-    res.status(404).json({ message: "Pairing code not yet generated." }); // If not, return 404
-  }
-});
-
-// --- MODIFICATION START: Updated endpoint for /generate to handle POST with phone number ---
-app.post('/generate', async (req, res) => { // Changed to POST
-    const { number } = req.body; // Extract number from JSON request body
-
-    console.log(`Received request for /generate endpoint for number: ${number}`);
-
-    // Basic validation for the number received from frontend
-    if (!number || typeof number !== 'string' || !number.startsWith('+') || number.length < 10) {
-        return res.status(400).json({ message: "Invalid phone number provided. Must start with '+' and include country code." });
-    }
-
-    // Ensure the Baileys client is initialized and connected before trying to generate a code.
-    if (!client || !client.user) {
-        return res.status(503).json({ code: "NOT_READY", message: "Bot client not ready or connected. Please wait for connection or check server logs." });
-    }
-
-    try {
-        // --- ACTUAL Baileys Linking Code Logic ---
-        // This attempts to request a pairing code. Baileys will send a message
-        // to the provided number with the code.
-        const pairingCode = await client.requestPairingCode(number); // Use Baileys function
-
-        if (pairingCode) {
-            console.log(`Generated pairing code for ${number}: ${pairingCode}`);
-            res.json({ code: pairingCode, message: "Pairing code generated and sent to your WhatsApp!" });
-        } else {
-            // This case might happen if requestPairingCode returns null/undefined
-            console.error(`Failed to generate pairing code for ${number}: Baileys returned no code.`);
-            res.status(500).json({ message: "Failed to generate pairing code. Please try again." });
-        }
-    } catch (error) {
-        console.error(`Error generating pairing code for ${number}:`, error);
-        res.status(500).json({ message: `An error occurred while generating code: ${error.message}` });
-    }
-});
-// --- MODIFICATION END ---
-
-// --- REMOVED THIS ENDPOINT FOR SECURITY REASONS ---
-// app.get('/set.js', (req, res) => { /* ... security risk ... */ });
-// --- END REMOVAL ---
-
-// Start the Express server, listening on the specified port from set.js
-app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
-
-// Initiate the Baileys bot connection process
 startRaven();
 
-// File watcher to automatically restart the server if index.js is modified locally.
-// This is more common in development environments.
 let file = require.resolve(__filename);
 fs.watchFile(file, () => {
-  fs.unwatchFile(file); // Unwatch the old file
+  fs.unwatchFile(file);
   console.log(chalk.redBright(`Update ${__filename}`));
-  delete require.cache[file]; // Clear module cache to load the new version
-  require(file); // Reload the file
+  delete require.cache[file];
+  require(file);
 });
