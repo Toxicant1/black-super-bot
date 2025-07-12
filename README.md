@@ -6,15 +6,15 @@
 
 <h1 align="center">💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝐌𝐃 𝐁𝐎𝐓 💥</h1>
 
-<!-- 📝 Typing Animation -->
+<!-- Glowing Footer -->
+<p align="center">
+  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
+</p>
 <div align="center">
-  <a href="https://git.io/typing-svg">
-   <div align="center">
-  <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=FF26D0FF&center=true&width=950&height=80&lines=HI+THIS+IS+BLACKBELTAH-MD;A+MULTI-DEVICE+WHATSAPP+BOT;BUILT+BY+ISHAQ+IBRAHIM;MAIN+BRAIN:+CHATGPT+🧠;STAR+AND+FORK+THE+REPO+✨" alt="Typing SVG" />
-  </a>
-</div>
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Black+Ops+One&size=50&pause=1000&color=1BAFBAFF&center=true&width=910&height=100&line==HI+THIS+IS+BLACK BELTAH-MD;A+MULTI+DEVICE+WHATSAPP+BOT;SCRIPTED+BY+ISHAQ+IBRAHIM;STAR+AND+FORK+OUR+REPO" alt="Typing SVG" /></a>
+  </p>
 
+<!-- Glowing Footer -->
 <!-- 🖼️ Image Section -->
 <p align="center">
   <img src="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" width="300" height="300" style="border-radius:20px; border: 4px double #FF26D0;">
