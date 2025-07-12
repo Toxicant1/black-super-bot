@@ -12,7 +12,7 @@
 
 <!-- ✨ Divider -->
 <p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="300" width="300%">
+  <img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%">
 </p>
 
 <!-- Stylish Typing Line -->
@@ -28,7 +28,7 @@
 <!-- 👤 Author Image -->
 <p align="center">
   <a href="https://github.com/Toxicant1">
-    <img src="https://github.com/Toxicant1.png" width="120" style="border-radius: 50%; border: 3px double #ff00bd;" />
+    <img src="https://github.com/Toxicant1.png" width="1200" style="border-radius: 100%; border: 3px double #ff00bd;" />
   </a>
 </p>
 
