@@ -12,7 +12,7 @@
 
 <!-- ✨ Divider -->
 <p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="100" width="3000%">
+  <img src="https://i.imgur.com/dBaSKWF.gif" height="300" width="3000%">
 </p>
 
 <!-- Stylish Typing Line -->
