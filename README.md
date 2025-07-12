@@ -12,12 +12,12 @@
 
 <!-- ✨ Divider -->
 <p align="center">
-  <img src="https://i.imgur.com/dBaSKWF.gif" height="300" width="3000%">
+  <img src="https://i.imgur.com/dBaSKWF.gif" height="300" width="300%">
 </p>
 
 <!-- Stylish Typing Line -->
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Rockstar-ExtraBold&size=30&pause=1000&color=ff00bd&center=true&vCenter=true&width=815&height=60&lines=▭+▬+▭+▬+▭+▬+▭+▬+▭+▬+▭" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Rockstar-ExtraBold&size=3000&pause=1000&color=ff00bd&center=true&vCenter=true&width=815&height=60&lines=▭+▬+▭+▬+▭+▬+▭+▬+▭+▬+▭" />
 </p>
 
 <!-- Glowing Divider -->
