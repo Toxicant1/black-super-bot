@@ -1,145 +1,72 @@
-<!-- index.html for BLACKBELTAH -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - PairCode Generator</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇‑MD Pair Code Generator</title>
   <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(to bottom right, #050505, #10101a);
-      color: white;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .header-glow {
-      background: url("https://i.imgur.com/dBaSKWF.gif") no-repeat center;
-      background-size: cover;
-      height: 40px;
-    }
-
-    h1 {
-      font-family: "Black Ops One", cursive;
-      font-size: 40px;
-      color: #ff26d0;
-      text-shadow: 0 0 8px #ff26d0;
-    }
-
-    .card {
-      background: #111;
-      border: 2px double #ff26d0;
-      padding: 20px;
-      border-radius: 20px;
-      width: 95%;
-      max-width: 500px;
-      margin: 20px auto;
-    }
-
-    input {
-      padding: 10px;
-      font-size: 18px;
-      width: 80%;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      margin-bottom: 10px;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 18px;
-      margin: 5px;
-      background-color: #ff26d0;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .result {
-      background: #000;
-      color: #0f0;
-      font-family: monospace;
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 10px;
-    }
-
-    .footer-img {
-      margin-top: 30px;
-      width: 300px;
-      height: auto;
-      border-radius: 20px;
-      border: 2px solid #ff26d0;
-    }
-
-    .music-btn {
-      font-size: 18px;
-      margin-top: 20px;
-    }
-
+    body { font-family:"Segoe UI",sans-serif; background:linear-gradient(to bottom right,#050505,#10101a); color:#fff; margin:0;padding:20px;text-align:center; }
+    .header-glow { background:url("https://i.imgur.com/dBaSKWF.gif") center/cover; height:40px; }
+    h1 { font-family:"Black Ops One",cursive; font-size:44px; color:#ff26d0; text-shadow:0 0 8px #ff26d0; }
+    .card { background:#111; border:2px double #ff26d0; padding:20px; border-radius:20px; max-width:500px; margin:20px auto; }
+    input { padding:12px;font-size:18px;width:80%;border-radius:10px;border:none;margin-bottom:10px; }
+    button { padding:14px 22px;font-size:18px;margin:5px;background:#ff26d0;color:#fff;border:0;border-radius:8px;cursor:pointer; }
+    .result { background:#000;color:#0f0;font-family:monospace;padding:12px;border-radius:8px;margin-top:10px; white-space:pre-wrap; }
+    .footer-img { margin-top:30px; width:300px;height:auto;border-radius:20px;border:4px double #ff26d0; }
+    iframe { margin-top:20px; border: none; width:100%; max-width:500px; height:80px; border-radius:8px; }
   </style>
 </head>
 <body>
-
   <div class="header-glow"></div>
-  <h1>💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - MD BOT 💥</h1>
+  <h1>💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇‑MD BOT 💥</h1>
+  <div class="header-glow"></div>
 
   <div class="card">
     <h2>🔑 Generate Pair Code</h2>
-    <input id="phone" placeholder="Enter phone number e.g. 2547XXXXXXXX"/>
+    <input id="phone" placeholder="Enter phone number (e.g. 2547XXXXXXXX)"/>
     <br/>
     <button onclick="generateCode()">ENTER</button>
     <div id="output" class="result"></div>
   </div>
 
   <div class="card">
-    <h2>📂 Bot Repo</h2>
+    <h2>📁 GitHub Repo</h2>
     <a href="https://github.com/Toxicant1/blackbeltah-md" target="_blank">
-      <button>📁 Fork BeltahBot</button>
+      <button>🔗 Fork BeltahBot Repo</button>
     </a>
   </div>
 
   <div class="card">
-    <h2>🎵 Play Music</h2>
-    <button class="music-btn" onclick="toggleMusic()">▶️ Play / ⏸ Pause</button>
-    <audio id="beltahAudio" loop>
-      <source src="https://dl.sndup.net/6kzq/ponk.mp3" type="audio/mpeg" />
-    </audio>
+    <h2>🎵 Now Playing</h2>
+    <!-- YouTube embed audio player -->
+    <iframe id="ytplayer" src="https://www.youtube.com/embed/dSf_qqI0PjI?autoplay=0&amp;controls=1" allow="autoplay"></iframe>
+    <button onclick="toggleYT()">▶️ Play / ⏸ Pause</button>
   </div>
 
   <img class="footer-img" src="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" />
-
   <div class="header-glow"></div>
 
 <script>
   async function generateCode() {
-    const number = document.getElementById("phone").value.trim();
-    const output = document.getElementById("output");
-    if (!number) return output.innerText = "⚠️ Please enter a valid phone number";
-
-    output.innerText = "⏳ Generating code...";
+    let num = document.getElementById("phone").value.trim();
+    let out = document.getElementById("output");
+    if (!num) return out.innerText = "⚠️ Enter a valid phone number";
+    out.innerText = "⏳ Generating code...";
     try {
-      const res = await fetch(`/pair?number=${number}`);
-      const data = await res.text();
-      output.innerText = "✅ Code Generated:\n" + data;
-    } catch (err) {
-      output.innerText = "❌ Error generating code";
+      let res = await fetch(`/pair?number=${num}`);
+      let text = await res.text();
+      out.innerText = "✅ Pair Code:\n" + text;
+    } catch {
+      out.innerText = "❌ Error generating code";
     }
   }
 
-  function toggleMusic() {
-    const audio = document.getElementById("beltahAudio");
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
+  let yt = document.getElementById("ytplayer");
+  let playing = false;
+  function toggleYT() {
+    playing = !playing;
+    yt.contentWindow.postMessage(JSON.stringify({ event:'command', func: playing ? 'playVideo' : 'pauseVideo', args: [] }), '*');
   }
 </script>
-
 </body>
 </html>
