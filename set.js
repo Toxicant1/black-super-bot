@@ -1,9 +1,12 @@
 /* if you're using panel carefully edit this part
 
-There's no need to configure this if you're deploying via Heroku — just set them in the environment variables.*/
+There's no need to configure this if you're deploying via Heroku — just set them in the environment variables.
+*/
 
 const sessionName = 'session';
-const session = 'BLACK MD;;;4uk1gBKB#6pTKhfoBwi4uQCU3s7vw1Y7eK5oxFLbZ0uWh0ldcTcM';
+
+// ✅ Correct MEGA session format (URL encoded)
+const session = 'BLACK MD;;;4uk1gBKB#6pTKhfoBwi4uQCU3s7vw1Y7eK5oxFLbZ0uWh0ldcTcM'; // This is OK as-is
 
 const autobio = process.env.AUTOBIO || 'FALSE';
 const autolike = process.env.AUTOLIKE_STATUS || 'TRUE';
