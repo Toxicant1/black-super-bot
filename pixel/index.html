@@ -1,57 +1,57 @@
-<!-- index.html for BlackBeltah Pairing UI --><!DOCTYPE html><html lang="en">
+<!-- 🔥 BELTAH-MD PAIRING UI WITH MUSIC & INPUT --><!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BLACKBELTAH - MD BOT</title>
-  <link rel="icon" href="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" type="image/png">
+  <title>𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - Pair Bot</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" />
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
     body {
-      background: #000;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #000000, #222222);
       color: #fff;
       text-align: center;
       padding: 20px;
     }
-    .banner {
-      background: url('https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg') no-repeat center center;
-      background-size: cover;
-      height: 300px;
-      border: 5px double #ff00bd;
-      margin-bottom: 30px;
+    .container {
+      max-width: 450px;
+      margin: 50px auto;
+      background: #111;
+      border: 4px double #ff00bd;
+      border-radius: 20px;
+      padding: 25px;
     }
-    .title {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin: 20px 0;
+    h1 {
+      font-size: 30px;
       color: #ff26d0;
+      margin-bottom: 10px;
     }
-    .description {
-      font-size: 1.1rem;
-      color: #ccc;
-      margin-bottom: 20px;
-    }
-    .pair-btn {
-      background: #1BAFBA;
-      padding: 15px 30px;
-      color: #fff;
-      font-size: 1.2rem;
+    .btn {
+      display: block;
+      width: 100%;
+      margin: 10px auto;
+      padding: 10px;
+      font-size: 16px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      background: #ff26d0;
+      color: white;
     }
-    .pair-btn:hover {
-      background: #138a91;
+    input {
+      width: 80%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ff26d0;
+      background: #222;
+      color: white;
+      margin-bottom: 10px;
     }
-    .footer {
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #999;
+    .output {
+      background: #222;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px dashed #ff26d0;
+      margin: 15px 0;
     }
     audio {
       margin-top: 20px;
@@ -59,18 +59,37 @@
   </style>
 </head>
 <body>
-  <div class="banner"></div>
-  <div class="title">💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝐌𝐃 𝐁𝐎𝐓 💥</div>
-  <div class="description">
-    Welcome to the official pairing portal of <strong>BeltahBot</strong>.<br>
-    Click the button below to generate your unique <strong>pairing code</strong> for WhatsApp Multi-Device.
-  </div><button class="pair-btn" onclick="window.location.href='/generate-session'">🎯 Generate Pairing Code</button>
+  <div class="container">
+    <h1>💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝗠𝗗 𝗣𝗔𝗜𝗥𝗜𝗡𝗚 💥</h1><button class="btn" onclick="location.href='https://github.com/Toxicant1/blackbeltah-md'">🔗 Fork Bot Repo</button>
+<button class="btn" onclick="document.getElementById('pairArea').style.display='block'">🔑 Generate Pair Code</button>
 
-  <audio controls autoplay loop>
-    <source src="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/ponk.mp3" type="audio/mp3">
+<div id="pairArea" style="display:none;">
+  <input id="phoneInput" placeholder="Enter your WhatsApp number" />
+  <button class="btn" onclick="generateCode()">🔐 ENTER</button>
+  <div class="output" id="output">Your pairing code will appear here...</div>
+
+  <audio id="bgMusic" controls loop style="display:block;">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
-  </audio>  <div class="footer">
-    Made with 💖 by Ishaq Ibrahim | Powered by Beltah × ChatGPT
-  </div>
-</body>
+  </audio>
+  <button class="btn" onclick="toggleMusic()">🎵 Play / Pause Song</button>
+</div>
+
+  </div>  <script>
+    function generateCode() {
+      const phone = document.getElementById('phoneInput').value;
+      if (!phone || phone.length < 10) {
+        document.getElementById('output').innerText = '⚠️ Enter a valid number starting with country code.';
+        return;
+      }
+      const code = `PAIR-${Math.floor(100000 + Math.random() * 900000)}`;
+      document.getElementById('output').innerText = `✅ Your Pair Code: ${code}`;
+    }
+
+    function toggleMusic() {
+      const audio = document.getElementById('bgMusic');
+      if (audio.paused) audio.play();
+      else audio.pause();
+    }
+  </script></body>
 </html>
