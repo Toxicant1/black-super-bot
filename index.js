@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 const logger = pino({ level: "silent" });
 
-const SESSION_KEY = "BLACK MD;;;4uk1gBKB#6pTKhfoBwi4uQCU3s7vw1Y7eK5oxFLbZ0uWh0ldcTcM";
+const SESSION_KEY = 'BLACK MD;;;4uk1gBKB#6pTKhfoBwi4uQCU3s7vw1Y7eK5oxFLbZ0uWh0ldcTcM';
 
 /* === Serve UI from /pixel folder === */
 app.use(express.static("pixel"));
