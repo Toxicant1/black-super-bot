@@ -1,95 +1,115 @@
-<!-- 🔥 BELTAH-MD PAIRING UI WITH MUSIC & INPUT --><!DOCTYPE html><html lang="en">
+<!-- Beltah Pair Code Generator UI (Fixed for 8-digit codes) --><!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - Pair Bot</title>
-  <link rel="icon" href="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - Pair Code Generator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
   <style>
     body {
+      margin: 0;
+      padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #000000, #222222);
+      background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
       color: #fff;
       text-align: center;
-      padding: 20px;
-    }
-    .container {
-      max-width: 450px;
-      margin: 50px auto;
-      background: #111;
-      border: 4px double #ff00bd;
-      border-radius: 20px;
-      padding: 25px;
     }
     h1 {
-      font-size: 30px;
-      color: #ff26d0;
-      margin-bottom: 10px;
+      font-family: 'Black Ops One', cursive;
+      font-size: 2.6em;
+      color: #FF26D0;
+      margin-top: 30px;
     }
-    .btn {
-      display: block;
-      width: 100%;
-      margin: 10px auto;
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      background: #ff26d0;
+    .box {
+      background: #222;
+      border: 2px double #FF26D0;
+      padding: 25px;
+      margin: 30px auto;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 12px;
+    }
+    .button {
+      padding: 12px 24px;
+      margin-top: 10px;
+      background: #FF26D0;
       color: white;
+      border: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      border-radius: 8px;
+      cursor: pointer;
     }
     input {
-      width: 80%;
       padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ff26d0;
-      background: #222;
-      color: white;
+      width: 80%;
+      border-radius: 6px;
+      border: none;
+      font-size: 1em;
       margin-bottom: 10px;
     }
-    .output {
-      background: #222;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px dashed #ff26d0;
-      margin: 15px 0;
+    #codeOutput {
+      font-family: monospace;
+      background: #111;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 1.3em;
+      border: 1px dashed #FF26D0;
+      border-radius: 6px;
+      display: inline-block;
+      word-spacing: 3px;
+    }
+    .link-btn {
+      display: inline-block;
+      margin: 15px;
+      text-decoration: none;
+      background: #1b1b1b;
+      padding: 10px 18px;
+      border-radius: 6px;
+      border: 1px solid #888;
+      color: #FF26D0;
+      font-weight: bold;
     }
     audio {
-      margin-top: 20px;
+      margin-top: 15px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝗠𝗗 𝗣𝗔𝗜𝗥𝗜𝗡𝗚 💥</h1><button class="btn" onclick="location.href='https://github.com/Toxicant1/blackbeltah-md'">🔗 Fork Bot Repo</button>
-<button class="btn" onclick="document.getElementById('pairArea').style.display='block'">🔑 Generate Pair Code</button>
+  <h1>💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝗠𝗗 𝗣𝗔𝗜𝗥𝗜𝗡𝗚 💥</h1>  <div class="box">
+    <h3>🔗 Enter your WhatsApp Number</h3>
+    <input type="text" id="userNumber" placeholder="e.g. 2547XXXXXXXX">
+    <br>
+    <button class="button" onclick="generateCode()">Generate Pair Code</button><div id="codeOutput" style="display:none;"></div>
 
-<div id="pairArea" style="display:none;">
-  <input id="phoneInput" placeholder="Enter your WhatsApp number" />
-  <button class="btn" onclick="generateCode()">🔐 ENTER</button>
-  <div class="output" id="output">Your pairing code will appear here...</div>
+<br><br>
+<a href="https://github.com/Toxicant1/blackbeltah-md" target="_blank" class="link-btn">🌐 Bot GitHub Repo</a>
 
-  <audio id="bgMusic" controls loop style="display:block;">
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-  <button class="btn" onclick="toggleMusic()">🎵 Play / Pause Song</button>
-</div>
-
+  </div>  <div class="box">
+    <h3>🎵 Theme Song: Ponk</h3>
+    <audio id="bgmusic" controls>
+      <source src="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/Media/ponk.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
+    </audio>
   </div>  <script>
     function generateCode() {
-      const phone = document.getElementById('phoneInput').value;
-      if (!phone || phone.length < 10) {
-        document.getElementById('output').innerText = '⚠️ Enter a valid number starting with country code.';
+      const number = document.getElementById("userNumber").value.trim();
+      if (!number || !/^[0-9]{10,15}$/.test(number)) {
+        alert("Please enter a valid phone number (e.g. 2547XXXXXXXX)");
         return;
       }
-      const code = `PAIR-${Math.floor(100000 + Math.random() * 900000)}`;
-      document.getElementById('output').innerText = `✅ Your Pair Code: ${code}`;
+      const code = `PAIR-${randBlock()}-${randBlock()}`;
+      const output = document.getElementById("codeOutput");
+      output.innerText = `✅ Pair Code for ${number}\n${code}`;
+      output.style.display = "inline-block";
     }
 
-    function toggleMusic() {
-      const audio = document.getElementById('bgMusic');
-      if (audio.paused) audio.play();
-      else audio.pause();
+    function randBlock() {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let result = '';
+      for (let i = 0; i < 4; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
     }
   </script></body>
 </html>
