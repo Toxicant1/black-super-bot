@@ -16,17 +16,13 @@ client.ev.on("connection.update", ({ connection, lastDisconnect }) => { if (conn
 
 client.ev.on("creds.update", saveCreds);
 
-// Optional: Auto-status update logic setInterval(() => { const time = new Date().toLocaleTimeString("en-US", { timeZone: "Africa/Nairobi" }); client.updateProfileStatus(🤖 ${time} | BLACK BELTAH active 💥); }, 5 * 60 * 1000);
+// Optional: Auto-status update logic
+setInterval(() => {
+  const time = new Date().toLocaleTimeString("en-US", { timeZone: "Africa/Nairobi" });
+  client.updateProfileStatus(`🤖 ${time} | BLACK BELTAH active 💥`);
+}, 5 * 60 * 1000);
 
-return client; }
-
-// Initialize bot startRaven();
-
-// Hot Reload let file = require.resolve(__filename); fs.watchFile(file, () => { fs.unwatchFile(file); console.log(chalk.redBright(\n🔁 File '${__filename}' updated. Reloading...)); delete require.cache[file]; require(file); });
-// Define any other methods or logic above...
-
-  return client;
-};
+return client;
 } // ← This closes startRaven()
 
 // Serve frontend from /pixel/index.html
@@ -45,8 +41,7 @@ startRaven();
 let file = require.resolve(__filename);
 fs.watchFile(file, () => {
   fs.unwatchFile(file);
-  console.log(chalk.redBright(`Updated: ${__filename}`));
+  console.log(chalk.redBright(`🔁 File '${__filename}' updated. Reloading...`));
   delete require.cache[file];
   require(file);
 });
-
