@@ -26,6 +26,7 @@ return client; }
 // Define any other methods or logic above...
 
   return client;
+};
 } // ← This closes startRaven()
 
 // Serve frontend from /pixel/index.html
