@@ -23,4 +23,29 @@ return client; }
 // Initialize bot startRaven();
 
 // Hot Reload let file = require.resolve(__filename); fs.watchFile(file, () => { fs.unwatchFile(file); console.log(chalk.redBright(\n🔁 File '${__filename}' updated. Reloading...)); delete require.cache[file]; require(file); });
+// Define any other methods or logic above...
+
+  return client;
+} // ← This closes startRaven()
+
+// Serve frontend from /pixel/index.html
+app.use(express.static("pixel"));
+app.get("/", (req, res) => res.sendFile(__dirname + "/pixel/index.html"));
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
+// Start the bot
+startRaven();
+
+// Hot reload logic (optional but useful)
+let file = require.resolve(__filename);
+fs.watchFile(file, () => {
+  fs.unwatchFile(file);
+  console.log(chalk.redBright(`Updated: ${__filename}`));
+  delete require.cache[file];
+  require(file);
+});
 
