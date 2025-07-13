@@ -1,62 +1,26 @@
-/* If it works, don't Fix it */
-// ... [KEEP YOUR ORIGINAL IMPORTS HERE]
-const express = require("express");
-const path = require('path');
-const pino = require("pino");
-const { useMultiFileAuthState, fetchLatestBaileysVersion, default: ravenConnect } = require("@whiskeysockets/baileys");
+/* If it works, don't fix it */
 
-// Keep all other requires...
-const app = express();
-const logger = pino({ level: 'silent' });
+const express = require("express"); const fs = require("fs"); const path = require("path"); const pino = require("pino"); const chalk = require("chalk"); const { default: ravenConnect, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys"); const { Boom } = require("@hapi/boom"); const app = express(); const PORT = process.env.PORT || 10000;
 
-app.use(express.static("pixel"));
-app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
+// Logging setup const logger = pino({ level: "silent" });
 
-/* 🔐 PAIR CODE GENERATION ENDPOINT */
-app.get("/pair", async (req, res) => {
-  const userNumber = req.query.number;
+// Serve the frontend from /pixel folder app.use(express.static("pixel")); app.get("/", (req, res) => res.sendFile(path.join(__dirname, "/index.html")));
 
-  if (!userNumber || !/^\d+$/.test(userNumber)) {
-    return res.status(400).json({ error: "Invalid phone number format" });
-  }
+// Start Express server app.listen(PORT, () => console.log(\n⚡ Beltah-MD Web UI is live on http://localhost:${PORT}\n));
 
-  try {
-    const sessionPath = path.join(__dirname, "sessions", userNumber);
-    const { state, saveCreds } = await useMultiFileAuthState(sessionPath);
-    const { version } = await fetchLatestBaileysVersion();
+// Raven/Beltah WhatsApp Connection Logic async function startRaven() { const { state, saveCreds } = await useMultiFileAuthState(__dirname + "/sessions/"); const { version, isLatest } = await fetchLatestBaileysVersion();
 
-    const client = ravenConnect({
-      version,
-      logger: pino({ level: "silent" }),
-      printQRInTerminal: false,
-      browser: ["BELTAH", "Chrome", "10.0"],
-      auth: state,
-    });
+const client = ravenConnect({ logger: pino({ level: "silent" }), printQRInTerminal: false, browser: ["BLACK BELTAH - AI", "Chrome", "114.0.5735.198"], auth: state, syncFullHistory: true, });
 
-    client.ev.on("creds.update", saveCreds);
+client.ev.on("connection.update", ({ connection, lastDisconnect }) => { if (connection === "close") { if (lastDisconnect.error?.output?.statusCode !== DisconnectReason.loggedOut) startRaven(); } else if (connection === "open") { console.log(chalk.green("✅ BLACK BELTAH Connected successfully!")); } });
 
-    const code = await client.requestPairingCode(`${userNumber}@s.whatsapp.net`);
-    console.log(`✅ Pairing code for ${userNumber}: ${code}`);
-    return res.status(200).json({ code });
-  } catch (err) {
-    console.error("❌ Pairing error:", err);
-    return res.status(500).json({ error: "Failed to generate code" });
-  }
-});
+client.ev.on("creds.update", saveCreds);
 
-/* ✅ START YOUR MAIN BOT HERE */
-startRaven();
+// Optional: Auto-status update logic setInterval(() => { const time = new Date().toLocaleTimeString("en-US", { timeZone: "Africa/Nairobi" }); client.updateProfileStatus(🤖 ${time} | BLACK BELTAH active 💥); }, 5 * 60 * 1000);
 
-/* 🌐 WEB LISTENER */
-app.listen(port, () => {
-  console.log(`🟢 Server ready: http://localhost:${port}`);
-});
+return client; }
 
-/* 🔁 AUTORELOAD */
-let file = require.resolve(__filename);
-fs.watchFile(file, () => {
-  fs.unwatchFile(file);
-  console.log(chalk.redBright(`Update ${__filename}`));
-  delete require.cache[file];
-  require(file);
-});
+// Initialize bot startRaven();
+
+// Hot Reload let file = require.resolve(__filename); fs.watchFile(file, () => { fs.unwatchFile(file); console.log(chalk.redBright(\n🔁 File '${__filename}' updated. Reloading...)); delete require.cache[file]; require(file); });
+
