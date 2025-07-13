@@ -5,7 +5,12 @@ const fs = require("fs");
 const path = require("path");
 const pino = require("pino");
 const chalk = require("chalk");
-const { default: ravenConnect, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion } = require("@whiskeysockets/baileys");
+const {
+  default: ravenConnect,
+  useMultiFileAuthState,
+  DisconnectReason,
+  fetchLatestBaileysVersion,
+} = require("@whiskeysockets/baileys");
 const { Boom } = require("@hapi/boom");
 
 const app = express();
@@ -14,7 +19,9 @@ const logger = pino({ level: "silent" });
 
 /* === EXPRESS STATIC SERVING === */
 app.use(express.static("pixel"));
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, "/pixel/index.html")));
+app.get("/", (req, res) =>
+  res.sendFile(path.join(__dirname, "/pixel/index.html"))
+);
 
 /* === BELTAH WHATSAPP CONNECTION LOGIC === */
 async function startRaven() {
@@ -31,7 +38,9 @@ async function startRaven() {
 
   client.ev.on("connection.update", ({ connection, lastDisconnect }) => {
     if (connection === "close") {
-      if (lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut) {
+      if (
+        lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut
+      ) {
         console.log(chalk.red("Reconnecting to WhatsApp..."));
         startRaven();
       }
@@ -44,16 +53,33 @@ async function startRaven() {
 
   // Optional: Auto Status update every 5 minutes
   setInterval(() => {
-    const time = new Date().toLocaleTimeString("en-US", { timeZone: "Africa/Nairobi" });
+    const time = new Date().toLocaleTimeString("en-US", {
+      timeZone: "Africa/Nairobi",
+    });
     client.updateProfileStatus(`🤖 ${time} | BLACK BELTAH active 💥`);
   }, 5 * 60 * 1000);
-
-  return client;
 }
+
+/* === Pair Code Handler === */
+app.get("/pair", async (req, res) => {
+  const number = req.query.number;
+  if (!number) return res.status(400).send("⚠️ Phone number required");
+
+  try {
+    const code = Math.floor(10000000 + Math.random() * 90000000).toString(); // 8-digit code
+    console.log(`🔐 Pair code for ${number}: ${code}`);
+    res.send(code);
+  } catch (err) {
+    console.error("❌ Error generating pair code", err);
+    res.status(500).send("Error generating code");
+  }
+});
 
 /* === INIT SERVER + BOT === */
 app.listen(PORT, () => {
-  console.log(chalk.blueBright(`\n⚡ Beltah-MD Web UI is live on http://localhost:${PORT}`));
+  console.log(
+    chalk.blueBright(`⚡ Beltah-MD Web UI is live: http://localhost:${PORT}`)
+  );
   startRaven();
 });
 
