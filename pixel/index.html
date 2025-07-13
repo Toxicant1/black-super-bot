@@ -1,71 +1,76 @@
-<!DOCTYPE html>
-<html>
+<!-- index.html for BlackBeltah Pairing UI --><!DOCTYPE html><html lang="en">
 <head>
-        <title style="color: #00698f;">BLACKY-TECH</title>
-        <style>
-                body {
-                        background-image: url('https://i.imgur.com/XR1Neb9.jpeg') !important;
-                        background-size: cover;
-                        background-position: center;
-                }
-
-                .container {
-                        max-width: 800px;
-                        margin: 40px auto;
-                        padding: 20px;
-                        background-color: #fff;
-                        border: 1px solid #ddd;
-                        border-radius: 10px;
-                        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                }
-
-                h1 {
-                        color: #00698f; /* blue color */
-                        font-size: 36px;
-                        margin-bottom: 10px;
-                }
-
-                .beautified-text {
-                        color: #00698f; /* blue color */
-                        font-size: 24px;
-                        font-weight: bold;
-                        margin-bottom: 20px;
-                        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #33cc33; /* shiny effect */
-                }
-
-                .beautified-text span {
-                        color: #33cc33; /* green color */
-                        font-size: 24px;
-                        font-weight: bold;
-                        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #33cc33; /* shiny effect */
-                }
-
-                .icons {
-                        margin-top: 20px;
-                }
-
-                .icons a {
-                        margin-right: 10px;
-                }
-
-                .icons img {
-                        width: 24px;
-                        height: 24px;
-                }
-        </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BLACKBELTAH - MD BOT</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" type="image/png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    .banner {
+      background: url('https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg') no-repeat center center;
+      background-size: cover;
+      height: 300px;
+      border: 5px double #ff00bd;
+      margin-bottom: 30px;
+    }
+    .title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 20px 0;
+      color: #ff26d0;
+    }
+    .description {
+      font-size: 1.1rem;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+    .pair-btn {
+      background: #1BAFBA;
+      padding: 15px 30px;
+      color: #fff;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .pair-btn:hover {
+      background: #138a91;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #999;
+    }
+    audio {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-        <div class="container">
-                <h1>WELCOME TO BLACKY TECH</h1>
-        <p class="beautified-text">Holla, you have <span>successfully</span> connected to <span>BLACKMACHANT-BOT.</span>The bot is currently running and <span>ACTIVE</span>.</p>
+  <div class="banner"></div>
+  <div class="title">💥 𝐁𝐋𝐀𝐂𝐊𝐁𝐄𝐋𝐓𝐀𝐇 - 𝐌𝐃 𝐁𝐎𝐓 💥</div>
+  <div class="description">
+    Welcome to the official pairing portal of <strong>BeltahBot</strong>.<br>
+    Click the button below to generate your unique <strong>pairing code</strong> for WhatsApp Multi-Device.
+  </div><button class="pair-btn" onclick="window.location.href='/generate-session'">🎯 Generate Pairing Code</button>
 
-                <div class="icons">
-                        <a href="https://github.com/Blackie254/black-super-bot"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="GitHub Icon"></a>
-                        <a href="https://wa.me/254115172722"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/whatsapp.svg" alt="WhatsApp Icon"></a>
-                </div>
-                <p>&copy; 2025 <span style="color: green;">BLACKMACHANT MD</span></p>
-        </div>
-
-<script src="sc.js"></script>
+  <audio controls autoplay loop>
+    <source src="https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/ponk.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>  <div class="footer">
+    Made with 💖 by Ishaq Ibrahim | Powered by Beltah × ChatGPT
+  </div>
 </body>
-  </html>
+</html>
