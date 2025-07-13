@@ -99,7 +99,7 @@ It features real-time AI conversations using **ChatGPT**, music tools, group adm
 
 ### `2. Pair WhatsApp`
 
-Visit: [Session Link](https://beltah-md-d882.onrender.com)  
+Visit: [Session Link](https://blacks-pair.onrender.com)  
 Scan QR or paste your session string
 
 ---
