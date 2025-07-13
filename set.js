@@ -3,7 +3,7 @@
 There's no need to configure this if you're deploying via Heroku — just set them in the environment variables.*/
 
 const sessionName = 'session';
-const session = '';
+const session = 'BLACK MD;;;4uk1gBKB#6pTKhfoBwi4uQCU3s7vw1Y7eK5oxFLbZ0uWh0ldcTcM';
 
 const autobio = process.env.AUTOBIO || 'FALSE';
 const autolike = process.env.AUTOLIKE_STATUS || 'TRUE';
