@@ -687,31 +687,40 @@ let cap = `𝗛𝗲𝘆 𝘁𝗵𝗲𝗿𝗲😊, ${getGreeting()}\n\n╔═━�
 ║   𝐌𝐚𝐝𝐞 𝐎𝐧 𝐄𝐚𝐫𝐭𝐡 𝐁𝐲 𝐇𝐮𝐦𝐚𝐧𝐬!
 ╚════════════════════════╝`;
 if (menu === 'VIDEO') {
+    await client.sendMessage(m.chat, {
+        video: fs.readFileSync('./Media/blacky.mp4'),
+        caption: cap,
+        gifPlayback: true
+    }, { quoted: m });
 
-                   client.sendMessage(m.chat, {
-                        video: fs.readFileSync('./Media/blacky.mp4'),
-                        caption: cap,
-                        gifPlayback: true
-                    }, {
-                        quoted: m
-                    })
-                } else if (menu === 'TEXT') {
-client.sendMessage(from, { text: cap}, {quoted: m})
+} else if (menu === 'TEXT') {
+    await client.sendMessage(from, {
+        text: cap
+    }, { quoted: m });
 
 } else if (menu === 'IMAGE') {
-client.sendMessage(m.chat, { image: { url: 'https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg' }, caption: cap, fileLength: "9999999999"}, { quoted: m })
+    await client.sendMessage(m.chat, {
+        image: { url: 'https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg' },
+        caption: cap,
+        fileLength: 9999999999
+    }, { quoted: m });
+
 } else if (menu === 'LINK') {
-client.sendMessage(m.chat, {
-                        text: cap,
-                        contextInfo: {
-                            externalAdReply: {
-                                showAdAttribution: true,
-                                title: `𝐁𝐋𝐀𝐂𝐊 𝐁𝐄𝐋𝐓𝐀𝐇 𝐌𝐃`,
-                                body: `${runtime(process.uptime())}`,
-                                thumbnail: fs.readFileSync('https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg'),
-                                sourceUrl: 'https://wa.me/254115172722?text=Hello👋+black+Nihostie+Bot+Mkuu+😔',
-                                mediaType: 1,
-                                renderLargerThumbnail: true
+    await client.sendMessage(m.chat, {
+        text: cap,
+        contextInfo: {
+            externalAdReply: {
+                showAdAttribution: true,
+                title: '𝐁𝐋𝐀𝐂𝐊 𝐁𝐄𝐋𝐓𝐀𝐇 𝐌𝐃',
+                body: `${runtime(process.uptime())}`,
+                thumbnailUrl: 'https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg',
+                sourceUrl: 'https://wa.me/254115172722?text=Hello👋+black+Nihostie+Bot+Mkuu+😔',
+                mediaType: 1,
+                renderLargerThumbnail: true
+            }
+        }
+    }, { quoted: m });
+}
                             }
                         }
                     }, {
