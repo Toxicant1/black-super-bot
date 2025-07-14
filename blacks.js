@@ -696,8 +696,17 @@ if (menu === 'VIDEO') {
                         quoted: m
                     })
                 } else if (menu === 'TEXT') {
-client.sendMessage(m.chat, { image: { url: 'https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg' }, caption: cap, fileLength: "9999999999"}, { quoted: m })
+if (menu === 'IMAGE') {
+  await client.sendMessage(m.chat, {
+    image: {
+      url: 'https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg'
+    },
+    caption: cap,
+    fileLength: 9999999999
+  }, { quoted: m });
 } else if (menu === 'LINK') {
+  // Your next condition logic continues here...
+}
 client.sendMessage(m.chat, {
                         text: cap,
                         contextInfo: {
