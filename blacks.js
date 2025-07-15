@@ -1081,3 +1081,28 @@ case 's': {
   }, { quoted: m });
 }
 break;
+case 'play': {
+  if (!text) return reply("🎵 Enter a song name to search.\nExample: `.play Jerusalema`");
+
+  reply("🔎 Searching...");
+
+  let search = await yts(text);
+  let vid = search.all.find(v => v.type === 'video');
+  if (!vid) return reply("❌ No results found.");
+
+  let cap = `🎵 *Title:* ${vid.title}
+📺 *Channel:* ${vid.author.name}
+⏱️ *Duration:* ${vid.timestamp}
+🔗 *Link:* ${vid.url}
+📥 Downloading MP3...`;
+
+  let { data } = await axios.get(`https://api.dl.sndup.net/ytdl?url=${vid.url}&filter=audioonly`);
+  let mp3Url = data.download_url;
+
+  await client.sendMessage(m.chat, { image: { url: vid.thumbnail }, caption: cap }, { quoted: m });
+  await client.sendMessage(m.chat, {
+    audio: { url: mp3Url },
+    mimetype: 'audio/mpeg'
+  }, { quoted: m });
+}
+break;
