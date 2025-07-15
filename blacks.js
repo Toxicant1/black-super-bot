@@ -1,3 +1,15 @@
+const fs = require("fs");
+const axios = require("axios");
+const yts = require("yt-search");
+case 'quote': {
+  try {
+    let { data } = await axios.get('https://api.quotable.io/random');
+    reply(`💬 _"${data.content}"_\n\n– ${data.author}`);
+  } catch (e) {
+    reply("❌ Couldn't fetch quote.");
+  }
+}
+break;
 // 🤖 AI MODULES
 
 case 'ai':
