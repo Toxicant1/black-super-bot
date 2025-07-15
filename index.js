@@ -397,6 +397,7 @@ fs.watchFile(file, () => {
   delete require.cache[file];
   require(file);
 });
+
 // ========== SMART AUTO DM SIMULATION ==========
 const lastAutoDM = {}; // Store last auto DM timestamp
 const AUTO_DM_TIMEOUT = 2 * 60 * 60 * 1000; // 2 hours
