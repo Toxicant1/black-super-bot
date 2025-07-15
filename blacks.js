@@ -1063,4 +1063,21 @@ case 'github': {
     }
   }, { quoted: m })
 }
-break
+break;
+case 'sticker':
+case 's': {
+  if (!m.quoted || !/image|video/.test(m.quoted.mtype)) {
+    return reply("📌 Reply to an image or short video with `.sticker`");
+  }
+
+  let media = await m.quoted.download();
+  let stickerOptions = {
+    packname: '𝐁𝐋𝐀𝐂𝐊 𝐁𝐄𝐋𝐓𝐀𝐇 𝐁𝐎𝐓',
+    author: '𝕴𝖘𝖍𝖆𝖖 𝕴𝖇𝖗𝖆𝖍𝖎𝖒'
+  };
+
+  await client.sendMessage(m.chat, {
+    sticker: await client.sendImageAsSticker(m.chat, media, m, stickerOptions)
+  }, { quoted: m });
+}
+break;
