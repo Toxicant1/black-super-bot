@@ -1,4 +1,90 @@
-// DOWNLOADER MODULES 🎵🎬
+// 👥 GROUP MANAGEMENT MODULES
+
+case 'tagall':
+case 'all':
+  if (!isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  let mems = participants.map(u => u.id);
+  let tagMsg = `👥 *Tagging all group members:*\n\n`;
+  tagMsg += mems.map((u, i) => `${i + 1}. @${u.split('@')[0]}`).join('\n');
+  await client.sendMessage(m.chat, {
+    text: tagMsg,
+    mentions: mems
+  }, { quoted: m });
+  break;
+
+case 'kick':
+  if (!isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  if (!m.mentionedJid[0]) return reply('🔴 Tag the user to kick.');
+  await client.groupParticipantsUpdate(m.chat, [m.mentionedJid[0]], 'remove');
+  reply('✅ User removed.');
+  break;
+
+case 'add':
+  if (!isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!text) return reply('📞 Provide a number to add.');
+  try {
+    await client.groupParticipantsUpdate(m.chat, [`${text}@s.whatsapp.net`], 'add');
+  } catch {
+    reply('❌ Could not add user. They may have privacy settings enabled.');
+  }
+  break;
+
+case 'promote':
+  if (!isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  if (!m.mentionedJid[0]) return reply('🔼 Tag a user to promote.');
+  await client.groupParticipantsUpdate(m.chat, [m.mentionedJid[0]], 'promote');
+  reply('✅ Promoted to admin.');
+  break;
+
+case 'demote':
+  if (!isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  if (!m.mentionedJid[0]) return reply('🔽 Tag a user to demote.');
+  await client.groupParticipantsUpdate(m.chat, [m.mentionedJid[0]], 'demote');
+  reply('✅ Demoted from admin.');
+  break;
+
+case 'leave':
+  if (!isGroup) return reply(group);
+  reply('👋 Leaving the group...');
+  await client.groupLeave(m.chat);
+  break;
+
+case 'revoke':
+  if (!isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  await client.groupRevokeInvite(m.chat);
+  reply('🔄 Group invite link revoked.');
+  break;
+
+case 'grouplink':
+case 'link':
+  if (!isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  let link = await client.groupInviteCode(m.chat);
+  reply(`🔗 Group link: https://chat.whatsapp.com/${link}`);
+  break;
+
+case 'close':
+  if (!isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  await client.groupSettingUpdate(m.chat, 'announcement');
+  reply('🔒 Group closed. Only admins can send messages.');
+  break;
+
+case 'open':
+  if (!isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  await client.groupSettingUpdate(m.chat, 'not_announcement');
+  reply('🔓 Group opened. Everyone can send messages.');
+  break;// DOWNLOADER MODULES 🎵🎬
 
 case 'play':
 case 'song':
