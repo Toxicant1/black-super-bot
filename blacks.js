@@ -958,3 +958,69 @@ case 'image':
     reply('❌ Failed to convert.');
   }
   break;
+case 'hack':
+case 'hacker':
+  await react("💀");
+  await reply("⚙️ Booting up Beltah Hack Engine vX.9...\n🔒 Initializing system trace...\n");
+
+  await delay(1500);
+  let currentTime = new Date().toLocaleTimeString("en-US", { timeZone: "Africa/Nairobi" });
+
+  await reply(`
+📡 Connecting to target device...
+🔍 Scanning IP...
+🌍 Location Found: 🛰️ Timau, Kenya 🇰🇪
+📍 Subregion: ETHI district confirmed
+🕐 Local Time: ${currentTime}
+
+📁 Starting data extraction...
+`);
+
+  await delay(1800);
+  await reply(`
+╭─[ 🧠 SYSTEM MEMORY SCAN ]
+│ █▒▒▒▒▒▒▒▒▒ 10%
+│ ████▒▒▒▒▒▒ 40%
+│ ████████▒▒ 80%
+│ ██████████ 100%
+╰─[ ✔ ] Memory analysis complete.
+`);
+
+  await delay(1500);
+  await reply(`
+╭─[ ☣️ VIRUS DEPLOYMENT ]
+│ █▒▒▒▒▒▒▒▒▒ 15%
+│ █████▒▒▒▒▒ 55%
+│ █████████▒ 95%
+│ ██████████ 100%
+╰─[ 💣 ] Trojan.Injector.445 activated!
+`);
+
+  await delay(1400);
+  await reply(`
+╭─[ 📦 FILE INJECTION ]
+│ █▒▒▒▒▒▒▒▒▒ 20%
+│ ██████▒▒▒▒ 60%
+│ ██████████ 100%
+╰─[ ⚠️ ] Malicious payload installed!
+`);
+
+  await delay(1600);
+  await reply(`
+🚨 CRITICAL ALERT: System breach confirmed!
+⚠️ Injected Malware: Zeus-Stealer, BlackBugX, MetaSnatcher
+⚠️ Device Logs: Compromised
+🧬 Hiding all traces...
+💾 WhatsApp Database mirrored and uploaded.
+📤 Exporting chat history to: darknet/beltahdump.userlogs
+`);
+
+  await delay(2000);
+  await reply(`
+✅ Hack Successful!
+📨 Sending all files to: admin@beltah-breach.net
+
+⚠️ System will shutdown in 10 seconds...
+🧨 Please avoid restarting or force shutdown!
+💀 Beltah BlackOps Hack Engine - 2025
+`);
