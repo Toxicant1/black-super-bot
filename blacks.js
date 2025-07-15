@@ -352,3 +352,132 @@ case 'tt':
     reply('⚠️ Error downloading TikTok video');
   }
   break;
+// ✅ INSTAGRAM DOWNLOADER
+case 'insta':
+case 'instagram':
+  if (!text) return reply('📸 Andika Insta link!');
+  reply('⏳ Downloading Instagram media...');
+  try {
+    let res = await fetch(`https://vihangayt.me/download/instagram?url=${text}`);
+    let json = await res.json();
+    if (!json.status) return reply('❌ Hakuna video/image ilipatikana!');
+    for (let media of json.data) {
+      if (media.type === 'image') {
+        await client.sendMessage(m.chat, { image: { url: media.url } }, { quoted: m });
+      } else {
+        await client.sendMessage(m.chat, { video: { url: media.url } }, { quoted: m });
+      }
+    }
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Error downloading from Instagram');
+  }
+  break;
+
+// ✅ PINTEREST IMAGE DOWNLOADER
+case 'pinterest':
+  if (!text) return reply('📌 Andika keyword ya image!');
+  reply('🔍 Tafuta picha kwa Pinterest...');
+  try {
+    let res = await fetch(`https://vihangayt.me/search/pinterest?q=${text}`);
+    let json = await res.json();
+    let img = json.data[Math.floor(Math.random() * json.data.length)];
+    client.sendMessage(m.chat, { image: { url: img }, caption: `📌 Pinterest Image\n🔍: ${text}` }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Pinterest image haijapatikana');
+  }
+  break;
+
+// ✅ TWITTER VIDEO DOWNLOADER
+case 'twitter':
+case 'tw':
+  if (!text) return reply('🐦 Andika Twitter link!');
+  reply('🔄 Downloading Twitter video...');
+  try {
+    let res = await fetch(`https://vihangayt.me/download/twitter?url=${text}`);
+    let json = await res.json();
+    if (!json.status) return reply('❌ Hakuna video ilipatikana!');
+    client.sendMessage(m.chat, { video: { url: json.data.url }, caption: '✅ Twitter video' }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Error downloading Twitter video');
+  }
+  break;
+
+// ✅ SONG2 & PLAY2 (Second engine)
+case 'song2':
+case 'play2':
+  if (!text) return reply('🎵 Andika jina ya wimbo!');
+  reply('🔍 Tafuta song kwa engine 2...');
+  try {
+    let res = await fetch(`https://vihangayt.me/search/song?q=${text}`);
+    let json = await res.json();
+    if (!json.status) return reply('❌ Hakuna song ilipatikana');
+    client.sendMessage(m.chat, { audio: { url: json.data.url }, mimetype: 'audio/mpeg' }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Error with play2/song2');
+  }
+  break;
+
+// ✅ VIDEO TO MP3 CONVERTER
+case 'mp4tomp3':
+case 'convert':
+  if (!m.quoted || !m.quoted.videoMessage) return reply('🎥 Reply to a video!');
+  reply('🔄 Converting video to MP3...');
+  try {
+    let mp3Path = './temp/audio.mp3';
+    await convertVideoToMp3(m.quoted, mp3Path);
+    client.sendMessage(m.chat, { audio: fs.readFileSync(mp3Path), mimetype: 'audio/mpeg' }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Conversion failed');
+  }
+  break;
+
+// ✅ MEME GENERATOR (With text)
+case 'smeme':
+case 'meme':
+  if (!text.includes('|')) return reply('✍ Andika format: top | bottom');
+  if (!m.quoted || !m.quoted.imageMessage) return reply('🖼 Reply to an image!');
+  let [top, bottom] = text.split('|').map(v => v.trim());
+  reply('🖼 Generating meme...');
+  try {
+    let media = await downloadMediaMessage(m.quoted, 'buffer', {}, { logger, client });
+    let memeBuffer = await generateMeme(media, top, bottom);
+    client.sendMessage(m.chat, { image: memeBuffer, caption: '✅ Meme created!' }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Meme creation failed');
+  }
+  break;
+
+// ✅ SCREENSHOT WEBSITE
+case 'screenshot':
+case 'ss':
+  if (!text) return reply('🔗 Andika link ya website!');
+  try {
+    let res = await fetch(`https://vihangayt.me/tools/ssweb?url=${text}`);
+    let json = await res.json();
+    client.sendMessage(m.chat, { image: { url: json.data.url }, caption: `📸 Screenshot for: ${text}` }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Screenshot failed');
+  }
+  break;
+
+// ✅ TEXT TO IMAGE QUOTE (quotely)
+case 'quotely':
+case 'quote':
+  if (!text) return reply('✍ Andika nukuu au ujumbe!');
+  reply('🎨 Inatengeneza quote...');
+  try {
+    let res = await fetch(`https://vihangayt.me/quote/maker?text=${encodeURIComponent(text)}`);
+    let json = await res.json();
+    client.sendMessage(m.chat, { image: { url: json.data.url }, caption: '🖼 Quote created' }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Quote image failed');
+  }
+  break;
