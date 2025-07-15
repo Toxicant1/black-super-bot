@@ -1106,3 +1106,91 @@ case 'play': {
   }, { quoted: m });
 }
 break;
+case 'play': {
+  if (!text) return reply("🎵 *Enter a song name to search.*\n_Example:_ `.play Calm Down`");
+
+  reply("🔍 Searching YouTube...");
+
+  let search = await yts(text);
+  let vid = search.videos[0];
+  if (!vid) return reply("❌ No results found.");
+
+  let cap = `🎶 *Title:* ${vid.title}
+📺 *Channel:* ${vid.author.name}
+⏱️ *Duration:* ${vid.timestamp}
+🔗 *URL:* ${vid.url}
+🎧 *Downloading MP3...*`;
+
+  await client.sendMessage(m.chat, {
+    image: { url: vid.thumbnail },
+    caption: cap
+  }, { quoted: m });
+
+  let api = `https://api-dl.sndup.net/ytdl?url=${vid.url}&filter=audioonly`;
+
+  try {
+    let { data } = await axios.get(api);
+    await client.sendMessage(m.chat, {
+      audio: { url: data.download_url },
+      mimetype: 'audio/mpeg'
+    }, { quoted: m });
+  } catch (e) {
+    reply("❌ Failed to fetch MP3. Try again later.");
+  }
+}
+break;
+case 'ytmp3': {
+  if (!text.includes("youtube.com")) return reply("🔗 *Send a valid YouTube URL!*");
+
+  reply("📥 Downloading MP3...");
+
+  try {
+    let { data } = await axios.get(`https://api-dl.sndup.net/ytdl?url=${text}&filter=audioonly`);
+    await client.sendMessage(m.chat, {
+      audio: { url: data.download_url },
+      mimetype: 'audio/mpeg'
+    }, { quoted: m });
+  } catch (e) {
+    reply("❌ Could not fetch the audio. Try again later.");
+  }
+}
+break;
+case 'ytmp4': {
+  if (!text.includes("youtube.com")) return reply("🔗 *Send a valid YouTube URL!*");
+
+  reply("📥 Downloading video...");
+
+  try {
+    let { data } = await axios.get(`https://api-dl.sndup.net/ytdl?url=${text}&filter=videoonly`);
+    await client.sendMessage(m.chat, {
+      video: { url: data.download_url },
+      mimetype: 'video/mp4',
+      caption: "🎬 Here's your requested video."
+    }, { quoted: m });
+  } catch (e) {
+    reply("❌ Could not fetch video.");
+  }
+}
+break;
+case 'lyrics': {
+  if (!text) return reply("📝 Type a song name.\n_Example:_ `.lyrics Calm Down`");
+
+  reply("🔍 Searching for lyrics...");
+
+  try {
+    let { data } = await axios.get(`https://api.lyrics.ovh/v1/${text.split(" ").join("%20")}`);
+    reply(`🎤 *Lyrics for:* ${text}\n\n${data.lyrics}`);
+  } catch (e) {
+    reply("❌ No lyrics found.");
+  }
+}
+break;
+case 'quote': {
+  try {
+    let { data } = await axios.get('https://api.quotable.io/random');
+    reply(`💬 _"${data.content}"_\n\n– ${data.author}`);
+  } catch (e) {
+    reply("❌ Couldn't fetch quote.");
+  }
+}
+break;
