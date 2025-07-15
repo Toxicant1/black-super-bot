@@ -481,3 +481,126 @@ case 'quote':
     reply('⚠️ Quote image failed');
   }
   break;
+// GROUP MANAGEMENT COMMANDS
+case 'promote':
+case 'admin':
+  if (!m.isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  if (!m.mentionedJid[0]) return reply('📍 Tag user to promote');
+  await client.groupParticipantsUpdate(m.chat, [m.mentionedJid[0]], 'promote');
+  reply('✅ User promoted!');
+  break;
+
+case 'demote':
+  if (!m.isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  if (!m.mentionedJid[0]) return reply('📍 Tag user to demote');
+  await client.groupParticipantsUpdate(m.chat, [m.mentionedJid[0]], 'demote');
+  reply('✅ User demoted!');
+  break;
+
+case 'kick':
+case 'remove':
+  if (!m.isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  if (!m.mentionedJid[0]) return reply('📍 Tag user to remove');
+  await client.groupParticipantsUpdate(m.chat, [m.mentionedJid[0]], 'remove');
+  reply('✅ User removed!');
+  break;
+
+case 'add':
+  if (!m.isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  if (!text) return reply('📲 Add number like: 2547xxxxxx');
+  await client.groupParticipantsUpdate(m.chat, [text + '@s.whatsapp.net'], 'add');
+  reply('✅ Member added!');
+  break;
+
+case 'tagall':
+case 'tall':
+  if (!m.isGroup) return reply(group);
+  if (!isAdmin) return reply(admin);
+  let teks = `📢 *TAG ALL MEMBERS*\n\n`;
+  for (let mem of participants) {
+    teks += `👤 @${mem.id.split('@')[0]}\n`;
+  }
+  client.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: m });
+  break;
+
+case 'hidetag':
+case 'ht':
+  if (!m.isGroup) return reply(group);
+  if (!isAdmin) return reply(admin);
+  if (!text) return reply('📨 Send a message to hide-tag!');
+  client.sendMessage(m.chat, { text: text, mentions: participants.map(a => a.id) }, { quoted: m });
+  break;
+
+case 'group':
+case 'close':
+case 'open':
+  if (!m.isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  if (command === 'close') {
+    await client.groupSettingUpdate(m.chat, 'announcement');
+    reply('🔒 Group closed');
+  } else if (command === 'open') {
+    await client.groupSettingUpdate(m.chat, 'not_announcement');
+    reply('🔓 Group opened');
+  }
+  break;
+
+case 'revoke':
+case 'resetlink':
+  if (!m.isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  await client.groupRevokeInvite(m.chat);
+  reply('🔁 Group invite link has been reset!');
+  break;
+
+case 'gclink':
+case 'linkgc':
+  if (!m.isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  let link = await client.groupInviteCode(m.chat);
+  reply(`🔗 *Group Link:*\nhttps://chat.whatsapp.com/${link}`);
+  break;
+
+case 'subject':
+case 'setname':
+  if (!m.isGroup) return reply(group);
+  if (!isAdmin) return reply(admin);
+  if (!text) return reply('📝 Andika jina jipya la group');
+  await client.groupUpdateSubject(m.chat, text);
+  reply(`✅ Group name updated!`);
+  break;
+
+case 'desc':
+case 'setdesc':
+  if (!m.isGroup) return reply(group);
+  if (!isAdmin) return reply(admin);
+  if (!text) return reply('📝 Andika description mpya ya group');
+  await client.groupUpdateDescription(m.chat, text);
+  reply(`✅ Group description updated!`);
+  break;
+
+case 'icon':
+case 'setpp':
+  if (!m.isGroup) return reply(group);
+  if (!isBotAdmin) return reply(botAdmin);
+  if (!isAdmin) return reply(admin);
+  if (!m.quoted || !m.quoted.imageMessage) return reply('📸 Reply to image to set as group icon!');
+  let media = await downloadMediaMessage(m.quoted, 'buffer', {}, { logger, client });
+  await client.updateProfilePicture(m.chat, media);
+  reply('✅ Group icon updated!');
+  break;
+
+case 'leave':
+  if (!isCreator) return reply(NotOwner);
+  await client.groupLeave(m.chat);
+  break;
