@@ -243,3 +243,112 @@ case 'ytmp4':
       reply('⚠️ Error downloading Twitter video.');
     }
     break;
+// ✅ YTMP3 COMMAND
+case 'ytmp3':
+  if (!text) return reply('🎵 Andika link ya YouTube!');
+  reply('⏳ Downloading audio...');
+  try {
+    let res = await fetch(`https://vihangayt.me/download/ytmp3?url=${text}`);
+    let json = await res.json();
+    if (!json.status) return reply('❌ Hakuna audio ilipatikana.');
+    client.sendMessage(m.chat, {
+      audio: { url: json.data.url },
+      mimetype: 'audio/mpeg',
+      ptt: false
+    }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Error downloading MP3');
+  }
+  break;
+
+// ✅ YTMP4 COMMAND
+case 'ytmp4':
+  if (!text) return reply('🎬 Andika link ya YouTube!');
+  reply('⏳ Downloading video...');
+  try {
+    let res = await fetch(`https://vihangayt.me/download/ytmp4?url=${text}`);
+    let json = await res.json();
+    if (!json.status) return reply('❌ Hakuna video ilipatikana.');
+    client.sendMessage(m.chat, {
+      video: { url: json.data.url },
+      caption: '✅ Downloaded by BeltahBot'
+    }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Error downloading MP4');
+  }
+  break;
+
+// ✅ PLAY COMMAND (Search Audio)
+case 'play':
+  if (!text) return reply('🎧 Andika jina ya wimbo!');
+  reply('🔍 Searching song...');
+  try {
+    let res = await fetch(`https://vihangayt.me/search/ytplay?q=${text}`);
+    let json = await res.json();
+    if (!json.status) return reply('😢 Hakuna wimbo ilipatikana.');
+    client.sendMessage(m.chat, {
+      audio: { url: json.data.url },
+      mimetype: 'audio/mpeg'
+    }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Error searching song');
+  }
+  break;
+
+// ✅ VIDEO COMMAND (Search Video)
+case 'video':
+  if (!text) return reply('🎞 Andika jina ya video!');
+  reply('🔎 Inatafuta video...');
+  try {
+    let res = await fetch(`https://vihangayt.me/search/ytplayvid?q=${text}`);
+    let json = await res.json();
+    if (!json.status) return reply('😢 Hakuna video ilipatikana.');
+    client.sendMessage(m.chat, {
+      video: { url: json.data.url },
+      caption: `🎥 Downloaded by BeltahBot`
+    }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Error searching video');
+  }
+  break;
+
+// ✅ FACEBOOK VIDEO
+case 'fbdl':
+  if (!text) return reply('📱 Andika FB video link!');
+  reply('🔄 Downloading Facebook video...');
+  try {
+    let res = await fetch(`https://vihangayt.me/download/fb?url=${text}`);
+    let json = await res.json();
+    if (!json.status) return reply('❌ Hakuna video from Facebook.');
+    client.sendMessage(m.chat, {
+      video: { url: json.data.url },
+      caption: '✅ Facebook video downloaded by BeltahBot'
+    }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Error downloading Facebook video');
+  }
+  break;
+
+// ✅ TIKTOK VIDEO
+case 'tiktok':
+case 'tt':
+  if (!text) return reply('🎵 Andika link ya TikTok!');
+  reply('⏳ Downloading TikTok video...');
+  try {
+    let res = await fetch(`https://vihangayt.me/download/tiktok?url=${text}`);
+    let json = await res.json();
+    if (!json.status) return reply('❌ Hakuna TT video ilipatikana.');
+    client.sendMessage(m.chat, {
+      video: { url: json.data.nowm },
+      caption: '✅ TikTok video (No watermark) from BeltahBot'
+    }, { quoted: m });
+  } catch (e) {
+    console.log(e);
+    reply('⚠️ Error downloading TikTok video');
+  }
+  break;
