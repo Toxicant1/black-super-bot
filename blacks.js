@@ -740,3 +740,73 @@ case 'define':
     reply('❌ Unable to fetch definition.');
   }
   break;
+// 🎨 EDITING MODULES & TOOLS 🛠️
+
+case 'sticker':
+case 's':
+  if (!m.quoted) return reply('📎 Reply to an image or short video.');
+  try {
+    let media = await m.quoted.download();
+    await client.sendMessage(m.chat, {
+      sticker: media,
+    }, { quoted: m });
+  } catch (e) {
+    reply('❌ Failed to create sticker.');
+  }
+  break;
+
+case 'quote':
+case 'quotely':
+  if (!text) return reply('✍️ Provide a quote to generate image.');
+  try {
+    const quoteRes = await fetch(`https://api.quotable.io/random`);
+    const quoteData = await quoteRes.json();
+    let caption = `❝ ${quoteData.content} ❞\n— ${quoteData.author}`;
+    await client.sendMessage(m.chat, { text: caption }, { quoted: m });
+  } catch (e) {
+    reply('❌ Couldn’t fetch quote.');
+  }
+  break;
+
+case 'mix':
+  if (!m.quoted) return reply('🎧 Reply to an audio to remix.');
+  try {
+    let audio = await m.quoted.download();
+    await client.sendMessage(m.chat, {
+      audio: audio,
+      mimetype: 'audio/mpeg',
+      ptt: true
+    }, { quoted: m });
+  } catch (e) {
+    reply('❌ Failed to remix audio.');
+  }
+  break;
+
+case 'bgremove':
+case 'removebg':
+  if (!m.quoted) return reply('🖼️ Reply to an image to remove background.');
+  try {
+    let image = await m.quoted.download();
+    const buffer = await removeBg(image); // assume removeBg is defined
+    await client.sendMessage(m.chat, {
+      image: buffer,
+      caption: '✅ Background removed!'
+    }, { quoted: m });
+  } catch (e) {
+    reply('❌ Background removal failed.');
+  }
+  break;
+
+case 'photo':
+case 'image':
+  if (!m.quoted) return reply('📷 Reply to a sticker or media.');
+  try {
+    let media = await m.quoted.download();
+    await client.sendMessage(m.chat, {
+      image: media,
+      caption: '📸 Here is your image.'
+    }, { quoted: m });
+  } catch (e) {
+    reply('❌ Failed to convert.');
+  }
+  break;
