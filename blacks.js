@@ -1,4 +1,66 @@
-// 👥 GROUP MANAGEMENT MODULES
+// 🤖 AI MODULES
+
+case 'ai':
+case 'gpt':
+case 'gpt3':
+case 'gpt4':
+  if (!text) return reply('💬 Please enter a prompt for the AI.');
+  reply('⏳ Thinking...');
+  try {
+    const aiReply = await fetch(`https://api.blackbeltah.ai/gpt?query=${encodeURIComponent(text)}`)
+      .then(res => res.text());
+    reply(`🤖 GPT: ${aiReply}`);
+  } catch (err) {
+    reply('❌ GPT failed to respond.');
+  }
+  break;
+
+case 'gemini':
+case 'gpt2':
+  if (!text) return reply('💬 Send something for Gemini AI to respond.');
+  reply('✨ Gemini loading...');
+  try {
+    const geminiReply = await fetch(`https://api.blackbeltah.ai/gemini?prompt=${encodeURIComponent(text)}`)
+      .then(res => res.text());
+    reply(`🔮 Gemini: ${geminiReply}`);
+  } catch (err) {
+    reply('❌ Gemini failed to respond.');
+  }
+  break;
+
+case 'vision':
+case 'img2txt':
+  if (!quoted || !quoted.image) return reply('🖼️ Reply to an image for Vision AI.');
+  let media = await quoted.download();
+  reply('👁 Analyzing image...');
+  try {
+    const vision = await fetch(`https://api.blackbeltah.ai/vision`, {
+      method: 'POST',
+      body: media,
+      headers: { 'Content-Type': 'image/jpeg' }
+    }).then(res => res.text());
+    reply(`👁 Vision says: ${vision}`);
+  } catch {
+    reply('❌ Vision API failed.');
+  }
+  break;
+
+case 'define':
+case 'dictionary':
+  if (!text) return reply('📚 Enter a word to define.');
+  try {
+    const def = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${text}`)
+      .then(res => res.json());
+    let meaning = `📖 Definition of *${text}*:\n`;
+    def[0]?.meanings.forEach((m, i) => {
+      meaning += `\n🔹 *${m.partOfSpeech}*\n`;
+      meaning += m.definitions.map(d => `- ${d.definition}`).join('\n');
+    });
+    reply(meaning);
+  } catch {
+    reply('❌ Could not find a definition.');
+  }
+  break;// 👥 GROUP MANAGEMENT MODULES
 
 case 'tagall':
 case 'all':
