@@ -170,3 +170,76 @@ case 'lyrics': { if (!text) return m.reply('📝 Provide song name to fetch lyri
 
 case 'tiktok': { if (!args[0]) return m.reply('📹 Provide a TikTok URL.'); const info = await getTiktok(args[0]); if (!info || !info.video) return m.reply('❌ Failed to download TikTok.'); client.sendMessage(m.chat, { video: { url: info.video }, caption: '✅ TikTok downloaded' }, { quoted: m }); break; }
 
+case 'ytmp4':
+    if (!args[0]) return reply('🎬 Send a YouTube link bro!');
+    try {
+      const res = await fetch(`https://api.lolhuman.xyz/api/youtube?apikey=YOUR_API_KEY&url=${args[0]}`);
+      const json = await res.json();
+      if (!json.result || !json.result.link) return reply('❌ Video not found.');
+      await client.sendMessage(m.chat, {
+        video: { url: json.result.link },
+        caption: `🎬 ${json.result.title}`
+      }, { quoted: m });
+    } catch (e) {
+      reply('⚠️ Error fetching video.');
+    }
+    break;
+
+  case 'song2':
+  case 'play2':
+    if (!text) return reply('🎵 What song should I fetch?');
+    try {
+      const res = await fetch(`https://api.lolhuman.xyz/api/ytplay2?apikey=YOUR_API_KEY&query=${text}`);
+      const json = await res.json();
+      if (!json.result || !json.result.audio) return reply('❌ Song not found.');
+      await client.sendMessage(m.chat, {
+        audio: { url: json.result.audio },
+        mimetype: 'audio/mp4',
+        ptt: false,
+        fileName: json.result.title
+      }, { quoted: m });
+    } catch {
+      reply('⚠️ Couldn’t download the song.');
+    }
+    break;
+
+  case 'facebook':
+  case 'fbdl':
+    if (!args[0]) return reply('📱 Send a Facebook video link!');
+    try {
+      const res = await fetch(`https://api.lolhuman.xyz/api/facebook?apikey=YOUR_API_KEY&url=${args[0]}`);
+      const json = await res.json();
+      if (!json.result || !json.result.link) return reply('❌ Video not found.');
+      await client.sendMessage(m.chat, {
+        video: { url: json.result.link },
+        caption: `📽 Facebook Video`
+      }, { quoted: m });
+    } catch {
+      reply('⚠️ Failed to fetch FB video.');
+    }
+    break;
+
+  case 'pinterest':
+    if (!text) return reply('🔎 What should I search on Pinterest?');
+    try {
+      const res = await fetch(`https://api.lolhuman.xyz/api/pinterest?apikey=YOUR_API_KEY&query=${text}`);
+      const json = await res.json();
+      if (!json.result) return reply('❌ No images found.');
+      const img = json.result[Math.floor(Math.random() * json.result.length)];
+      await client.sendMessage(m.chat, { image: { url: img }, caption: `🖼 Pinterest result for: ${text}` }, { quoted: m });
+    } catch {
+      reply('⚠️ Error fetching Pinterest image.');
+    }
+    break;
+
+  case 'twitter':
+    if (!args[0]) return reply('🐦 Please send a Twitter video link.');
+    try {
+      const res = await fetch(`https://api.lolhuman.xyz/api/twitter?apikey=YOUR_API_KEY&url=${args[0]}`);
+      const json = await res.json();
+      if (!json.result || !json.result.link) return reply('❌ Not found.');
+      await client.sendMessage(m.chat, { video: { url: json.result.link }, caption: '🐦 Twitter Video' }, { quoted: m });
+    } catch {
+      reply('⚠️ Error downloading Twitter video.');
+    }
+    break;
