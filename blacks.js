@@ -1,4 +1,84 @@
-const fs = require("fs");
+case 'menu':
+  const cap = `
+╔══💻 𝗨𝘀𝗲𝗿 𝗜𝗻𝗳𝗼 ══╗
+┃ 👤 User: ${m.pushName}
+┃ 🔖 Prefix: ${prefix}
+┃ 📶 Mode: ${mode}
+┃ 🕐 Time: ${getCurrentTimeInNairobi()}
+┃ 🔋 RAM: 32GB / 64GB
+┃ 🔒 Secure: ON
+╚══════════════════╝
+
+╔═━「 🎧 𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗥 」━═╗
+┃ 🎵 .play       🎞 .ytmp4
+┃ 🎶 .song       🐦 .twitter
+┃ 📸 .fb         🎼 .lyrics
+╚══════════════════════════╝
+
+╔═━「 🎨 𝗘𝗗𝗜𝗧𝗜𝗡𝗚 」━═╗
+┃ 🖼 .sticker     📷 .photo
+┃ 🎭 .meme        🎬 .vv
+╚═════════════════════════╝
+
+╔═━「 🤖 𝗔𝗜 𝗠𝗢𝗗𝗨𝗟𝗘𝗦 」━═╗
+┃ 💬 .ai        🔮 .gpt
+┃ 🧠 .gpt4      🧪 .gemini
+┃ 👁‍🗨 .vision
+╚═════════════════════════╝
+
+╔═━「 🔁 𝗔𝗨𝗧𝗢 𝗙𝗘𝗔𝗧𝗨𝗥𝗘𝗦 」━═╗
+┃ 📤 AutoBio     💬 AutoReact
+┃ 📥 StatusView  🔐 AntiDelete
+┃ 🔍 ViewOnceUnlock
+╚════════════════════════════╝
+
+╔═━「 👑 𝗢𝗪𝗡𝗘𝗥 」━═╗
+┃ 🔁 .restart     ⚙ .setvar
+┃ 💾 .save        ☠ .kill
+┃ 🔄 .update      👑 .owner
+╚═════════════════════════╝
+
+╔═━「 📖 𝗠𝗜𝗦𝗖 」━═╗
+┃ 📜 .bible       📖 .quran
+┃ 💳 .repo        👥 .pair
+╚═════════════════════╝
+
+╔═━「 🔥 𝗣𝗥𝗔𝗡𝗞𝗦 」━═╗
+┃ 💀 .hack  (Realistic Fake Hack)
+╚═════════════════════╝
+
+╔═━「 👥 𝗚𝗥𝗢𝗨𝗣 」━═╗
+┃ ➕ .add         🗑 .remove
+┃ 🔓 .open        🔒 .close
+┃ ⬆️ .promote     ⬇️ .demote
+╚═════════════════════╝
+
+╔═━「 ⚽ 𝗙𝗢𝗢𝗧𝗕𝗔𝗟𝗟 」━═╗
+┃ 🏆 .epl         🇪🇸 .laliga
+┃ 🇮🇹 .serie-a     📆 .fixtures
+╚═════════════════════╝
+
+╔═━「 🎨 𝗟𝗢𝗚𝗢𝗦 」━═╗
+┃ 💻 .hacker      👾 .matrix
+┃ 🐱 .cat         🌈 .neon
+┃ 🐉 .dragonball  🧊 .metallic
+┃ ❄️ .snow
+╚═════════════════════╝
+
+🖼 Banner:
+https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg
+
+👑 𝐌𝐚𝐝𝐞 𝐁𝐲: 𝕴𝖘𝖍𝖆𝖖 𝕴𝖇𝖗𝖆𝖍𝖎𝖒
+🔗 Repo: https://github.com/Toxicant1/black-super-bot.git
+📧 Email: isaac0maina@gmail.com
+📱 Owner: wa.me/0115172722
+  `;
+
+  await conn.sendMessage(m.chat, {
+    image: { url: "https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg" },
+    caption: cap,
+  }, { quoted: m });
+  break;const fs = require("fs");
 const axios = require("axios");
 const yts = require("yt-search");
 case 'quote': {
