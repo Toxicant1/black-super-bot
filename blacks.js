@@ -604,3 +604,57 @@ case 'leave':
   if (!isCreator) return reply(NotOwner);
   await client.groupLeave(m.chat);
   break;
+// AI MODULES 🤖
+
+case 'ai':
+case 'gpt':
+case 'gpt2':
+case 'gpt3':
+case 'gpt4':
+case 'gemini':
+  if (!text) return reply('🧠 Please enter a prompt or question.');
+  reply('⌛ Generating response, hold on...');
+  try {
+    const prompt = text.trim();
+    const apiRes = await fetch(`https://api.nerdbot.ai/gpt?prompt=${encodeURIComponent(prompt)}`);
+    const data = await apiRes.json();
+    if (!data.result) return reply('⚠️ No response from AI.');
+    reply(`🤖 *AI Response:*\n\n${data.result}`);
+  } catch (err) {
+    console.log(err);
+    reply('❌ Failed to get AI response.');
+  }
+  break;
+
+case 'vision':
+  if (!m.quoted || !m.quoted.imageMessage) return reply('📸 Reply to an image with caption to analyze.');
+  reply('🧠 Processing image...');
+  try {
+    const media = await downloadMediaMessage(m.quoted, 'buffer', {}, { logger, client });
+    const base64 = media.toString('base64');
+    const visionRes = await fetch("https://api.nerdbot.ai/vision", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: base64 })
+    });
+    const result = await visionRes.json();
+    if (!result.description) return reply("⚠️ Vision AI couldn't understand the image.");
+    reply(`🧠 *Vision AI:* ${result.description}`);
+  } catch (err) {
+    reply('❌ Error analyzing image.');
+  }
+  break;
+
+case 'define':
+  if (!text) return reply('📖 Provide a word to define.');
+  try {
+    const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${text}`);
+    const [meaning] = await res.json();
+    if (!meaning) return reply('❌ No definitions found.');
+    const definition = meaning.meanings[0].definitions[0].definition;
+    const example = meaning.meanings[0].definitions[0].example || 'No example provided.';
+    reply(`📘 *Word:* ${meaning.word}\n📚 *Definition:* ${definition}\n✏ *Example:* ${example}`);
+  } catch (err) {
+    reply('❌ Unable to fetch definition.');
+  }
+  break;
