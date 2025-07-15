@@ -1,4 +1,4 @@
-// Final index.js with Smart Auto-DM for Black Beltah
+// Final index.js with Smart Auto-DM for Black Beltah (Fixed Mega URL Bug)
 
 const { default: ravenConnect, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, downloadContentFromMessage, jidDecode, proto, getContentType, } = require("@whiskeysockets/baileys");
 
@@ -6,7 +6,21 @@ const pino = require("pino"); const { Boom } = require("@hapi/boom"); const fs =
 
 const color = (text, color) => (!color ? chalk.green(text) : chalk.keyword(color)(text));
 
-async function authentication() { if (!fs.existsSync(__dirname + "/sessions/creds.json")) { if (!session) return console.log("Please add your session to SESSION env !!"); const sessdata = session.replace("BLACK MD;;;", ""); const filer = await File.fromURL(https://mega.nz/file/${sessdata}); filer.download((err, data) => { if (err) throw err; fs.writeFile(__dirname + "/sessions/creds.json", data, () => { console.log("Session downloaded successfully✅️"); console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️"); }); }); } }
+async function authentication() { if (!fs.existsSync(__dirname + '/sessions/creds.json')) { if (!session) return console.log('Please add your session to SESSION env !!');
+
+const sessdata = session.replace("BLACK MD;;;", '');
+const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`);
+
+filer.download((err, data) => {
+  if (err) throw err;
+
+  fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
+    console.log("Session downloaded successfully✅️");
+    console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️");
+  });
+});
+
+} }
 
 async function startRaven() { await authentication(); const { state, saveCreds } = await useMultiFileAuthState(__dirname + "/sessions/"); const { version, isLatest } = await fetchLatestBaileysVersion(); console.log(using WA v${version.join(".")}, isLatest: ${isLatest}); console.log(color(figlet.textSync("BLACK-MD", { font: "Standard" }), "green"));
 
@@ -35,7 +49,7 @@ const now = Date.now();
 
 });
 
-// ========== REST OF BOT LOGIC ========== // // keep all existing messages.upsert, anticall, group updates, etc. // no need to duplicate, just ensure auto-DM is above and not conflicting }
+// ========== CONTINUE EXISTING BOT EVENTS BELOW ========== // // Messages, Groups, Anticall, etc. }
 
 app.use(express.static("pixel")); app.get("/", (req, res) => res.sendFile(__dirname + "/index.html")); app.listen(port, () => console.log(Server listening on port http://localhost:${port}));
 
