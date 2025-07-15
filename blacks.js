@@ -1,4 +1,86 @@
-/*
+// DOWNLOADER MODULES 🎵🎬
+
+case 'play':
+case 'song':
+case 'ytmp3':
+  if (!text) return reply('🎧 Please provide a song name or YouTube link.');
+  reply('🎵 Fetching MP3, please wait...');
+  try {
+    const res = await fetch(`https://api.lolhuman.xyz/api/ytplayaudio?apikey=demo&query=${encodeURIComponent(text)}`);
+    const json = await res.json();
+    if (!json.result || !json.result.audio) return reply('❌ Failed to fetch song.');
+    await client.sendMessage(m.chat, {
+      audio: { url: json.result.audio },
+      mimetype: 'audio/mpeg'
+    }, { quoted: m });
+  } catch (e) {
+    reply('❌ Error downloading song.');
+  }
+  break;
+
+case 'ytmp4':
+case 'video':
+  if (!text) return reply('🎬 Provide a YouTube link.');
+  reply('🎥 Downloading video, hold on...');
+  try {
+    const res = await fetch(`https://api.lolhuman.xyz/api/ytvideo?apikey=demo&url=${encodeURIComponent(text)}`);
+    const json = await res.json();
+    if (!json.result || !json.result.link) return reply('❌ Failed to get video.');
+    await client.sendMessage(m.chat, {
+      video: { url: json.result.link },
+      mimetype: 'video/mp4',
+      caption: `🎬 *${json.result.title}*`
+    }, { quoted: m });
+  } catch (e) {
+    reply('❌ Couldn’t fetch video.');
+  }
+  break;
+
+case 'tiktok':
+case 'tt':
+  if (!text) return reply('🕺 Send TikTok video link.');
+  reply('📥 Fetching TikTok...');
+  try {
+    const res = await fetch(`https://api.lolhuman.xyz/api/tiktok?apikey=demo&url=${text}`);
+    const json = await res.json();
+    await client.sendMessage(m.chat, {
+      video: { url: json.result.link },
+      caption: '🎵 TikTok Downloaded'
+    }, { quoted: m });
+  } catch (e) {
+    reply('❌ Failed to download TikTok.');
+  }
+  break;
+
+case 'insta':
+case 'instagram':
+  if (!text) return reply('📷 Provide Instagram video/reel link.');
+  reply('📥 Fetching IG content...');
+  try {
+    const res = await fetch(`https://api.lolhuman.xyz/api/instagram?apikey=demo&url=${text}`);
+    const json = await res.json();
+    await client.sendMessage(m.chat, {
+      video: { url: json.result[0] }
+    }, { quoted: m });
+  } catch (e) {
+    reply('❌ Error downloading Instagram content.');
+  }
+  break;
+
+case 'fb':
+case 'facebook':
+  if (!text) return reply('📘 Send Facebook video link.');
+  reply('📥 Fetching Facebook video...');
+  try {
+    const res = await fetch(`https://api.lolhuman.xyz/api/facebook?apikey=demo&url=${text}`);
+    const json = await res.json();
+    await client.sendMessage(m.chat, {
+      video: { url: json.result.link }
+    }, { quoted: m });
+  } catch (e) {
+    reply('❌ Failed to download Facebook video.');
+  }
+  break;/*
 
 BeltahBot-MD Handler: Part 1 (Lines 1-1000)
 
