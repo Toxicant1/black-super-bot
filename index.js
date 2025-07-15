@@ -1,4 +1,4 @@
-// Final index.js with Smart Auto-DM for Black Beltah (Fixed Mega URL Bug)
+// Final index.js with Smart Auto-DM for Black Beltah (Fixed Syntax Errors)
 
 const { default: ravenConnect, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, downloadContentFromMessage, jidDecode, proto, getContentType, } = require("@whiskeysockets/baileys");
 
