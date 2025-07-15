@@ -152,3 +152,21 @@ if (viewonceunlock && m.message?.viewOnceMessageV2) {
 
 module.exports = BeltahBotHandler;
 
+// 📦 BeltahBot-MD - Part 2: Command Handlers (Play, YTMP3, Sticker, etc.)
+
+case 'play': { if (!text) return m.reply('🎵 Please provide a song name to play.'); const search = await yts(text); const song = search.all[0]; if (!song) return m.reply('❌ Song not found. Try a different title.');
+
+let caption = 🎶 *Title:* ${song.title}\n🎥 *Views:* ${song.views}\n🕒 *Duration:* ${song.timestamp}\n📎 *Link:* ${song.url}; const thumbnail = await getBuffer(song.thumbnail); const audioUrl = await getYTMP3(song.url); // Assumes custom ytmp3 function
+
+await client.sendMessage(m.chat, { image: thumbnail, caption: caption }, { quoted: m });
+
+await client.sendMessage(m.chat, { audio: { url: audioUrl }, mimetype: 'audio/mpeg', fileName: ${song.title}.mp3 }, { quoted: m }); break; }
+
+case 'ytmp3': { if (!args[0]) return m.reply('⚠️ Provide a YouTube URL.'); const audio = await getYTMP3(args[0]); if (!audio) return m.reply('❌ Could not download. Try again.'); client.sendMessage(m.chat, { audio: { url: audio }, mimetype: 'audio/mpeg', fileName: 'yt-audio.mp3' }, { quoted: m }); break; }
+
+case 'sticker': { if (!quoted || !quoted.message) return m.reply('🖼️ Reply to an image or video.'); let mime = quoted.mtype; if (/image/.test(mime)) { let media = await quoted.download(); let sticker = await createSticker(media, { packname: "BELTAH", author: "Ishaq Ibrahim" }); client.sendMessage(m.chat, sticker, { quoted: m }); } else if (/video/.test(mime)) { let media = await quoted.download(); let sticker = await createSticker(media, { packname: "BELTAH", author: "Ishaq Ibrahim" }); client.sendMessage(m.chat, sticker, { quoted: m }); } else { m.reply('⚠️ Unsupported media type.'); } break; }
+
+case 'lyrics': { if (!text) return m.reply('📝 Provide song name to fetch lyrics.'); const res = await fetch(https://api.lyrics.ovh/v1/${encodeURIComponent(text)}); const data = await res.json(); if (!data.lyrics) return m.reply('❌ Lyrics not found.'); m.reply(🎤 Lyrics for *${text}*:\n\n${data.lyrics}); break; }
+
+case 'tiktok': { if (!args[0]) return m.reply('📹 Provide a TikTok URL.'); const info = await getTiktok(args[0]); if (!info || !info.video) return m.reply('❌ Failed to download TikTok.'); client.sendMessage(m.chat, { video: { url: info.video }, caption: '✅ TikTok downloaded' }, { quoted: m }); break; }
+
