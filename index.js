@@ -398,9 +398,15 @@ fs.watchFile(file, () => {
   require(file);
 });
 
-// ========== SMART AUTO DM SIMULATION ==========
-const lastAutoDM = {}; // Store last auto DM timestamp
-const AUTO_DM_TIMEOUT = 2 * 60 * 60 * 1000; // 2 hours
+const conn = await makeWASocket({
+  auth,
+  printQRInTerminal: true,
+  // any other options...
+});
+
+// ✅ Place auto-DM block here
+const lastAutoDM = {};
+const AUTO_DM_TIMEOUT = 2 * 60 * 60 * 1000;
 
 conn.ev.on('messages.upsert', async (m) => {
   try {
@@ -416,7 +422,6 @@ conn.ev.on('messages.upsert', async (m) => {
     const now = Date.now();
     const lastSent = lastAutoDM[sender] || 0;
 
-    // Check time difference
     if (now - lastSent > AUTO_DM_TIMEOUT) {
       await conn.sendMessage(sender, {
         text: `👾 𝗟𝗼𝗮𝗱𝗶𝗻𝗴 𝗳𝗼𝗿 𝕴𝖘𝖍𝖆𝖖 𝕴𝖇𝖗𝖆𝖍𝖎𝖒... 🕵️‍♂️💀`
