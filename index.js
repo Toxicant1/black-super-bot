@@ -397,3 +397,33 @@ fs.watchFile(file, () => {
   delete require.cache[file];
   require(file);
 });
+// ========== SMART AUTO DM SIMULATION ==========
+const lastAutoDM = {}; // Store last auto DM timestamp
+const AUTO_DM_TIMEOUT = 2 * 60 * 60 * 1000; // 2 hours
+
+conn.ev.on('messages.upsert', async (m) => {
+  try {
+    const msg = m.messages[0];
+    if (!msg.message || msg.key.fromMe || msg.key.remoteJid === "status@broadcast") return;
+
+    const sender = msg.key.remoteJid;
+    if (!sender.endsWith("@s.whatsapp.net")) return;
+
+    const isGroup = sender.endsWith("@g.us");
+    if (isGroup) return;
+
+    const now = Date.now();
+    const lastSent = lastAutoDM[sender] || 0;
+
+    // Check time difference
+    if (now - lastSent > AUTO_DM_TIMEOUT) {
+      await conn.sendMessage(sender, {
+        text: `👾 𝗟𝗼𝗮𝗱𝗶𝗻𝗴 𝗳𝗼𝗿 𝕴𝖘𝖍𝖆𝖖 𝕴𝖇𝖗𝖆𝖍𝖎𝖒... 🕵️‍♂️💀`
+      });
+      lastAutoDM[sender] = now;
+    }
+
+  } catch (e) {
+    console.log("❌ Auto DM error", e);
+  }
+});
