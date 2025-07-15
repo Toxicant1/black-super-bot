@@ -1024,3 +1024,43 @@ case 'hacker':
 🧨 Please avoid restarting or force shutdown!
 💀 Beltah BlackOps Hack Engine - 2025
 `);
+case 'alive':
+case 'bot':
+case 'botcheck': {
+  const ava_audio = fs.readFileSync('./Media/Ava.mp3')
+  const image_preview = { url: 'https://raw.githubusercontent.com/Toxicant1/black-super-bot/main/blackmachant.jpg' }
+
+  const caption = `🔋 *𝐁𝐋𝐀𝐂𝐊 𝐁𝐄𝐋𝐓𝐀𝐇 𝐁𝐎𝐓 is Online!*
+✨ *Owner:* 𝕴𝖘𝖍𝖆𝖖 𝕴𝖇𝖗𝖆𝖍𝖎𝖒
+📞 *Contact:* wa.me/254115172722
+📧 *Email:* isaac0maina@gmail.com
+🌐 *Panel:* https://blacks-pair.onrender.com
+📦 *Repo:* github.com/Toxicant1/black-super-bot`
+
+  await client.sendMessage(m.chat, { image: image_preview, caption }, { quoted: m })
+  await client.sendMessage(m.chat, { audio: ava_audio, mimetype: 'audio/mpeg', ptt: true }, { quoted: m })
+}
+break
+
+case 'repo':
+case 'source':
+case 'github': {
+  await client.sendMessage(m.chat, {
+    text: `🧠 *𝐁𝐋𝐀𝐂𝐊 𝐁𝐄𝐋𝐓𝐀𝐇 - Source Code*
+
+👨‍💻 *Dev:* 𝕴𝖘𝖍𝖆𝖖 𝕴𝖇𝖗𝖆𝖍𝖎𝖒
+🔗 *GitHub Repo:* https://github.com/Toxicant1/black-super-bot.git
+🌐 *Panel:* https://blacks-pair.onrender.com
+📧 *Email:* isaac0maina@gmail.com`,
+    contextInfo: {
+      externalAdReply: {
+        title: "Open GitHub Repository",
+        body: "by BeltahBot-MD",
+        mediaType: 1,
+        thumbnail: fs.readFileSync('./Media/blackmachant.jpg'),
+        sourceUrl: 'https://github.com/Toxicant1/black-super-bot'
+      }
+    }
+  }, { quoted: m })
+}
+break
