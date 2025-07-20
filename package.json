@@ -22,7 +22,7 @@
    "author": "Marchant", 
    "license": "MIT", 
    "dependencies": { 
-     "@whiskeysockets/baileys": "https://github.com/Luffy2ndAccount/Baileys.git",
+     "@whiskeysockets/baileys": "git+ssh://git@github.com/Luffy2ndAccount/Baileys.git",
      "@adiwajshing/keyed-db": "^0.2.4", 
      "@hapi/boom": "^10.0.0",
      "@google/generative-ai":"^0.1.3",
