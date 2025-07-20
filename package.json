@@ -22,7 +22,8 @@
    "author": "Marchant", 
    "license": "MIT", 
    "dependencies": {
-  "baileys": "https://github.com/Luffy2ndAccount/Baileys.git"
+  "baileys": "https://github.com/Luffy2ndAccount/Baileys.git",
+  "@adiwajshing/keyed-db": "^1.0.0"
 }
      "@adiwajshing/keyed-db": "^0.2.4", 
      "@hapi/boom": "^10.0.0",
