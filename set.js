@@ -6,7 +6,7 @@ There's no need to configure this if you're deploying via Heroku — just set th
 const sessionName = 'session';
 
 // ✅ Correct MEGA session format (URL encoded)
-const session = 'BLACK MD;;;xvE0gAAS#QW5u8jxs3IcQ6igDp7pFdDexZ2RSUj33oWOnAnfLUtg'; // This is OK as-is
+const session = 'BLACK MD;;;s6M1lDJT#TdHn4ZqB908TU2IwirNl89_9HRHUTkasVwEBDnszWnY'; // This is OK as-is
 
 const autobio = process.env.AUTOBIO || 'FALSE';
 const autolike = process.env.AUTOLIKE_STATUS || 'TRUE';
