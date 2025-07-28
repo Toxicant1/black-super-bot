@@ -39,7 +39,7 @@ const color = (text, color) => !color ? chalk.green(text) : chalk.keyword(color)
 async function authentication() {
   if (!fs.existsSync(__dirname + '/sessions/creds.json')) {
     if (!session) return console.log('Please add your session to SESSION env !!');
-    const sessdata = session.replace("BLACK MD;;;", '');
+    const sessdata = session.replace("LOST-BOY MD;;;", '');
     const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`);
     filer.download((err, data) => {
       if (err) throw err;
@@ -57,12 +57,12 @@ async function startRaven() {
   const { version } = await fetchLatestBaileysVersion();
 
   console.log(`using WA v${version.join(".")}`);
-  console.log(color(figlet.textSync("BLACK-MD", { font: "Standard" }), "green"));
+  console.log(color(figlet.textSync("LOST-BOY", { font: "Standard" }), "green"));
 
   const client = ravenConnect({
     logger: pino({ level: "silent" }),
     printQRInTerminal: false,
-    browser: ["BLACK - AI", "Safari", "5.1.7"],
+    browser: ["LOST-BOY - AI", "Safari", "5.1.7"],
     auth: state,
     syncFullHistory: true,
   });
@@ -73,9 +73,9 @@ async function startRaven() {
     const { connection, lastDisconnect } = update;
     if (connection === "close" && lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut) return startRaven();
     if (connection === "open") {
-      console.log(color("BLACK MD connected ✅", "green"));
+      console.log(color("LOST-BOY MD connected ✅", "green"));
       client.sendMessage(client.user.id, {
-        text: `✅ Connected to BLACK MD\n👥 Mode: ${mode}\n👤 Prefix: ${prefix}`
+        text: `✅ Connected to LOST-BOY MD\n👥 Mode: ${mode}\n👤 Prefix: ${prefix}`
       });
     }
   });
