@@ -40,16 +40,42 @@ const color = (text, color) => {
 };
 
 async function authentication() {
-  if (!fs.existsSync(__dirname + '/sessions/creds.json')) {
-    if(!session) return console.log('Please add your session to SESSION env !!')
-const sessdata = session.replace("BLACK MD;;;", '');
-const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`)
-filer.download((err, data) => {
-if(err) throw err
-fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
-console.log("Session downloaded successfully✅️")
-console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️")
-})})}
+  const sessionPath = path.join(__dirname, 'sessions', 'creds.json');
+
+  if (!fs.existsSync(sessionPath)) {
+    if (!session || !session.startsWith("BLACK MD;;;")) {
+      return console.log('❌ Invalid or missing session! Please set it correctly in set.js with format: BLACK MD;;;yourMegaID');
+    }
+
+    const sessdata = session.replace("BLACK MD;;;", "").trim();
+    if (!sessdata) {
+      return console.log('❌ Session ID is empty after parsing. Check your set.js');
+    }
+
+    console.log(`🧩 Downloading session from MEGA... ID: ${sessdata}`);
+
+    try {
+      const file = await File.fromURL(`https://mega.nz/file/${sessdata}`);
+      file.download((err, data) => {
+        if (err) {
+          console.error('❌ Error downloading session from MEGA:', err);
+          return;
+        }
+        fs.writeFile(sessionPath, data, (err) => {
+          if (err) {
+            console.error('❌ Error saving session:', err);
+            return;
+          }
+          console.log("✅ Session downloaded successfully");
+          console.log("🔄 Connecting to WhatsApp... Please wait ⌛");
+        });
+      });
+    } catch (err) {
+      console.error('❌ Failed to initialize MEGA file download:', err.message || err);
+    }
+  } else {
+    console.log("✅ Session already exists. Skipping download.");
+  }
 }
 
 async function startRaven() {
