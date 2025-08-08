@@ -1,7 +1,5 @@
 /* If it works, don't Fix it */
 const { SESSION_ID } = require('./set');
-const sessionName = SESSION_ID;
-
 
 const {
   default: ravenConnect,
