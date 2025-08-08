@@ -1,5 +1,8 @@
+/* If it works, don't Fix it */
+const { SESSION_ID } = require('./set');
+const sessionName = SESSION_ID;
 
-/* If it works, don't  Fix it */
+
 const {
   default: ravenConnect,
   useMultiFileAuthState,
