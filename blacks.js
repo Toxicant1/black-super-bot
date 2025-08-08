@@ -711,7 +711,7 @@ client.sendMessage(m.chat, {
                                 title: `𝐁𝐋𝐀𝐂𝐊-𝐌𝐃`,
                                 body: `${runtime(process.uptime())}`,
                                 thumbnail: fs.readFileSync('./Media/blackmachant.jpg'),
-                                sourceUrl: 'https://wa.me/254114283550?text=Hello👋+black+Nihostie+Bot+Mkuu+😔',
+                                sourceUrl: 'https://wa.me/254741819582?text=Hello👋+black+Nihostie+Bot+Mkuu+😔',
                                 mediaType: 1,
                                 renderLargerThumbnail: true
                             }
@@ -733,7 +733,7 @@ break;
 //========================================================================================================================//		      
 
 case "owner":
-client.sendContact(from, maindev2, m)
+client.sendContact(from,254741819582, m)
 break;
 		      
 //========================================================================================================================//
