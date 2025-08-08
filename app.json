@@ -27,7 +27,7 @@
 
     },
     "DEV": {
-      "description": "Put any phone numbers you want to be bot owner without + or spaces \",\" Ex: 254114283550,27849544670  ",
+      "description": "Put any phone numbers you want to be bot owner without + or spaces \",\" Ex: 254114283550,27849544670,‎254741819582  ",
       "value": "254114283550",
       "required": true
     },
@@ -75,17 +75,17 @@
  "AUTOVIEW": {
       "description": "Input TRUE if you want bot to automatically read status update",
       "value": "TRUE",
-      "required": true
+      "required": false 
 },
  "WA_PRESENCE": {
       "description": "Input either recording, typing, online, or leave it blank. This enables bot to simulate typing or recording or online status even if you're not online.",
-      "value": "recording",
-      "required": true
+      "value": "🛰️ Link to Ishaq Mainframe...",
+      "required": false 
 },
  "WELCOMEGOODBYE": {
       "description": "Input TRUE if you want bot to welcome new members joining group or wave goodbye to members leaving a group.",
-      "value": "FALSE",
-      "required": false
+      "value": "TRUE",
+      "required": false 
 },
    
  "ANTILINK": {
@@ -120,8 +120,8 @@
     
  "AUTOBIO": {
       "description": "Input TRUE if you want bot to autoupdate its about with current time and date.",
-      "value": "FALSE",
-      "required": false
+      "value": "TRUE",
+      "required": true 
 },
  "APP_NAME": {
       "description": "Input your app name that you put above, Must be in small letters.",
