@@ -120,7 +120,7 @@
     
  "AUTOBIO": {
       "description": "Input TRUE if you want bot to autoupdate its about with current time and date.",
-      "value": "TRUE",
+      "value": "FALSE",
       "required": false 
 },
  "APP_NAME": {
