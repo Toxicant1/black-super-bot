@@ -3,8 +3,8 @@
 There's no need to configure this if you're deploying via Heroku — just set them in the environment variables.*/
 
 module.exports = {
-  SESSION_ID: "sessionBLACK MD;;;cm9UQaKS#0x6cQM_3nQkkJlwfdA5f8Uevqd2_1Lqg2cnFf85ao5A,
-  sessionName: 'sessionBLACK MD;;;cm9UQaKS#0x6cQM_3nQkkJlwfdA5f8Uevqd2_1Lqg2cnFf85ao5A', // added to match destructuring
+  SESSION_ID: "sessionBLACK MD;;;cm9UQaKS#0x6cQM_3nQkkJlwfdA5f8Uevqd2_1Lqg2cnFf85ao5A",
+  sessionName: "sessionBLACK MD;;;cm9UQaKS#0x6cQM_3nQkkJlwfdA5f8Uevqd2_1Lqg2cnFf85ao5A", // added to match destructuring
   // other settings...
 };
 const session = process.env.SESSION || '';
