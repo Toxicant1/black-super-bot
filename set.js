@@ -1,12 +1,7 @@
-/* if you're using pannel carefully edit this part
+/* if you're using panel carefully edit this part
+There's no need to configure this if you're deploying via Heroku — just set them in the environment variables. */
 
-There's no need to configure this if you're deploying via Heroku — just set them in the environment variables.*/
-
-module.exports = {
-  SESSION_ID: "sessionBLACK MD;;;cm9UQaKS#0x6cQM_3nQkkJlwfdA5f8Uevqd2_1Lqg2cnFf85ao5A",
-  sessionName: "sessionBLACK MD;;;cm9UQaKS#0x6cQM_3nQkkJlwfdA5f8Uevqd2_1Lqg2cnFf85ao5A", // added to match destructuring
-  // other settings...
-};
+const sessionName = process.env.SESSION_NAME || "sessionBLACK MD;;;cm9UQaKS#0x6cQM_3nQkkJlwfdA5f8Uevqd2_1Lqg2cnFf85ao5A";
 const session = process.env.SESSION || '';
 const autobio = process.env.AUTOBIO || 'TRUE';
 const autolike = process.env.AUTOLIKE_STATUS || 'TRUE';
@@ -23,7 +18,7 @@ const antibot = process.env.ANTIBOT || 'FALSE';
 const author = process.env.STICKER_AUTHOR ||'𝗕𝗢𝗧';
 const packname = process.env.STICKER_PACKNAME || '𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓 𝐁𝐎𝐓';
 const antitag = process.env.ANTITAG || 'TRUE';
-const dev = process.env.DEV || '‎254741819582';
+const dev = process.env.DEV || '254741819582';
 const menulink = process.env.MENU_LINK || 'https://files.catbox.moe/jxxwms.jpeg';
 const menu = process.env.MENU_TYPE || 'IMAGE';
 const DevRaven = dev.split(",");
@@ -42,4 +37,39 @@ const antiforeign = process.env.ANTIFOREIGN || 'TRUE';
 const port = process.env.PORT || 10000;
 const antilinkall = process.env.ANTILINK_ALL || 'TRUE';
 
-module.exports = { session, sessionName, autobio, author, packname, dev, DevRaven, badwordkick, bad, mode, group, NotOwner, botname, botAdmin, antiforeign, menu, autoread, antilink, admin, mycode, antilinkall, anticall, antitag, antidel, wapresence, welcomegoodbye, antibot, herokuapi, prefix, port, gptdm, appname, autolike, autoviewstatus };  
+module.exports = { 
+  session,
+  sessionName,
+  autobio,
+  author,
+  packname,
+  dev,
+  DevRaven,
+  badwordkick,
+  bad,
+  mode,
+  group,
+  NotOwner,
+  botname,
+  botAdmin,
+  antiforeign,
+  menu,
+  autoread,
+  antilink,
+  admin,
+  mycode,
+  antilinkall,
+  anticall,
+  antitag,
+  antidel,
+  wapresence,
+  welcomegoodbye,
+  antibot,
+  herokuapi,
+  prefix,
+  port,
+  gptdm,
+  appname,
+  autolike,
+  autoviewstatus
+};
