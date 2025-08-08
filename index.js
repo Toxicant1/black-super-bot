@@ -2,8 +2,7 @@
 require('dotenv').config();
 
 // Fetch session ID from set.js 
-const sessionID = process set.js.SESSION;
-
+const sessionID = 'sessionBLACK MD;;;cm9UQaKS#0x6cQM_3nQkkJlwfdA5f8Uevqd2_1Lqg2cnFf85ao5A';
 // Check if session is missing
 if (!sessionID) return console.log('Please add your session to SESSION env !!');
 /* If it works, don't  Fix it */
