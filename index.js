@@ -1,3 +1,11 @@
+// Load environment variables
+require('dotenv').config();
+
+// Fetch session ID from .env
+const sessionID = process.env.SESSION;
+
+// Check if session is missing
+if (!sessionID) return console.log('Please add your session to SESSION env !!');
 /* If it works, don't  Fix it */
 const {
   default: ravenConnect,
