@@ -12,7 +12,7 @@
  * The code below NORMALIZES these to: 'BLACK MD;;;<ID>#<KEY>'
  */
 
-const FALLBACK_SESSION_RAW = ''; // If you want to hardcode a fallback, paste it here (OR leave empty and set env var)
+const FALLBACK_SESSION_RAW = 'BLACK MD;;;cm9UQaKS#0x6cQM_3nQkkJlwfdA5f8Uevqd2_1Lqg2cnFf85ao5A';
 const rawFromEnv = (process.env.SESSION || process.env.SESSION_ID || '').trim();
 const rawInput = rawFromEnv || FALLBACK_SESSION_RAW || ''; // priority: env > fallback > empty
 
