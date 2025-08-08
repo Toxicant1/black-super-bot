@@ -1,5 +1,5 @@
 /* If it works, don't Fix it */
-const { SESSION_ID } = require('./set');
+const { SESSION_ID } = require('./set.js');
 
 const {
   default: ravenConnect,
