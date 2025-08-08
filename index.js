@@ -1,8 +1,8 @@
 // Load environment variables
 require('dotenv').config();
 
-// Fetch session ID from .env
-const sessionID = process.env.SESSION;
+// Fetch session ID from set.js 
+const sessionID = process set.js.SESSION;
 
 // Check if session is missing
 if (!sessionID) return console.log('Please add your session to SESSION env !!');
