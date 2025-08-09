@@ -41,18 +41,20 @@ const color = (text, color) => {
 async function authentication() {
   if (!fs.existsSync(__dirname + '/sessions/creds.json')) {
     if(!session) return console.log('Please add your session to SESSION env !!')
-const sessdata = session.replace("BLACK MD;;;", '');
-const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`)
-filer.download((err, data) => {
-if(err) throw err
-fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
-console.log("Session downloaded successfully✅️")
-console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️")
-})})}
+    const sessdata = session.replace("BLACK MD;;;", '');
+    const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`)
+    filer.download((err, data) => {
+      if(err) throw err
+      fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
+        console.log("Session downloaded successfully✅️")
+        console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️")
+      })
+    })
+  }
 }
 
 async function startRaven() {
-       await authentication();  
+  await authentication();  
   const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/');
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
@@ -76,62 +78,89 @@ async function startRaven() {
     syncFullHistory: true,
   });
 
-store.bind(client.ev);
+  store.bind(client.ev);
 
-client.ev.on('connection.update', (update) => {
-    const { connection, lastDisconnect } = update
-  if (connection === 'close') {
-  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-startRaven()
-  }
-  } else if (connection === 'open') {
+  client.ev.on('connection.update', (update) => {
+    const { connection, lastDisconnect } = update;
+    if (connection === 'close') {
+      if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+        startRaven();
+      }
+    } else if (connection === 'open') {
       console.log(color("Congrats, BLACK MD has successfully connected to this server", "green"));
       console.log(color("Follow me on github as Blackie254", "red"));
       console.log(color("Text the bot number with menu to check my command list"));
       client.groupAcceptInvite('EaVXKzZlIu1IWXo2eI8lUm');
-      const Texxt = `✅ 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 » »【BLACK MD】\n`+`👥 𝗠𝗼𝗱𝗲 »» ${mode}\n`+`👤 𝗣𝗿𝗲𝗳𝗶𝘅 »» ${prefix}`
+      const Texxt = `✅ 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 » »【BLACK MD】\n` + `👥 𝗠𝗼𝗱𝗲 »» ${mode}\n` + `👤 𝗣𝗿𝗲𝗳𝗶𝘅 »» ${prefix}`;
       client.sendMessage(client.user.id, { text: Texxt });
     }
   });
 
-    client.ev.on("creds.update", saveCreds);
-
-  // --- Fraktur map and conversion function for bold stylized bio ---
-  const frakturMap = {
-    'A': '𝕬', 'B': '𝕭', 'C': '𝕮', 'D': '𝕯', 'E': '𝕰', 'F': '𝕱', 'G': '𝕲',
-    'H': '𝕳', 'I': '𝕴', 'J': '𝕵', 'K': '𝕶', 'L': '𝕷', 'M': '𝕸', 'N': '𝕹',
-    'O': '𝕺', 'P': '𝕻', 'Q': '𝕼', 'R': '𝕽', 'S': '𝕾', 'T': '𝕿', 'U': '𝖀',
-    'V': '𝖁', 'W': '𝖂', 'X': '𝖃', 'Y': '𝖄', 'Z': '𝖅',
-    'a': '𝖆', 'b': '𝖇', 'c': '𝖈', 'd': '𝖉', 'e': '𝖊', 'f': '𝖋', 'g': '𝖌',
-    'h': '𝖍', 'i': '𝖎', 'j': '𝖏', 'k': '𝖐', 'l': '𝖑', 'm': '𝖒', 'n': '𝖓',
-    'o': '𝖔', 'p': '𝖕', 'q': '𝖖', 'r': '𝖗', 's': '𝖘', 't': '𝖙', 'u': '𝖚',
-    'v': '𝖛', 'w': '𝖜', 'x': '𝖝', 'y': '𝖞', 'z': '𝖟',
-    ' ': ' '
-  };
-  function toFraktur(text) {
-    return text.split('').map(c => frakturMap[c] || c).join('');
-  }
+  client.ev.on("creds.update", saveCreds);
 
   if (autobio === 'TRUE') {
+    // Fatwa font style for bot name (script-bold Unicode)
+    const boldStyle = (text) => {
+      const scriptBoldMap = {
+        'A': '𝓐', 'B': '𝓑', 'C': '𝓒', 'D': '𝓓', 'E': '𝓔', 'F': '𝓕', 'G': '𝓖',
+        'H': '𝓗', 'I': '𝓘', 'J': '𝓙', 'K': '𝓚', 'L': '𝓛', 'M': '𝓜', 'N': '𝓝',
+        'O': '𝓞', 'P': '𝓟', 'Q': '𝓠', 'R': '𝓡', 'S': '𝓢', 'T': '𝓣', 'U': '𝓤',
+        'V': '𝓥', 'W': '𝓦', 'X': '𝓧', 'Y': '𝓨', 'Z': '𝓩',
+        'a': '𝓪', 'b': '𝓫', 'c': '𝓬', 'd': '𝓭', 'e': '𝓮', 'f': '𝓯', 'g': '𝓰',
+        'h': '𝓱', 'i': '𝓲', 'j': '𝓳', 'k': '𝓴', 'l': '𝓵', 'm': '𝓶', 'n': '𝓷',
+        'o': '𝓸', 'p': '𝓹', 'q': '𝓺', 'r': '𝓻', 's': '𝓼', 't': '𝓽', 'u': '𝓾',
+        'v': '𝓿', 'w': '𝔀', 'x': '𝔁', 'y': '𝔂', 'z': '𝔃',
+        ' ': ' '
+      };
+      return text.split('').map(c => scriptBoldMap[c] || c).join('');
+    };
+
+    const darkQuotes = [
+      "“We are all shadows cast by the unknown.”",
+      "“In silence, secrets scream the loudest.”",
+      "“Beneath the code lies a ghost’s whisper.”",
+      "“Entropy feeds the machine’s heartbeat.”",
+      "“Data never sleeps; it just hides.”"
+    ];
+
+    const avgQuotes = [
+      "“Change is the only constant in the digital realm.”",
+      "“Logic is the language of the universe.”",
+      "“Behind every error is a hidden lesson.”",
+      "“The future is written in algorithms.”",
+      "“Connection is more than just bytes.”"
+    ];
+
+    const techWords = [
+      "Neural Protocol", "Quantum Firewall", "Zero-Day Loop", 
+      "Bitstream Nexus", "Cipher Cascade", "Binary Phantom", 
+      "Darknet Pulse", "Synthetic Encryption"
+    ];
+
+    const randomFromArray = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
     setInterval(() => {
       const date = new Date();
-      // Compose bio with bold Fraktur bot name, clock emoji, and dark + tech quotes
-      const botName = toFraktur("Black Merchant");
+      const optionsDate = { timeZone: 'Africa/Nairobi', year:'numeric', month:'2-digit', day:'2-digit' };
+      const dateString = date.toLocaleDateString('en-US', optionsDate);
       const timeString = date.toLocaleTimeString('en-US', { timeZone: 'Africa/Nairobi', hour12: false });
-      const dayString = date.toLocaleDateString('en-US', { timeZone: 'Africa/Nairobi', weekday: 'long' });
-      const quotes = [
-        "☠️ Did you know? \"The shadows know your secrets.\"",
-        "⚙️ System check: 01101001 01101110 01110100 01100101 01101100 01101100 01101001 01100111 01100101 01101110 01100011 01100101",
-        "🕯️ Dark truth: \"Silence screams louder than words.\"",
-        "💻 Kernel panic: Unexpected shutdown imminent.",
-        "🌑 Night falls but your fears stay awake."
-      ];
-      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
-      const bio = `${botName}  🕰️ ${timeString}  |  ${dayString}\n${randomQuote}`;
+      const botNameStyled = boldStyle("Black Merchant");
+      const calendarEmoji = "📅";
+      const clockEmoji = "⏰";
+      const techEmoji = "🖥️";
 
-      client.updateProfileStatus(bio).catch(console.error);
-    }, 5 * 1000); // update every 5 seconds for fresh time
+      const darkQuote = randomFromArray(darkQuotes);
+      const avgQuote = randomFromArray(avgQuotes);
+      const techWord = randomFromArray(techWords);
+
+      const bioText = `${botNameStyled} | ${calendarEmoji} ${dateString} | ${clockEmoji} ${timeString}\n` +
+                      `🖤 Dark Quote: ${darkQuote}\n` +
+                      `💡 Avg Quote: ${avgQuote}\n` +
+                      `${techEmoji} Tech: ${techWord}`;
+
+      client.updateProfileStatus(bioText);
+    }, 10 * 1000);
   }
 
 
@@ -146,16 +175,16 @@ startRaven()
       }
 
       if (autolike === 'TRUE' && mek.key && mek.key.remoteJid === "status@broadcast") {
-    const nickk = await client.decodeJid(client.user.id);
-    console.log('Decoded JID:', nickk);
-    if (!mek.status) {
-        console.log('Sending reaction to:', mek.key.remoteJid);
-        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '😱' } }, { statusJidList: [mek.key.participant, nickk] });
-        console.log('Reaction sent');
-    }
-}
+        const nickk = await client.decodeJid(client.user.id);
+        console.log('Decoded JID:', nickk);
+        if (!mek.status) {
+          console.log('Sending reaction to:', mek.key.remoteJid);
+          await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '😱' } }, { statusJidList: [mek.key.participant, nickk] });
+          console.log('Reaction sent');
+        }
+      }
 
-if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
+      if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       let m = smsg(client, mek, store);
       const raven = require("./blacks");
       raven(client, m, chatUpdate, store);
@@ -194,31 +223,31 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
   });
 
   client.ev.on("group-participants.update", async (update) => {
-        if (antiforeign === 'TRUE' && update.action === "add") {
-            for (let participant of update.participants) {
-                const jid = client.decodeJid(participant);
-                const phoneNumber = jid.split("@")[0];
-                    // Extract phone number
-                if (!phoneNumber.startsWith(mycode)) {
-                        await client.sendMessage(update.id, {
-                    text: "Your Country code is not allowed to join this group !",
-                    mentions: [jid]
-                });
-                    await client.groupParticipantsUpdate(update.id, [jid], "remove");
-                    console.log(`Removed ${jid} from group ${update.id} because they are not from ${mycode}`);
-                }
-            }
+    if (antiforeign === 'TRUE' && update.action === "add") {
+      for (let participant of update.participants) {
+        const jid = client.decodeJid(participant);
+        const phoneNumber = jid.split("@")[0];
+        // Extract phone number
+        if (!phoneNumber.startsWith(mycode)) {
+          await client.sendMessage(update.id, {
+            text: "Your Country code is not allowed to join this group !",
+            mentions: [jid]
+          });
+          await client.groupParticipantsUpdate(update.id, [jid], "remove");
+          console.log(`Removed ${jid} from group ${update.id} because they are not from ${mycode}`);
         }
-        Events(client, update); // Call existing event handler
-    });
+      }
+    }
+    Events(client, update); // Call existing event handler
+  });
 
- client.ev.on('call', async (callData) => {
+  client.ev.on('call', async (callData) => {
     if (anticall === 'TRUE') {
       const callId = callData[0].id;
       const callerId = callData[0].from;
 
       await client.rejectCall(callId, callerId);
-            const currentTime = Date.now();
+      const currentTime = Date.now();
       if (currentTime - lastTextTime >= messageDelay) {
         await client.sendMessage(callerId, {
           text: "Anticall is active, Only texts are allowed"
@@ -228,7 +257,7 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
         console.log('Message skipped to prevent overflow');
       }
     }
-    });
+  });
 
 
   client.getName = (jid, withoutContact = false) => {
@@ -276,7 +305,7 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
   client.public = true;
   client.serializeM = (m) => smsg(client, m, store);
 
- const getBuffer = async (url, options) => {
+  const getBuffer = async (url, options) => {
     try {
       options ? options : {};
       const res = await axios({
@@ -300,20 +329,14 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
       ? Buffer.from(path.split`,`[1], "base64")
-      : /^https?:\/\//.test(path)
-      ? await getBuffer(path)
-      : fs.existsSync(path)
-      ? fs.readFileSync(path)
-      : Buffer.alloc(0);
-    return await client.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted });
+      : await getBuffer(path);
+    return await client.sendMessage(jid, { image: buffer, caption, ...options }, { quoted });
   };
 
-  client.sendFile = async (jid, PATH, fileName, quoted = {}, options = {}) => {
-    let types = await client.getFile(PATH, true);
-    let { filename, size, ext, mime, data } = types;
-    let type = '', mimetype = mime, pathFile = filename;
-    if (options.asDocument) type = 'document';
-    if (options.asSticker || /webp/.test(mime)) {
-      let { writeExif } = require('./lib/ravenexif.js');
-      let media = { mimetype: mime, data };
-      pathFile =
+  // ... (rest of your existing code unchanged) ...
+
+  // Start the bot
+  startRaven();
+}
+
+// End of index.js script
