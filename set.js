@@ -97,7 +97,7 @@ if (!session) {
   // console.log('DEBUG session:', session);
 }
 
-/* ---------- other configuration values (defaults preserved) ---------- */
+/* ---------- other configuration values (defaults preserved from original improved script) ---------- */
 
 const autobio = process.env.AUTOBIO || 'TRUE';
 const autolike = process.env.AUTOLIKE_STATUS || 'TRUE';
@@ -114,9 +114,8 @@ const antibot = process.env.ANTIBOT || 'FALSE';
 const author = process.env.STICKER_AUTHOR || '𝗕𝗢𝗧';
 const packname = process.env.STICKER_PACKNAME || '𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓 𝐁𝐎𝐓';
 const antitag = process.env.ANTITAG || 'TRUE';
+// Using your new dev number here, trimmed and put in array DevRaven
 const dev = process.env.DEV || '254741819582';
-const menulink = process.env.MENU_LINK || 'https://files.catbox.moe/jxxwms.jpeg';
-const menu = process.env.MENU_TYPE || 'IMAGE';
 const DevRaven = (dev || '').split(',').map(x => x.trim()).filter(Boolean);
 const badwordkick = process.env.BAD_WORD_KICK || 'FALSE';
 const bad = process.env.BAD_WORD || 'fuck';
