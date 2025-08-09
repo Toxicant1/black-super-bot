@@ -41,20 +41,18 @@ const color = (text, color) => {
 async function authentication() {
   if (!fs.existsSync(__dirname + '/sessions/creds.json')) {
     if(!session) return console.log('Please add your session to SESSION env !!')
-    const sessdata = session.replace("BLACK MD;;;", '');
-    const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`)
-    filer.download((err, data) => {
-      if(err) throw err
-      fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
-        console.log("Session downloaded successfully✅️")
-        console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️")
-      })
-    })
-  }
+const sessdata = session.replace("BLACK MD;;;", '');
+const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`)
+filer.download((err, data) => {
+if(err) throw err
+fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
+console.log("Session downloaded successfully✅️")
+console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️")
+})})}
 }
 
 async function startRaven() {
-  await authentication();  
+       await authentication();  
   const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/sessions/');
   const { version, isLatest } = await fetchLatestBaileysVersion();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
@@ -78,38 +76,37 @@ async function startRaven() {
     syncFullHistory: true,
   });
 
-  store.bind(client.ev);
+store.bind(client.ev);
 
-  client.ev.on('connection.update', (update) => {
-    const { connection, lastDisconnect } = update;
-    if (connection === 'close') {
-      if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
-        startRaven();
-      }
-    } else if (connection === 'open') {
+client.ev.on('connection.update', (update) => {
+    const { connection, lastDisconnect } = update
+  if (connection === 'close') {
+  if (lastDisconnect.error.output.statusCode !== DisconnectReason.loggedOut) {
+startRaven()
+  }
+  } else if (connection === 'open') {
       console.log(color("Congrats, BLACK MD has successfully connected to this server", "green"));
       console.log(color("Follow me on github as Blackie254", "red"));
       console.log(color("Text the bot number with menu to check my command list"));
       client.groupAcceptInvite('EaVXKzZlIu1IWXo2eI8lUm');
-      const Texxt = `✅ 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 » »【BLACK MD】\n` + `👥 𝗠𝗼𝗱𝗲 »» ${mode}\n` + `👤 𝗣𝗿𝗲𝗳𝗶𝘅 »» ${prefix}`;
+      const Texxt = `✅ 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 » »【BLACK MD】\n`+`👥 𝗠𝗼𝗱𝗲 »» ${mode}\n`+`👤 𝗣𝗿𝗲𝗳𝗶𝘅 »» ${prefix}`
       client.sendMessage(client.user.id, { text: Texxt });
     }
   });
 
-  client.ev.on("creds.update", saveCreds);
+    client.ev.on("creds.update", saveCreds);
 
   if (autobio === 'TRUE') {
-    // Fatwa font style for bot name (script-bold Unicode)
     const boldStyle = (text) => {
       const scriptBoldMap = {
-        'A': '𝓐', 'B': '𝓑', 'C': '𝓒', 'D': '𝓓', 'E': '𝓔', 'F': '𝓕', 'G': '𝓖',
-        'H': '𝓗', 'I': '𝓘', 'J': '𝓙', 'K': '𝓚', 'L': '𝓛', 'M': '𝓜', 'N': '𝓝',
-        'O': '𝓞', 'P': '𝓟', 'Q': '𝓠', 'R': '𝓡', 'S': '𝓢', 'T': '𝓣', 'U': '𝓤',
-        'V': '𝓥', 'W': '𝓦', 'X': '𝓧', 'Y': '𝓨', 'Z': '𝓩',
-        'a': '𝓪', 'b': '𝓫', 'c': '𝓬', 'd': '𝓭', 'e': '𝓮', 'f': '𝓯', 'g': '𝓰',
-        'h': '𝓱', 'i': '𝓲', 'j': '𝓳', 'k': '𝓴', 'l': '𝓵', 'm': '𝓶', 'n': '𝓷',
-        'o': '𝓸', 'p': '𝓹', 'q': '𝓺', 'r': '𝓻', 's': '𝓼', 't': '𝓽', 'u': '𝓾',
-        'v': '𝓿', 'w': '𝔀', 'x': '𝔁', 'y': '𝔂', 'z': '𝔃',
+        'A': '𝔄', 'B': '𝔅', 'C': 'ℭ', 'D': '𝔇', 'E': '𝔈', 'F': '𝔉', 'G': '𝔊',
+        'H': 'ℌ', 'I': 'ℑ', 'J': '𝔍', 'K': '𝔎', 'L': '𝔏', 'M': '𝔐', 'N': '𝔑',
+        'O': '𝔒', 'P': '𝔓', 'Q': '𝔔', 'R': 'ℜ', 'S': '𝔖', 'T': '𝔗', 'U': '𝔘',
+        'V': '𝔙', 'W': '𝔚', 'X': '𝔛', 'Y': '𝔜', 'Z': 'ℨ',
+        'a': '𝔞', 'b': '𝔟', 'c': '𝔠', 'd': '𝔡', 'e': '𝔢', 'f': '𝔣', 'g': '𝔤',
+        'h': '𝔥', 'i': '𝔦', 'j': '𝔧', 'k': '𝔨', 'l': '𝔩', 'm': '𝔪', 'n': '𝔫',
+        'o': '𝔬', 'p': '𝔭', 'q': '𝔮', 'r': '𝔯', 's': '𝔰', 't': '𝔱', 'u': '𝔲',
+        'v': '𝔳', 'w': '𝔴', 'x': '𝔵', 'y': '𝔶', 'z': '𝔷',
         ' ': ' '
       };
       return text.split('').map(c => scriptBoldMap[c] || c).join('');
@@ -154,9 +151,9 @@ async function startRaven() {
       const avgQuote = randomFromArray(avgQuotes);
       const techWord = randomFromArray(techWords);
 
-      const bioText = `${botNameStyled} | ${calendarEmoji} ${dateString} | ${clockEmoji} ${timeString}\n` +
-                      `🖤 Dark Quote: ${darkQuote}\n` +
-                      `💡 Avg Quote: ${avgQuote}\n` +
+      const bioText = `${botNameStyled} | ${calendarEmoji} ${dateString} | ${clockEmoji} ${timeString}\n`+
+                      `🖤 Dark Quote: ${darkQuote}\n`+
+                      `💡 Avg Quote: ${avgQuote}\n`+
                       `${techEmoji} Tech: ${techWord}`;
 
       client.updateProfileStatus(bioText);
@@ -175,16 +172,16 @@ async function startRaven() {
       }
 
       if (autolike === 'TRUE' && mek.key && mek.key.remoteJid === "status@broadcast") {
-        const nickk = await client.decodeJid(client.user.id);
-        console.log('Decoded JID:', nickk);
-        if (!mek.status) {
-          console.log('Sending reaction to:', mek.key.remoteJid);
-          await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '😱' } }, { statusJidList: [mek.key.participant, nickk] });
-          console.log('Reaction sent');
-        }
-      }
+    const nickk = await client.decodeJid(client.user.id);
+    console.log('Decoded JID:', nickk);
+    if (!mek.status) {
+        console.log('Sending reaction to:', mek.key.remoteJid);
+        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '😱' } }, { statusJidList: [mek.key.participant, nickk] });
+        console.log('Reaction sent');
+    }
+}
 
-      if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
+if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       let m = smsg(client, mek, store);
       const raven = require("./blacks");
       raven(client, m, chatUpdate, store);
@@ -223,31 +220,31 @@ async function startRaven() {
   });
 
   client.ev.on("group-participants.update", async (update) => {
-    if (antiforeign === 'TRUE' && update.action === "add") {
-      for (let participant of update.participants) {
-        const jid = client.decodeJid(participant);
-        const phoneNumber = jid.split("@")[0];
-        // Extract phone number
-        if (!phoneNumber.startsWith(mycode)) {
-          await client.sendMessage(update.id, {
-            text: "Your Country code is not allowed to join this group !",
-            mentions: [jid]
-          });
-          await client.groupParticipantsUpdate(update.id, [jid], "remove");
-          console.log(`Removed ${jid} from group ${update.id} because they are not from ${mycode}`);
+        if (antiforeign === 'TRUE' && update.action === "add") {
+            for (let participant of update.participants) {
+                const jid = client.decodeJid(participant);
+                const phoneNumber = jid.split("@")[0];
+                    // Extract phone number
+                if (!phoneNumber.startsWith(mycode)) {
+                        await client.sendMessage(update.id, {
+                    text: "Your Country code is not allowed to join this group !",
+                    mentions: [jid]
+                });
+                    await client.groupParticipantsUpdate(update.id, [jid], "remove");
+                    console.log(`Removed ${jid} from group ${update.id} because they are not from ${mycode}`);
+                }
+            }
         }
-      }
-    }
-    Events(client, update); // Call existing event handler
-  });
+        Events(client, update); // Call existing event handler
+    });
 
-  client.ev.on('call', async (callData) => {
+ client.ev.on('call', async (callData) => {
     if (anticall === 'TRUE') {
       const callId = callData[0].id;
       const callerId = callData[0].from;
 
       await client.rejectCall(callId, callerId);
-      const currentTime = Date.now();
+            const currentTime = Date.now();
       if (currentTime - lastTextTime >= messageDelay) {
         await client.sendMessage(callerId, {
           text: "Anticall is active, Only texts are allowed"
@@ -257,7 +254,7 @@ async function startRaven() {
         console.log('Message skipped to prevent overflow');
       }
     }
-  });
+    });
 
 
   client.getName = (jid, withoutContact = false) => {
@@ -305,7 +302,7 @@ async function startRaven() {
   client.public = true;
   client.serializeM = (m) => smsg(client, m, store);
 
-  const getBuffer = async (url, options) => {
+ const getBuffer = async (url, options) => {
     try {
       options ? options : {};
       const res = await axios({
@@ -329,14 +326,84 @@ async function startRaven() {
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
       ? Buffer.from(path.split`,`[1], "base64")
-      : await getBuffer(path);
-    return await client.sendMessage(jid, { image: buffer, caption, ...options }, { quoted });
+      : /^https?:\/\//.test(path)
+      ? await getBuffer(path)
+      : fs.existsSync(path)
+      ? fs.readFileSync(path)
+      : Buffer.alloc(0);
+    return await client.sendMessage(jid, {
+      image: buffer,
+      caption: caption,
+      ...options,
+    }, { quoted });
   };
 
-  // ... (rest of your existing code unchanged) ...
+  client.sendVideo = async (jid, path, caption = "", quoted = "", gif = false, options) => {
+    let buffer = Buffer.isBuffer(path)
+      ? path
+      : /^data:.*?\/.*?;base64,/i.test(path)
+      ? Buffer.from(path.split`,`[1], "base64")
+      : /^https?:\/\//.test(path)
+      ? await getBuffer(path)
+      : fs.existsSync(path)
+      ? fs.readFileSync(path)
+      : Buffer.alloc(0);
+    return await client.sendMessage(jid, {
+      video: buffer,
+      caption: caption,
+      gifPlayback: gif,
+      ...options,
+    }, { quoted });
+  };
 
-  // Start the bot
-  startRaven();
-}
+  client.sendAudio = async (jid, path, quoted = "", ptt = false, options) => {
+    let buffer = Buffer.isBuffer(path)
+      ? path
+      : /^data:.*?\/.*?;base64,/i.test(path)
+      ? Buffer.from(path.split`,`[1], "base64")
+      : /^https?:\/\//.test(path)
+      ? await getBuffer(path)
+      : fs.existsSync(path)
+      ? fs.readFileSync(path)
+      : Buffer.alloc(0);
+    return await client.sendMessage(jid, {
+      audio: buffer,
+      ptt: ptt,
+      ...options,
+    }, { quoted });
+  };
 
-// End of index.js script
+  client.sendText = async (jid, text, quoted = "", options) => {
+    return await client.sendMessage(jid, {
+      text: text,
+      ...options,
+    }, { quoted });
+  };
+
+  client.sendButtonText = async (jid, buttons = [], text, footer, quoted = "", options = {}) => {
+    let buttonMessage = {
+      text: text,
+      footer: footer,
+      buttons: buttons,
+      headerType: 1,
+    };
+    return await client.sendMessage(jid, buttonMessage, { quoted, ...options });
+  };
+
+  client.sendListMsg = async (jid, text = '', footer = '', title = '', butText = '', sections = [], quoted) => {
+    let listMsg = {
+      text,
+      footer,
+      title,
+      buttonText: butText,
+      sections,
+      headerType: 1
+    };
+    return await client.sendMessage(jid, listMsg, { quoted });
+  };
+
+  client.sendSticker = async (jid, path, quoted, options = {}) => {
+    let buffer = Buffer.isBuffer(path)
+      ? path
+      : /^data:.*?\/.*?;base64,/i.test(path)
+      ? Buffer.from(path.split`,`[1], "base64
