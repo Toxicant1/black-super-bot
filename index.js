@@ -400,4 +400,11 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
     return await client.sendMessage(jid, { sticker: buffer, ...options }, { quoted });
   };
 
-  startRaven().catch((err) => console.log(err));
+  // ... all your existing code ...
+
+async function startRaven() {
+  // your entire startRaven function content here
+  // ...
+} // <--- Make sure this closing brace is present
+
+startRaven().catch((err) => console.log(err));
