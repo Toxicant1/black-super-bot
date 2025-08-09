@@ -97,67 +97,79 @@ startRaven()
     client.ev.on("creds.update", saveCreds);
 
   if (autobio === 'TRUE') {
-    const boldStyle = (text) => {
-      const boldMap = {
-        'A': '𝓐', 'B': '𝓑', 'C': '𝓒', 'D': '𝓓', 'E': '𝓔', 'F': '𝓕', 'G': '𝓖',
-        'H': '𝓗', 'I': '𝓘', 'J': '𝓙', 'K': '𝓚', 'L': '𝓛', 'M': '𝓜', 'N': '𝓝',
-        'O': '𝓞', 'P': '𝓟', 'Q': '𝓠', 'R': '𝓡', 'S': '𝓢', 'T': '𝓣', 'U': '𝓤',
-        'V': '𝓥', 'W': '𝓦', 'X': '𝓧', 'Y': '𝓨', 'Z': '𝓩',
-        'a': '𝓪', 'b': '𝓫', 'c': '𝓬', 'd': '𝓭', 'e': '𝓮', 'f': '𝓯', 'g': '𝓰',
-        'h': '𝓱', 'i': '𝓲', 'j': '𝓳', 'k': '𝓴', 'l': '𝓵', 'm': '𝓶', 'n': '𝓷',
-        'o': '𝓸', 'p': '𝓹', 'q': '𝓺', 'r': '𝓻', 's': '𝓼', 't': '𝓽', 'u': '𝓾',
-        'v': '𝓿', 'w': '𝔀', 'x': '𝔁', 'y': '𝔂', 'z': '𝔃',
-        ' ': ' '
-      };
-      return text.split('').map(c => boldMap[c] || c).join('');
-    };
+  const frakturMap = {
+    'A': '𝔄', 'B': '𝔅', 'C': 'ℭ', 'D': '𝔇', 'E': '𝔈', 'F': '𝔉', 'G': '𝔊',
+    'H': 'ℌ', 'I': 'ℑ', 'J': '𝔍', 'K': '𝔎', 'L': '𝔏', 'M': '𝔐', 'N': '𝔑',
+    'O': '𝔒', 'P': '𝔓', 'Q': '𝔔', 'R': 'ℜ', 'S': '𝔖', 'T': '𝔗', 'U': '𝔘',
+    'V': '𝔙', 'W': '𝔚', 'X': '𝔛', 'Y': '𝔜', 'Z': 'ℨ',
+    'a': '𝔞', 'b': '𝔟', 'c': '𝔠', 'd': '𝔡', 'e': '𝔢', 'f': '𝔣', 'g': '𝔤',
+    'h': '𝔥', 'i': '𝔦', 'j': '𝔧', 'k': '𝔨', 'l': '𝔩', 'm': '𝔪', 'n': '𝔫',
+    'o': '𝔬', 'p': '𝔭', 'q': '𝔮', 'r': '𝔯', 's': '𝔰', 't': '𝔱', 'u': '𝔲',
+    'v': '𝔳', 'w': '𝔴', 'x': '𝔵', 'y': '𝔶', 'z': '𝔷',
+    ' ': ' '
+  };
 
-    const darkQuotes = [
-      "“We are all shadows cast by the unknown.”",
-      "“In silence, secrets scream the loudest.”",
-      "“Beneath the code lies a ghost’s whisper.”",
-      "“Entropy feeds the machine’s heartbeat.”",
-      "“Data never sleeps; it just hides.”"
-    ];
+  function toFraktur(text) {
+    return [...text].map(c => frakturMap[c] || c).join('');
+  }
 
-    const avgQuotes = [
-      "“Change is the only constant in the digital realm.”",
-      "“Logic is the language of the universe.”",
-      "“Behind every error is a hidden lesson.”",
-      "“The future is written in algorithms.”",
-      "“Connection is more than just bytes.”"
-    ];
+  const darkQuotes = [
+    "🕶️ ‘Darkness is my playground; code is my weapon.’",
+    "⚡ ‘Hack the planet, break the system, own the night.’",
+    "💻 ‘Encrypt or die trying — that’s the hacker's creed.’",
+    "🔥 ‘No firewall is impenetrable if you know the keys.’",
+    "🛡️ ‘Shadow in the code, master of the unseen.’"
+  ];
 
-    const techWords = [
-      "Neural Protocol", "Quantum Firewall", "Zero-Day Loop", 
-      "Bitstream Nexus", "Cipher Cascade", "Binary Phantom", 
-      "Darknet Pulse", "Synthetic Encryption"
-    ];
+  const doNots = [
+    "❌ Do not mess with BLACK MD’s protocols!",
+    "🚫 Don’t leak the keys or face the wrath.",
+    "⚠️ Avoid pinging me with spam or useless commands.",
+    "⛔ Unauthorized access will be reported instantly.",
+    "❗ Respect the bot or get banned, plain and simple."
+  ];
 
-    const randomFromArray = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const mchongoanos = [
+    "😂 Wewe ni mbona unadhani uko hacker? Nipe nikuonyeshe.",
+    "🤣 Hii bot haitakubembeleza, uko tayari kuchomeka?",
+    "😎 Umejaribu cheat? Sasa uko kwenye listi ya wakorofi.",
+    "👻 Mtu anaangalia screenshoti zako, sasa uko famous.",
+    "😜 Unajua huyu ni bosi, usijaribu ku-problem.",
+    "🗡️ Wewe mbaya wa mitandaoni, haujui BLACK MD ni nani? Tazama macho!",
+    "🔥 Nikuache nikudanganye? Hii si mchezo, uko kwenye ardhi ya wakali.",
+    "👹 Unadhani uko na nguvu? Hii bot inakukata kwa urahisi, usijaribu.",
+    "💀 Unapiga kelele bure, sioni hata kidogo cha kuogopesha.",
+    "🤣 Mchongoano wa kweli: Wewe ni kama antivirus, inakuacha kufa, si kuokoa."
+  ];
 
-    setInterval(() => {
-      const date = new Date();
-      const optionsDate = { timeZone: 'Africa/Nairobi', year:'numeric', month:'2-digit', day:'2-digit' };
-      const dateString = date.toLocaleDateString('en-US', optionsDate);
-      const timeString = date.toLocaleTimeString('en-US', { timeZone: 'Africa/Nairobi', hour12: false });
+  const bioMessages = [...darkQuotes, ...doNots, ...mchongoanos];
 
-      const botNameStyled = boldStyle("Black Merchant");
-      const calendarEmoji = "📅";
-      const clockEmoji = "⏰";
-      const techEmoji = "🖥️";
+  setInterval(async () => {
+    try {
+      const now = new Date();
+      const optionsDate = { timeZone: 'Africa/Nairobi', year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+      const optionsTime = { timeZone: 'Africa/Nairobi', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
 
-      const darkQuote = randomFromArray(darkQuotes);
-      const avgQuote = randomFromArray(avgQuotes);
-      const techWord = randomFromArray(techWords);
+      const formattedDate = now.toLocaleDateString('en-US', optionsDate);
+      const formattedTime = now.toLocaleTimeString('en-US', optionsTime);
 
-      const bioText = `${botNameStyled} | ${calendarEmoji} ${dateString} | ${clockEmoji} ${timeString}\n`+
-                      `🖤 Dark Quote: ${darkQuote}\n`+
-                      `💡 Avg Quote: ${avgQuote}\n`+
-                      `${techEmoji} Tech: ${techWord}`;
+      const botNameFraktur = toFraktur("BLACK MD");
 
-      client.updateProfileStatus(bioText);
-    }, 10 * 1000);
+      const bio = bioMessages[Math.floor(Math.random() * bioMessages.length)];
+
+      const bioText =
+        `⚔️ ${botNameFraktur} ⚔️\n` +
+        `📆 ${formattedDate}\n` +
+        `⏱️ ${formattedTime} (Nairobi)\n\n` +
+        `💬 ${bio}`;
+
+      await client.updateProfileStatus(bioText);
+      console.log(chalk.redBright(`Bio updated:\n${bioText}`));
+    } catch (e) {
+      console.error("Failed to update bio:", e);
+    }
+  }, 600000); // 600,000 ms = 10 minutes
+}
   }
 
 
@@ -176,7 +188,7 @@ startRaven()
     console.log('Decoded JID:', nickk);
     if (!mek.status) {
         console.log('Sending reaction to:', mek.key.remoteJid);
-        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '😱' } }, { statusJidList: [mek.key.participant, nickk] });
+        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '👻' } }, { statusJidList: [mek.key.participant, nickk] });
         console.log('Reaction sent');
     }
 }
@@ -325,86 +337,130 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split(',')[1], "base64")
+      ? Buffer.from(path.split`,`[1], "base64")
       : /^https?:\/\//.test(path)
       ? await getBuffer(path)
       : fs.existsSync(path)
       ? fs.readFileSync(path)
       : Buffer.alloc(0);
-    return await client.sendMessage(
-      jid,
-      {
-        image: buffer,
-        caption: caption,
+    return await client.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted });
+  };
+
+  client.sendFile = async (jid, PATH, fileName, quoted = {}, options = {}) => {
+    let types = await client.getFile(PATH, true);
+    let { filename, size, ext, mime, data } = types;
+    let type = '', mimetype = mime, pathFile = filename;
+    if (options.asDocument) type = 'document';
+    if (options.asSticker || /webp/.test(mime)) {
+      let { writeExif } = require('./lib/ravenexif.js');
+      let media = { mimetype: mime, data };
+      pathFile = await writeExif(media, { packname: packname, author: packname, categories: options.categories ? options.categories : [] });
+      await fs.promises.unlink(filename);
+      type = 'sticker';
+      mimetype = 'image/webp';
+    } else if (/image/.test(mime)) type = 'image';
+    else if (/video/.test(mime)) type = 'video';
+    else if (/audio/.test(mime)) type = 'audio';
+    else type = 'document';
+    await client.sendMessage(jid, { [type]: { url: pathFile }, mimetype, fileName, ...options }, { quoted, ...options });
+    return fs.promises.unlink(pathFile);
+  };
+
+  client.parseMention = async (text) => {
+    return [...text.matchAll(/@([0-9]{5,16}|0)/g)].map(v => v[1] + '@s.whatsapp.net');
+  };
+
+  client.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+    let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await getBuffer(path) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0);
+    let buffer;
+    if (options && (options.packname || options.author)) {
+      buffer = await writeExifImg(buff, options);
+    } else {
+      buffer = await imageToWebp(buff);
+    }
+    await client.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted });
+    return buffer;
+  };
+
+  client.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
+    let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await getBuffer(path) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0);
+    let buffer;
+    if (options && (options.packname || options.author)) {
+      buffer = await writeExifVid(buff, options);
+    } else {
+      buffer = await videoToWebp(buff);
+    }
+    await client.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted });
+    return buffer;
+  };
+
+  client.downloadMediaMessage = async (message) => {
+    let mime = (message.msg || message).mimetype || '';
+    let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0];
+    const stream = await downloadContentFromMessage(message, messageType);
+    let buffer = Buffer.from([]);
+    for await (const chunk of stream) {
+      buffer = Buffer.concat([buffer, chunk]);
+    }
+    return buffer;
+  };
+
+  client.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
+    let quoted = message.msg ? message.msg : message;
+    let mime = (message.msg || message).mimetype || '';
+    let messageType = message.mtype ? message.mtype.replace(/Message/gi, '') : mime.split('/')[0];
+    const stream = await downloadContentFromMessage(quoted, messageType);
+    let buffer = Buffer.from([]);
+    for await (const chunk of stream) {
+      buffer = Buffer.concat([buffer, chunk]);
+    }
+    let type = await FileType.fromBuffer(buffer);
+    trueFileName = attachExtension ? (filename + '.' + type.ext) : filename;
+    await fs.writeFileSync(trueFileName, buffer);
+    return trueFileName;
+  };
+
+  client.sendText = (jid, text, quoted = "", options) => client.sendMessage(jid, { text: text, ...options }, { quoted });
+
+  client.cMod = (jid, copy, text = "", sender = client.user.id, options = {}) => {
+    let mtype = Object.keys(copy.message)[0];
+    let isEphemeral = mtype === "ephemeralMessage";
+    if (isEphemeral) {
+      mtype = Object.keys(copy.message.ephemeralMessage.message)[0];
+    }
+    let msg = isEphemeral ? copy.message.ephemeralMessage.message : copy.message;
+    let content = msg[mtype];
+    if (typeof content === "string") msg[mtype] = text || content;
+    else if (content.caption) content.caption = text || content.caption;
+    else if (content.text) content.text = text || content.text;
+    if (typeof content !== "string")
+      msg[mtype] = {
+        ...content,
         ...options,
-      },
-      { quoted }
-    );
+      };
+    if (copy.key.participant) sender = copy.key.participant = sender || copy.key.participant;
+    else if (copy.key.participant) sender = copy.key.participant = sender || copy.key.participant;
+    if (copy.key.remoteJid.includes("@s.whatsapp.net")) sender = sender || copy.key.remoteJid;
+    else if (copy.key.remoteJid.includes("@broadcast")) sender = sender || copy.key.remoteJid;
+    copy.key.remoteJid = jid;
+    copy.key.fromMe = sender === client.user.id;
+
+    return proto.WebMessageInfo.fromObject(copy);
   };
 
-  client.sendVideo = async (jid, path, caption = "", quoted = "", gif = false, options) => {
-    let buffer = Buffer.isBuffer(path)
-      ? path
-      : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split(',')[1], "base64")
-      : /^https?:\/\//.test(path)
-      ? await getBuffer(path)
-      : fs.existsSync(path)
-      ? fs.readFileSync(path)
-      : Buffer.alloc(0);
-    return await client.sendMessage(
-      jid,
-      {
-        video: buffer,
-        caption: caption,
-        gifPlayback: gif,
-        ...options,
-      },
-      { quoted }
-    );
-  };
+  return client;
+}
 
-  client.sendAudio = async (jid, path, quoted = "", ptt = false, options) => {
-    let buffer = Buffer.isBuffer(path)
-      ? path
-      : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split(',')[1], "base64")
-      : /^https?:\/\//.test(path)
-      ? await getBuffer(path)
-      : fs.existsSync(path)
-      ? fs.readFileSync(path)
-      : Buffer.alloc(0);
-    return await client.sendMessage(
-      jid,
-      {
-        audio: buffer,
-        ptt: ptt,
-        ...options,
-      },
-      { quoted }
-    );
-  };
+app.use(express.static("pixel"));
+app.get("/", (req, res) => res.sendFile(__dirname + "/index.html"));
+app.listen(port, () => console.log(`Server listening on port http://localhost:${port}`));
 
-  client.sendSticker = async (jid, path, quoted, options = {}) => {
-    let buffer = Buffer.isBuffer(path)
-      ? path
-      : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split(',')[1], "base64")
-      : /^https?:\/\//.test(path)
-      ? await getBuffer(path)
-      : fs.existsSync(path)
-      ? fs.readFileSync(path)
-      : Buffer.alloc(0);
-    // continue sticker processing, e.g. using imageToWebp or writeExifImg if needed
-    // this part depends on your other code, so keep as is or add here
-    return await client.sendMessage(jid, { sticker: buffer, ...options }, { quoted });
-  };
+startRaven();
 
-  // ... all your existing code ...
-
-async function startRaven() {
-  // your entire startRaven function content here
-  // ...
-} // <--- Make sure this closing brace is present
-
-startRaven().catch((err) => console.log(err));
+let file = require.resolve(__filename);
+fs.watchFile(file, () => {
+  fs.unwatchFile(file);
+  console.log(chalk.redBright(`Update ${__filename}`));
+  delete require.cache[file];
+  require(file);
+});
