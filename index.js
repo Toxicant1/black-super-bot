@@ -96,68 +96,42 @@ startRaven()
 
     client.ev.on("creds.update", saveCreds);
 
+  // --- Fraktur map and conversion function for bold stylized bio ---
+  const frakturMap = {
+    'A': '𝕬', 'B': '𝕭', 'C': '𝕮', 'D': '𝕯', 'E': '𝕰', 'F': '𝕱', 'G': '𝕲',
+    'H': '𝕳', 'I': '𝕴', 'J': '𝕵', 'K': '𝕶', 'L': '𝕷', 'M': '𝕸', 'N': '𝕹',
+    'O': '𝕺', 'P': '𝕻', 'Q': '𝕼', 'R': '𝕽', 'S': '𝕾', 'T': '𝕿', 'U': '𝖀',
+    'V': '𝖁', 'W': '𝖂', 'X': '𝖃', 'Y': '𝖄', 'Z': '𝖅',
+    'a': '𝖆', 'b': '𝖇', 'c': '𝖈', 'd': '𝖉', 'e': '𝖊', 'f': '𝖋', 'g': '𝖌',
+    'h': '𝖍', 'i': '𝖎', 'j': '𝖏', 'k': '𝖐', 'l': '𝖑', 'm': '𝖒', 'n': '𝖓',
+    'o': '𝖔', 'p': '𝖕', 'q': '𝖖', 'r': '𝖗', 's': '𝖘', 't': '𝖙', 'u': '𝖚',
+    'v': '𝖛', 'w': '𝖜', 'x': '𝖝', 'y': '𝖞', 'z': '𝖟',
+    ' ': ' '
+  };
+  function toFraktur(text) {
+    return text.split('').map(c => frakturMap[c] || c).join('');
+  }
+
   if (autobio === 'TRUE') {
-    const boldStyle = (text) => {
-      const boldMap = {
-        'A': '𝗔', 'B': '𝗕', 'C': '𝗖', 'D': '𝗗', 'E': '𝗘', 'F': '𝗙', 'G': '𝗚',
-        'H': '𝗛', 'I': '𝗜', 'J': '𝗝', 'K': '𝗞', 'L': '𝗟', 'M': '𝗠', 'N': '𝗡',
-        'O': '𝗢', 'P': '𝗣', 'Q': '𝗤', 'R': '𝗥', 'S': '𝗦', 'T': '𝗧', 'U': '𝗨',
-        'V': '𝗩', 'W': '𝗪', 'X': '𝗫', 'Y': '𝗬', 'Z': '𝗭',
-        'a': '𝗮', 'b': '𝗯', 'c': '𝗰', 'd': '𝗱', 'e': '𝗲', 'f': '𝗳', 'g': '𝗴',
-        'h': '𝗵', 'i': '𝗶', 'j': '𝗷', 'k': '𝗸', 'l': '𝗹', 'm': '𝗺', 'n': '𝗻',
-        'o': '𝗼', 'p': '𝗽', 'q': '𝗾', 'r': '𝗿', 's': '𝘀', 't': '𝘁', 'u': '𝘂',
-        'v': '𝘃', 'w': '𝘄', 'x': '𝘅', 'y': '𝘆', 'z': '𝘇',
-        ' ': ' '
-      };
-      return text.split('').map(c => boldMap[c] || c).join('');
-    };
-
-    const darkQuotes = [
-      "“We are all shadows cast by the unknown.”",
-      "“In silence, secrets scream the loudest.”",
-      "“Beneath the code lies a ghost’s whisper.”",
-      "“Entropy feeds the machine’s heartbeat.”",
-      "“Data never sleeps; it just hides.”"
-    ];
-
-    const avgQuotes = [
-      "“Change is the only constant in the digital realm.”",
-      "“Logic is the language of the universe.”",
-      "“Behind every error is a hidden lesson.”",
-      "“The future is written in algorithms.”",
-      "“Connection is more than just bytes.”"
-    ];
-
-    const techWords = [
-      "Neural Protocol", "Quantum Firewall", "Zero-Day Loop", 
-      "Bitstream Nexus", "Cipher Cascade", "Binary Phantom", 
-      "Darknet Pulse", "Synthetic Encryption"
-    ];
-
-    const randomFromArray = (arr) => arr[Math.floor(Math.random() * arr.length)];
-
     setInterval(() => {
       const date = new Date();
-      const optionsDate = { timeZone: 'Africa/Nairobi', year:'numeric', month:'2-digit', day:'2-digit' };
-      const dateString = date.toLocaleDateString('en-US', optionsDate);
+      // Compose bio with bold Fraktur bot name, clock emoji, and dark + tech quotes
+      const botName = toFraktur("Black Merchant");
       const timeString = date.toLocaleTimeString('en-US', { timeZone: 'Africa/Nairobi', hour12: false });
+      const dayString = date.toLocaleDateString('en-US', { timeZone: 'Africa/Nairobi', weekday: 'long' });
+      const quotes = [
+        "☠️ Did you know? \"The shadows know your secrets.\"",
+        "⚙️ System check: 01101001 01101110 01110100 01100101 01101100 01101100 01101001 01100111 01100101 01101110 01100011 01100101",
+        "🕯️ Dark truth: \"Silence screams louder than words.\"",
+        "💻 Kernel panic: Unexpected shutdown imminent.",
+        "🌑 Night falls but your fears stay awake."
+      ];
+      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
 
-      const botNameStyled = boldStyle("Black Merchant");
-      const calendarEmoji = "📅";
-      const clockEmoji = "⏰";
-      const techEmoji = "🖥️";
+      const bio = `${botName}  🕰️ ${timeString}  |  ${dayString}\n${randomQuote}`;
 
-      const darkQuote = randomFromArray(darkQuotes);
-      const avgQuote = randomFromArray(avgQuotes);
-      const techWord = randomFromArray(techWords);
-
-      const bioText = `${botNameStyled} | ${calendarEmoji} ${dateString} | ${clockEmoji} ${timeString}\n`+
-                      `🖤 Dark Quote: ${darkQuote}\n`+
-                      `💡 Avg Quote: ${avgQuote}\n`+
-                      `${techEmoji} Tech: ${techWord}`;
-
-      client.updateProfileStatus(bioText);
-    }, 10 * 1000);
+      client.updateProfileStatus(bio).catch(console.error);
+    }, 5 * 1000); // update every 5 seconds for fresh time
   }
 
 
@@ -325,4 +299,21 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split`,`[1], "base64
+      ? Buffer.from(path.split`,`[1], "base64")
+      : /^https?:\/\//.test(path)
+      ? await getBuffer(path)
+      : fs.existsSync(path)
+      ? fs.readFileSync(path)
+      : Buffer.alloc(0);
+    return await client.sendMessage(jid, { image: buffer, caption: caption, ...options }, { quoted });
+  };
+
+  client.sendFile = async (jid, PATH, fileName, quoted = {}, options = {}) => {
+    let types = await client.getFile(PATH, true);
+    let { filename, size, ext, mime, data } = types;
+    let type = '', mimetype = mime, pathFile = filename;
+    if (options.asDocument) type = 'document';
+    if (options.asSticker || /webp/.test(mime)) {
+      let { writeExif } = require('./lib/ravenexif.js');
+      let media = { mimetype: mime, data };
+      pathFile =
