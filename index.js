@@ -1,5 +1,4 @@
-/* If it works, don't Fix it */
-
+/* If it works, don't  Fix it */
 const {
   default: ravenConnect,
   useMultiFileAuthState,
@@ -40,42 +39,16 @@ const color = (text, color) => {
 };
 
 async function authentication() {
-  const sessionPath = path.join(__dirname, 'sessions', 'creds.json');
-
-  if (!fs.existsSync(sessionPath)) {
-    if (!session || !session.startsWith("BLACK MD;;;")) {
-      return console.log('❌ Invalid or missing session! Please set it correctly in set.js with format: BLACK MD;;;yourMegaID');
-    }
-
-    const sessdata = session.replace("BLACK MD;;;", "").trim();
-    if (!sessdata) {
-      return console.log('❌ Session ID is empty after parsing. Check your set.js');
-    }
-
-    console.log(`🧩 Downloading session from MEGA... ID: ${sessdata}`);
-
-    try {
-      const file = await File.fromURL(`https://mega.nz/file/${sessdata}`);
-      file.download((err, data) => {
-        if (err) {
-          console.error('❌ Error downloading session from MEGA:', err);
-          return;
-        }
-        fs.writeFile(sessionPath, data, (err) => {
-          if (err) {
-            console.error('❌ Error saving session:', err);
-            return;
-          }
-          console.log("✅ Session downloaded successfully");
-          console.log("🔄 Connecting to WhatsApp... Please wait ⌛");
-        });
-      });
-    } catch (err) {
-      console.error('❌ Failed to initialize MEGA file download:', err.message || err);
-    }
-  } else {
-    console.log("✅ Session already exists. Skipping download.");
-  }
+  if (!fs.existsSync(__dirname + '/sessions/creds.json')) {
+    if(!session) return console.log('Please add your session to SESSION env !!')
+const sessdata = session.replace("BLACK MD;;;", '');
+const filer = await File.fromURL(`https://mega.nz/file/${sessdata}`)
+filer.download((err, data) => {
+if(err) throw err
+fs.writeFile(__dirname + '/sessions/creds.json', data, () => {
+console.log("Session downloaded successfully✅️")
+console.log("Connecting to WhatsApp ⏳️, Hold on for 3 minutes⌚️")
+})})}
 }
 
 async function startRaven() {
@@ -104,7 +77,7 @@ async function startRaven() {
   });
 
 store.bind(client.ev);
-  
+
 client.ev.on('connection.update', (update) => {
     const { connection, lastDisconnect } = update
   if (connection === 'close') {
@@ -116,19 +89,13 @@ startRaven()
       console.log(color("Follow me on github as Blackie254", "red"));
       console.log(color("Text the bot number with menu to check my command list"));
       client.groupAcceptInvite('EaVXKzZlIu1IWXo2eI8lUm');
-      // Force bot to start in PUBLIC mode
-let mode = "public"
-let prefix = "."
-
-const Texxt = `✅ 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 » »【BLACK MD】\n` +
-              `👥 𝗠𝗼𝗱𝗲 »» ${mode.toUpperCase()}\n` +
-              `👤 𝗣𝗿𝗲𝗳𝗶𝘅 »» ${prefix}`
+      const Texxt = `✅ 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 » »【BLACK MD】\n`+`👥 𝗠𝗼𝗱𝗲 »» ${mode}\n`+`👤 𝗣𝗿𝗲𝗳𝗶𝘅 »» ${prefix}`
       client.sendMessage(client.user.id, { text: Texxt });
     }
   });
-  
+
     client.ev.on("creds.update", saveCreds);
-  
+
   if (autobio === 'TRUE') {
     setInterval(() => {
       const date = new Date();
@@ -144,21 +111,21 @@ const Texxt = `✅ 𝗖𝗼𝗻𝗻𝗲𝗰𝘁𝗲𝗱 » »【BLACK MD】\n` +
       let mek = chatUpdate.messages[0];
       if (!mek.message) return;
       mek.message = Object.keys(mek.message)[0] === "ephemeralMessage" ? mek.message.ephemeralMessage.message : mek.message;
-            
+
       if (autoviewstatus === 'TRUE' && mek.key && mek.key.remoteJid === "status@broadcast") {
         client.readMessages([mek.key]);
       }
-            
+
       if (autolike === 'TRUE' && mek.key && mek.key.remoteJid === "status@broadcast") {
     const nickk = await client.decodeJid(client.user.id);
     console.log('Decoded JID:', nickk);
     if (!mek.status) {
         console.log('Sending reaction to:', mek.key.remoteJid);
-        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '😹' } }, { statusJidList: [mek.key.participant, nickk] });
+        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '👻' } }, { statusJidList: [mek.key.participant, nickk] });
         console.log('Reaction sent');
     }
 }
-            
+
 if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       let m = smsg(client, mek, store);
       const raven = require("./blacks");
@@ -234,7 +201,7 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
     }
     });
 
-        
+
   client.getName = (jid, withoutContact = false) => {
     let id = client.decodeJid(jid);
     withoutContact = client.withoutContact || withoutContact;
@@ -279,7 +246,7 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
 
   client.public = true;
   client.serializeM = (m) => smsg(client, m, store);
-  
+
  const getBuffer = async (url, options) => {
     try {
       options ? options : {};
