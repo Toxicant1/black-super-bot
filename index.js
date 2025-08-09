@@ -98,18 +98,18 @@ startRaven()
 
   if (autobio === 'TRUE') {
     const boldStyle = (text) => {
-      const scriptBoldMap = {
-        'A': '𝔄', 'B': '𝔅', 'C': 'ℭ', 'D': '𝔇', 'E': '𝔈', 'F': '𝔉', 'G': '𝔊',
-        'H': 'ℌ', 'I': 'ℑ', 'J': '𝔍', 'K': '𝔎', 'L': '𝔏', 'M': '𝔐', 'N': '𝔑',
-        'O': '𝔒', 'P': '𝔓', 'Q': '𝔔', 'R': 'ℜ', 'S': '𝔖', 'T': '𝔗', 'U': '𝔘',
-        'V': '𝔙', 'W': '𝔚', 'X': '𝔛', 'Y': '𝔜', 'Z': 'ℨ',
-        'a': '𝔞', 'b': '𝔟', 'c': '𝔠', 'd': '𝔡', 'e': '𝔢', 'f': '𝔣', 'g': '𝔤',
-        'h': '𝔥', 'i': '𝔦', 'j': '𝔧', 'k': '𝔨', 'l': '𝔩', 'm': '𝔪', 'n': '𝔫',
-        'o': '𝔬', 'p': '𝔭', 'q': '𝔮', 'r': '𝔯', 's': '𝔰', 't': '𝔱', 'u': '𝔲',
-        'v': '𝔳', 'w': '𝔴', 'x': '𝔵', 'y': '𝔶', 'z': '𝔷',
+      const boldMap = {
+        'A': '𝓐', 'B': '𝓑', 'C': '𝓒', 'D': '𝓓', 'E': '𝓔', 'F': '𝓕', 'G': '𝓖',
+        'H': '𝓗', 'I': '𝓘', 'J': '𝓙', 'K': '𝓚', 'L': '𝓛', 'M': '𝓜', 'N': '𝓝',
+        'O': '𝓞', 'P': '𝓟', 'Q': '𝓠', 'R': '𝓡', 'S': '𝓢', 'T': '𝓣', 'U': '𝓤',
+        'V': '𝓥', 'W': '𝓦', 'X': '𝓧', 'Y': '𝓨', 'Z': '𝓩',
+        'a': '𝓪', 'b': '𝓫', 'c': '𝓬', 'd': '𝓭', 'e': '𝓮', 'f': '𝓯', 'g': '𝓰',
+        'h': '𝓱', 'i': '𝓲', 'j': '𝓳', 'k': '𝓴', 'l': '𝓵', 'm': '𝓶', 'n': '𝓷',
+        'o': '𝓸', 'p': '𝓹', 'q': '𝓺', 'r': '𝓻', 's': '𝓼', 't': '𝓽', 'u': '𝓾',
+        'v': '𝓿', 'w': '𝔀', 'x': '𝔁', 'y': '𝔂', 'z': '𝔃',
         ' ': ' '
       };
-      return text.split('').map(c => scriptBoldMap[c] || c).join('');
+      return text.split('').map(c => boldMap[c] || c).join('');
     };
 
     const darkQuotes = [
@@ -325,85 +325,79 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split`,`[1], "base64")
+      ? Buffer.from(path.split(',')[1], "base64")
       : /^https?:\/\//.test(path)
       ? await getBuffer(path)
       : fs.existsSync(path)
       ? fs.readFileSync(path)
       : Buffer.alloc(0);
-    return await client.sendMessage(jid, {
-      image: buffer,
-      caption: caption,
-      ...options,
-    }, { quoted });
+    return await client.sendMessage(
+      jid,
+      {
+        image: buffer,
+        caption: caption,
+        ...options,
+      },
+      { quoted }
+    );
   };
 
   client.sendVideo = async (jid, path, caption = "", quoted = "", gif = false, options) => {
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split`,`[1], "base64")
+      ? Buffer.from(path.split(',')[1], "base64")
       : /^https?:\/\//.test(path)
       ? await getBuffer(path)
       : fs.existsSync(path)
       ? fs.readFileSync(path)
       : Buffer.alloc(0);
-    return await client.sendMessage(jid, {
-      video: buffer,
-      caption: caption,
-      gifPlayback: gif,
-      ...options,
-    }, { quoted });
+    return await client.sendMessage(
+      jid,
+      {
+        video: buffer,
+        caption: caption,
+        gifPlayback: gif,
+        ...options,
+      },
+      { quoted }
+    );
   };
 
   client.sendAudio = async (jid, path, quoted = "", ptt = false, options) => {
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split`,`[1], "base64")
+      ? Buffer.from(path.split(',')[1], "base64")
       : /^https?:\/\//.test(path)
       ? await getBuffer(path)
       : fs.existsSync(path)
       ? fs.readFileSync(path)
       : Buffer.alloc(0);
-    return await client.sendMessage(jid, {
-      audio: buffer,
-      ptt: ptt,
-      ...options,
-    }, { quoted });
-  };
-
-  client.sendText = async (jid, text, quoted = "", options) => {
-    return await client.sendMessage(jid, {
-      text: text,
-      ...options,
-    }, { quoted });
-  };
-
-  client.sendButtonText = async (jid, buttons = [], text, footer, quoted = "", options = {}) => {
-    let buttonMessage = {
-      text: text,
-      footer: footer,
-      buttons: buttons,
-      headerType: 1,
-    };
-    return await client.sendMessage(jid, buttonMessage, { quoted, ...options });
-  };
-
-  client.sendListMsg = async (jid, text = '', footer = '', title = '', butText = '', sections = [], quoted) => {
-    let listMsg = {
-      text,
-      footer,
-      title,
-      buttonText: butText,
-      sections,
-      headerType: 1
-    };
-    return await client.sendMessage(jid, listMsg, { quoted });
+    return await client.sendMessage(
+      jid,
+      {
+        audio: buffer,
+        ptt: ptt,
+        ...options,
+      },
+      { quoted }
+    );
   };
 
   client.sendSticker = async (jid, path, quoted, options = {}) => {
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
-      ? Buffer.from(path.split`,`[1], "base64
+      ? Buffer.from(path.split(',')[1], "base64")
+      : /^https?:\/\//.test(path)
+      ? await getBuffer(path)
+      : fs.existsSync(path)
+      ? fs.readFileSync(path)
+      : Buffer.alloc(0);
+    // continue sticker processing, e.g. using imageToWebp or writeExifImg if needed
+    // this part depends on your other code, so keep as is or add here
+    return await client.sendMessage(jid, { sticker: buffer, ...options }, { quoted });
+  };
+
+  startRaven().catch((err) => console.log(err));
