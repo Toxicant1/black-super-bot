@@ -170,8 +170,6 @@ startRaven()
     }
   }, 600000); // 600,000 ms = 10 minutes
 }
-  }
-
 
   client.ev.on("messages.upsert", async (chatUpdate) => {
     try {
