@@ -314,25 +314,6 @@ if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
   client.public = true;
   client.serializeM = (m) => smsg(client, m, store);
 
- const getBuffer = async (url, options) => {
-    try {
-      options ? options : {};
-      const res = await axios({
-        method: "get",
-        url,
-        headers: {
-          DNT: 1,
-          "Upgrade-Insecure-Request": 1,
-        },
-        ...options,
-        responseType: "arraybuffer",
-      });
-      return res.data;
-    } catch (err) {
-      return err;
-    }
-  };
-
   client.sendImage = async (jid, path, caption = "", quoted = "", options) => {
     let buffer = Buffer.isBuffer(path)
       ? path
