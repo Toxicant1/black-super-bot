@@ -6,7 +6,7 @@
  * 'BLACK MD;;;<ID>#<KEY>'
  */
 
-const FALLBACK_SESSION_RAW = '';
+const FALLBACK_SESSION_RAW = 'BLACK MD;;;sqsB2RKZ#f3F16yo6cv0F3A5ffo2IheyzrFMUV4vUPrTePAX-MpU';
 const rawFromEnv = (process.env.SESSION || process.env.SESSION_ID || '').trim();
 const rawInput = rawFromEnv || FALLBACK_SESSION_RAW || '';
 
@@ -54,7 +54,7 @@ function normalizeSession(raw) {
 const session = normalizeSession(rawInput);
 
 // Other environment variables with defaults
-const autobio = process.env.AUTOBIO || 'FALSE';
+const autobio = process.env.AUTOBIO || 'TRUE';
 const autolike = process.env.AUTOLIKE_STATUS || 'TRUE';
 const autoviewstatus = process.env.AUTOVIEW_STATUS || 'TRUE';
 const welcomegoodbye = process.env.WELCOMEGOODBYE || 'FALSE';
@@ -62,8 +62,8 @@ const prefix = process.env.PREFIX || '';
 const appname = process.env.APP_NAME || '';
 const herokuapi = process.env.HEROKU_API;
 const gptdm = process.env.GPT_INBOX || 'FALSE';
-const mode = process.env.MODE || 'PUBLIC';
-const anticall = process.env.AUTOREJECT_CALL || 'FALSE';
+const mode = process.env.MODE || 'PRIVATE';
+const anticall = process.env.AUTOREJECT_CALL || 'TRUE';
 const botname = process.env.BOTNAME || '𝐁𝐋𝐀𝐂𝐊𝐌𝐀𝐂𝐇𝐀𝐍𝐓 𝐁𝐎𝐓';
 const antibot = process.env.ANTIBOT || 'FALSE';
 const author = process.env.STICKER_AUTHOR || '𝗕𝗢𝗧';
@@ -81,7 +81,7 @@ const admin = process.env.ADMIN_MSG || '𝗖𝗼𝗺𝗺𝗮𝗻𝗱 𝗿𝗲�
 const group = process.env.GROUP_ONLY_MSG || '𝗖𝗼𝗺𝗺𝗮𝗻𝗱 𝗺𝗲𝗮𝗻𝘁 𝗳𝗼𝗿 𝗚𝗿𝗼𝘂𝗽𝘀!';
 const botAdmin = process.env.BOT_ADMIN_MSG || '𝗜 𝗻𝗲𝗲𝗱 𝗔𝗱𝗺𝗶𝗻 𝗽𝗿𝗲𝘃𝗶𝗹𝗲𝗱𝗴𝗲𝘀!';
 const NotOwner = process.env.NOT_OWNER_MSG || '𝗖𝗼𝗺𝗺𝗮𝗻𝗱 𝗺𝗲𝗮𝗻𝘁 𝗳𝗼𝗿 𝘁𝗵𝗲 𝗼𝘄𝗻𝗲𝗿!';
-const wapresence = process.env.WA_PRESENCE || 'typing';
+const wapresence = process.env.WA_PRESENCE || 'recording';
 const antilink = process.env.ANTILINK || 'TRUE';
 const mycode = process.env.CODE || '254';
 const antiforeign = process.env.ANTIFOREIGN || 'FALSE';
