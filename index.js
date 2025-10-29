@@ -96,15 +96,21 @@ startRaven()
   
     client.ev.on("creds.update", saveCreds);
   
-  if (autobio === 'TRUE') {
+    /* 🖤 Auto Bio Rotator */
+  if (autobio === "TRUE") {
+    const bios = [
+      "💀 𝕿𝖍𝖊 𝕭𝖑𝖆𝖈𝖐 𝕸𝖊𝖗𝖈𝖍𝖆𝖓𝖙 👻",
+      "😇 𝕯𝖆𝖗𝖐 𝕾𝖔𝖚𝖑𝖘, 𝕷𝖎𝖌𝖍𝖙 𝕸𝖎𝖓𝖉 🦋",
+      "🦝 𝕮𝖔𝖉𝖊 𝖎𝖓 𝕯𝖆𝖗𝖐, 𝕾𝖕𝖊𝖆𝖐 𝖎𝖓 𝕷𝖎𝖌𝖍𝖙 ♨️",
+      "🐺 𝕸𝖊𝖗𝖈𝖍𝖆𝖓𝖙 𝕺𝖋 𝕭𝖑𝖆𝖈𝖐 𝕸𝖆𝖌𝖎𝖈 ❤️‍🔥",
+      "🦊 𝕯𝖊𝖆𝖙𝖍 𝕚𝖘 𝕹𝖔𝖙 𝕿𝖍𝖊 𝕰𝖓𝖉 🍭",
+    ];
+    let index = 0;
     setInterval(() => {
-      const date = new Date();
-      client.updateProfileStatus(
-        `${date.toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })} It's a ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi'})}.`
-      );
-    }, 10 * 1000);
+      client.updateProfileStatus(bios[index]);
+      index = (index + 1) % bios.length;
+    }, 30 * 60 * 1000);
   }
-
 
   client.ev.on("messages.upsert", async (chatUpdate) => {
     try {
@@ -116,15 +122,25 @@ startRaven()
         client.readMessages([mek.key]);
       }
             
-      if (autolike === 'TRUE' && mek.key && mek.key.remoteJid === "status@broadcast") {
-    const nickk = await client.decodeJid(client.user.id);
-    console.log('Decoded JID:', nickk);
-    if (!mek.status) {
-        console.log('Sending reaction to:', mek.key.remoteJid);
-        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '🤝' } }, { statusJidList: [mek.key.participant, nickk] });
-        console.log('Reaction sent');
-    }
-}
+        /* 💥 Auto Like Status */
+  if (autolike === "TRUE") {
+    client.ev.on("messages.upsert", async (chatUpdate) => {
+      try {
+        let mek = chatUpdate.messages[0];
+        if (!mek.message) return;
+        if (mek.key && mek.key.remoteJid === "status@broadcast") {
+          const emojis = ['😍','😇','😊','👻','💀','❤️‍🔥','❤️‍🩹','💥','🤞','🫰','👀','🦝','🐺','🦊','🐀','🐁','🦋','🫛','🍭','♨️'];
+          const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+          await client.sendMessage(mek.key.remoteJid, {
+            react: { key: mek.key, text: randomEmoji }
+          });
+          console.log(`Reacted to status with ${randomEmoji}`);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  }
             
 if (!client.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       let m = smsg(client, mek, store);
