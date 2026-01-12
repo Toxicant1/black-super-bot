@@ -17,7 +17,7 @@ const welcomegoodbye = 'TRUE';
 const autoread = 'TRUE';
 
 // 🌍 FORCE PUBLIC MODE
-const mode = 'PUBLIC';
+const mode = PRIVATE';
 
 // ☎️ FORCE ANTI-CALL
 const anticall = 'TRUE';
