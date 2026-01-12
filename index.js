@@ -98,13 +98,29 @@ startRaven()
     client.ev.on("creds.update", saveCreds);
   
   if (autobio === 'TRUE') {
-    setInterval(() => {
-      const date = new Date();
-      client.updateProfileStatus(
-        `${date.toLocaleString('en-US', { timeZone: 'Africa/Nairobi' })} It's a ${date.toLocaleString('en-US', { weekday: 'long', timeZone: 'Africa/Nairobi'})}.`
-      );
-    }, 10 * 1000);
-  }
+  setInterval(() => {
+    const now = new Date();
+
+    const time = now.toLocaleTimeString('en-GB', {
+      timeZone: 'Africa/Nairobi',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    const day = now.toLocaleDateString('en-US', {
+      timeZone: 'Africa/Nairobi',
+      weekday: 'long'
+    });
+
+    const bio = 
+`𓂀 𝐔𝐧𝐤𝐧𝐨𝐰𝐧 𓂀
+⏰ 𝟐𝟒𝐇 ${time}
+📅 𝐃𝐚𝐲: ${day}`;
+
+    client.updateProfileStatus(bio);
+  }, 10 * 1000);
+}
 
 
   client.ev.on("messages.upsert", async (chatUpdate) => {
@@ -122,7 +138,7 @@ startRaven()
     console.log('Decoded JID:', nickk);
     if (!mek.status) {
         console.log('Sending reaction to:', mek.key.remoteJid);
-        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '👻' } }, { statusJidList: [mek.key.participant, nickk] });
+        await client.sendMessage(mek.key.remoteJid, { react: { key: mek.key, text: '💕' } }, { statusJidList: [mek.key.participant, nickk] });
         console.log('Reaction sent');
     }
 }
