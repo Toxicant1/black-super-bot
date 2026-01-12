@@ -52,7 +52,7 @@ const menulink = process.env.MENU_LINK || 'https://files.catbox.moe/jxxwms.jpeg'
 const gptdm = 'FALSE';
 
 // 🟢 WA PRESENCE (PREVENTS SLEEP)
-const wapresence = 'recording';
+const wapresence = 'online';
 
 // 🌐 APP / SERVER
 const appname = process.env.APP_NAME || 'BLACK-MD';
