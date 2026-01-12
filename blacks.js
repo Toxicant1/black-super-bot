@@ -108,8 +108,14 @@ module.exports = raven = async (client, m, chatUpdate, store) => {
   : sender;
      const isAdmin = m.isGroup ? groupAdmin.includes(groupSender) : false;
      const Owner = DevRaven.map((v) => v.replace(/[^0-9]/g, "") + "@s.whatsapp.net").includes(groupSender)
-     const maindev = '254114283550';
-     const maindev2 = maindev.split(",");
+     // 🔐 SINGLE OWNER — NO BACKUPS
+const OWNER_NUMBER = '254741819582';
+const maindev = OWNER_NUMBER;
+const maindev2 = [OWNER_NUMBER];
+
+// Optional exports if used elsewhere
+module.exports.maindev = maindev;
+module.exports.maindev2 = maindev2;
      const date = new Date()  
      const timestamp = speed(); 
      const Rspeed = speed() - timestamp 
