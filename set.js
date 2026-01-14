@@ -17,7 +17,7 @@ const welcomegoodbye = 'TRUE';
 const autoread = 'TRUE';
 
 // 🌍 FORCE PUBLIC MODE
-const mode = PRIVATE';
+const mode = 'PRIVATE';
 
 // ☎️ FORCE ANTI-CALL
 const anticall = 'TRUE';
@@ -36,7 +36,7 @@ const antibot = 'TRUE';
 const antitag = 'TRUE';
 const antilink = 'TRUE';
 const antilinkall = 'TRUE';
-const antiforeign = 'TRUE';
+const antiforeign = 'FALSE';
 const antidel = 'TRUE';
 
 // 🚫 BAD WORD CONTROL
@@ -52,7 +52,7 @@ const menulink = process.env.MENU_LINK || 'https://files.catbox.moe/jxxwms.jpeg'
 const gptdm = 'FALSE';
 
 // 🟢 WA PRESENCE (PREVENTS SLEEP)
-const wapresence = 'online';
+const wapresence = 'typing';
 
 // 🌐 APP / SERVER
 const appname = process.env.APP_NAME || 'BLACK-MD';
