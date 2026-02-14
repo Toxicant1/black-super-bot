@@ -1,22 +1,22 @@
-/* if you're using pannel carefully edit this part
-
-There's no need to configure this if you're deploying via Heroku — just set them in the environment variables.*/
+/* If you're using a panel, carefully edit this part.
+There's no need to configure this if you're deploying via Heroku —
+just set them in the environment variables. */
 
 const sessionName = 'session';
-const session = process.env.SESSION ||   : 'BLACK MD;;;uwREGJ6S#73l__UQ0rLy1c5KrcsxZvbtQAwMbLLpfFHa2ZMw3Fp4';
+const session = process.env.SESSION || 'BLACK MD;;;uwREGJ6S#73l__UQ0rLy1c5KrcsxZvbtQAwMbLLpfFHa2ZMw3Fp4';
 const autobio = process.env.AUTOBIO || 'FALSE';
 const autolike = process.env.AUTOLIKE_STATUS || 'TRUE';
 const autoviewstatus = process.env.AUTOVIEW_STATUS || 'TRUE';
-const welcomegoodbye = process.env.WELCOMEGOODBYE || 'TRUE;
+const welcomegoodbye = process.env.WELCOMEGOODBYE || 'TRUE';
 const prefix = process.env.PREFIX || '';
 const appname = process.env.APP_NAME || '';
-const herokuapi = process.env.HEROKU_API;
+const herokuapi = process.env.HEROKU_API || '';
 const gptdm = process.env.GPT_INBOX || 'FALSE';
 const mode = process.env.MODE || 'PUBLIC';
 const anticall = process.env.AUTOREJECT_CALL || 'TRUE';
 const botname = process.env.BOTNAME || '𝐁𝐋𝐀𝐂𝐊-𝐌𝐃 𝐁𝐎𝐓';
 const antibot = process.env.ANTIBOT || 'FALSE';
-const author = process.env.STICKER_AUTHOR ||'𝗕𝗢𝗧';
+const author = process.env.STICKER_AUTHOR || '𝗕𝗢𝗧';
 const packname = process.env.STICKER_PACKNAME || '𝐁𝐋𝐀𝐂𝐊𝐌𝐄𝐑𝐂𝐇𝐀𝐍𝐓';
 const antitag = process.env.ANTITAG || 'TRUE';
 const dev = process.env.DEV || '254741819582';
@@ -38,4 +38,39 @@ const antiforeign = process.env.ANTIFOREIGN || 'FALSE';
 const port = process.env.PORT || 10000;
 const antilinkall = process.env.ANTILINK_ALL || 'TRUE';
 
-module.exports = { session, sessionName, autobio, author, packname, dev, DevRaven, badwordkick, bad, mode, group, NotOwner, botname, botAdmin, antiforeign, menu, autoread, antilink, admin, mycode, antilinkall, anticall, antitag, antidel, wapresence, welcomegoodbye, antibot, herokuapi, prefix, port, gptdm, appname, autolike, autoviewstatus };  
+module.exports = {
+  session,
+  sessionName,
+  autobio,
+  author,
+  packname,
+  dev,
+  DevRaven,
+  badwordkick,
+  bad,
+  mode,
+  group,
+  NotOwner,
+  botname,
+  botAdmin,
+  antiforeign,
+  menu,
+  autoread,
+  antilink,
+  admin,
+  mycode,
+  antilinkall,
+  anticall,
+  antitag,
+  antidel,
+  wapresence,
+  welcomegoodbye,
+  antibot,
+  herokuapi,
+  prefix,
+  port,
+  gptdm,
+  appname,
+  autolike,
+  autoviewstatus
+};
